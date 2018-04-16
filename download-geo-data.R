@@ -28,13 +28,13 @@ las = read_sf("output-data/las.geojson")
 # write_sf(stns, "output-data/stns.geojson")
 stns = read_sf("output-data/stns.geojson")
 names(stns)
-summary(stns$`1617 Entries & Exits`)
-stns_major = filter(stns, `1617 Entries & Exits` > 1e6)
-stns_minor = filter(stns, `1617 Entries & Exits` < 1e6)
+summary(stns$X1617.Entries...Exits)
+stns_major = filter(stns, X1617.Entries...Exits > 1e6)
+stns_minor = filter(stns, X1617.Entries...Exits < 1e6)
 
-m = qtm(region, bbox = tmaptools::bb(regions, ext = 1.5)) +
-  tm_shape(stns_major) + tm_dots(size = "1617 Entries & Exits", col = "red") +
-  tm_shape(stns_major) + tm_text(text = "Station Name") +
+m = qtm(region, bbox = tmaptools::bb(region, ext = 1.5)) +
+  tm_shape(stns_major) + tm_dots(size = "X1617.Entries...Exits", col = "red") +
+  tm_shape(stns_major) + tm_text(text = "Station.Name") +
   tm_shape(stns_minor) + tm_dots() +
   tm_scale_bar() +
   tm_layout()
