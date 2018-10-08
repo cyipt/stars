@@ -5,6 +5,7 @@ library(tmap)
 tmap_mode("view")
 library(cyclestreets)
 library(dplyr)
+library(sp)
 
 lsoa.centroids = st_read("../cyipt-bigdata/centroids/LSOA/Lower_Layer_Super_Output_Areas_December_2011_Population_Weighted_Centroids.shp")
 lsoa.centroids = st_transform(lsoa.centroids, 27700)
@@ -12,6 +13,7 @@ lsoa.centroids = lsoa.centroids[,c("lsoa11cd")]
 
 bounds = st_read("output-data/region.geojson")
 bounds = st_transform(bounds,27700)
+bounds = st_buffer(bounds,2000)
 lsoa.centroids = lsoa.centroids[bounds,]
 
 lsoa.centroids = st_transform(lsoa.centroids,4326)
@@ -39,9 +41,15 @@ for(i in 1:nrow(stations)){
     lsoa.sub = lsoa.centroids[j,]
     message(paste0(Sys.time()," Routing from ",lsoa.sub$lsoa11cd, " to " ,station.sub$name, " station" ))
     
-    route = journey(from = lsoa.sub$coords[[1]], to = station.sub$coords[[1]],
-                    plan = "fastest",
-                    base_url = "https://www.cyclestreets.net")
+    # route = journey(from = lsoa.sub$coords[[1]], to = station.sub$coords[[1]],
+    #                 plan = "fastest",
+    #                 base_url = "https://www.cyclestreets.net")
+    
+    route = route_cyclestreet(from = lsoa.sub$coords[[1]], to = station.sub$coords[[1]],
+                               plan = "fastest",
+                               base_url = "https://www.cyclestreets.net")
+    
+    route = st_as_sf(route)
     
     route$from = lsoa.sub$lsoa11cd
     route$to = station.sub$name
@@ -61,13 +69,14 @@ st_crs(routes) <- 4326
 
 summary(st_is_valid(routes))
 
-routes.group <- group_by(routes, from ,to ) %>%
-                  summarise(distances = sum(distances),
-                            time = sum(time),
-                            busynance = sum(busynance))
+# routes.group <- group_by(routes, from ,to ) %>%
+#                   summarise(distances = sum(distances),
+#                             time = sum(time),
+#                             busynance = sum(busynance),
+#                             av_incline = sum(abs(diff(elevations))) / sum(distances))
 
 
-saveRDS(routes,"../stars-data/routes_cycle_raw.Rds")
-saveRDS(routes.group,"../stars-data/routes_cycle_grouped.Rds")
-
+# saveRDS(routes,"../stars-data/routes_cycle_raw.Rds")
+# saveRDS(routes.group,"../stars-data/routes_cycle_grouped.Rds")
+saveRDS(routes,"../stars-data/routes_cycle_grouped2.Rds")
 
