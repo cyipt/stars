@@ -1,7 +1,8 @@
 library(sf)
 library(dplyr)
 library(parallel)
-source("../cyipt/R/functions.R")
+source("N:/Earth&Environment/Research/ITS/Research-1/CyIPT/cyipt/R/functions.R")
+
 
 # functions
 find.pct.lines <- function(i){
@@ -48,14 +49,14 @@ splitlines <- function(a){
 
 
 # match the routes to osm
-osm = readRDS("../stars-data/data/osm/osm-lines.Rds")
+osm = readRDS("N:/Earth&Environment/Research/ITS/Research-1/CyIPT/stars-data/data/osm/osm-lines.Rds")
 osm = st_transform(osm, 27700)
 osm = osm[,c("osm_id","name", "cycleway","cycleway.both","cycleway.est_width",
              "cycleway.left","cycleway.oneside","cycleway.oneside.width","cycleway.right",
              "junction","lanes","lanes.backward","lanes.forward",
              "lanes.left","lanes.psv","lanes.psv.backward","maxspeed")]
 
-points <- readRDS(paste0("../stars-data/data/osm/osm-junction-points.Rds"))
+points <- readRDS(paste0("N:/Earth&Environment/Research/ITS/Research-1/CyIPT/stars-data/data/osm/osm-junction-points.Rds"))
 
 #Loop To Split Lines
 buff <- st_buffer(points,0.01, nQuadSegs = 2)
@@ -81,11 +82,11 @@ cut$id <- 1:nrow(cut)
 row.names(cut) <- cut$id
 
 #Save Out Data
-saveRDS(cut, paste0("../stars-data/data/osm/osm-lines-split.Rds"))
+saveRDS(cut, paste0("N:/Earth&Environment/Research/ITS/Research-1/CyIPT/stars-data/data/osm/osm-lines-split.Rds"))
 osm = cut
 rm(cut, points, buff, inter)
 
-pct.all = readRDS("../stars-data/routes_scenarios.Rds")
+pct.all = readRDS("N:/Earth&Environment/Research/ITS/Research-1/CyIPT/stars-data/data/routing/routes_scenarios.Rds")
 # Switch to single cycle geometry
 pct.all$geom_train = NULL
 pct.all1 = pct.all
@@ -139,7 +140,7 @@ fun <- function(cl){
 cl <- makeCluster(ncores) #make clusert and set number of cores
 clusterExport(cl=cl, varlist=c("grid_pct2grid", "pct.all","grid_grid2osm","osm"))
 clusterExport(cl=cl, c('find.pct.lines') )
-clusterEvalQ(cl, {library(sf); source("../cyipt/R/functions.R")})
+clusterEvalQ(cl, {library(sf); source("N:/Earth&Environment/Research/ITS/Research-1/CyIPT/cyipt/R/functions.R")})
 pct2osm <- fun(cl)
 stopCluster(cl)
 
