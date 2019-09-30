@@ -2,3 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
+slides/libs
+slides/*.html
