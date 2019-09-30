@@ -98,11 +98,10 @@ To add: summary stats and a figure (scatterplot showing ORR vs survey totals?)
 
 - Feasibility assessment of route options 
 - Explore other interventions
+- Overlay with commuter potential
 - Cycle parking?
 - Training?
 - New developments?
-
-
 
 ---
 class: center, middle
