@@ -1,0 +1,37 @@
+get_routes.R
+- creates routes_train_tmp.Rds; flow_points_tmp.Rds; routes_train.Rds; flows2011.Rds
+
+check_routes.R
+- requires routes_train_final.Rds; stations_all.geojson
+- creates routes2stationIDs.Rds; routes_stations.Rds; routes_stations_matched.Rds
+
+merge_missing_routes.R
+- requires routes_train_missing.Rds; routes_train_final.Rds; flows2011.Rds
+- creates routes_train_completed.Rds; routes_train_fastest.Rds
+
+get_routes_cycling.R
+- requires stations_all.geojson
+- creates routes_cycle_grouped2.Rds
+
+match_tapi2cyclestreets.R
+- requires routes_train_fastest.Rds; routes_cycle_grouped2.Rds; flows2011.Rds
+- creates routes_combined.Rds; cycle_to_station_routes.Rds
+
+station_flows.R
+- requires routes_scenarios.Rds; stations_all.geojson
+- creates station_flow_estimates.Rds
+
+anal_routes_cycling.R 
+- requires routes_cycle_grouped.Rds
+- script fails because routes_cycle_grouped2$distances does not exist. 
+
+match_routes2osm.R
+- requires osm-lines.Rds; osm-junction-points; routes_scenarios.Rds
+- creates osm-lines-split.Rds; osm-lines-values.Rds; pct2osm.Rds; osm2pct.Rds; osm-lines-values-latlng.geojson
+
+map_routes.R
+- requires osm-lines-values-latlng.geojson
+- creates an interactive tmap of the cycle routes to stations
+- creates tmap
+
+
