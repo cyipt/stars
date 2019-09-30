@@ -6,13 +6,13 @@ library(RANN)
 tmap_mode("view")
 
 
-routes = readRDS("../stars-data/routes_train_fastest.Rds")
+routes = readRDS("../stars-data/data/routing/routes_train_fastest.Rds")
 routes = routes[,c("id","route_duration","route_departure_time", "route_departure_date", 
                    "route_arrival_time","route_arrival_date","mode","from_point_name",
                    "to_point_name","destination","departure_time","arrival_time",
                    "route_option","route_stage")]
 
-routes.cycle = readRDS("../stars-data/routes_cycle_grouped2.Rds")
+routes.cycle = readRDS("../stars-data/data/routing/routes_cycle_grouped2.Rds")
 routes.cycle = st_transform(routes.cycle, 27700)
 routes.cycle$from = as.character(routes.cycle$from)
 routes.cycle$to = as.character(routes.cycle$to)
@@ -42,7 +42,7 @@ routes.train$to_lsoa = substr(routes.train$id,11,19)
 rm(routes.train.multi, routes.train.single)
 
 # get flow data
-flow = readRDS("../stars-data/flows2011.Rds")
+flow = readRDS("../stars-data/data/routing/flows2011.Rds")
 cols2keep = names(flow)
 cols2keep = cols2keep[grepl("AllSexes_Age16Plus",cols2keep)]
 cols2keep = c("Area of usual residence","Area of Workplace",cols2keep)
