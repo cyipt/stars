@@ -2,7 +2,7 @@
 library(sf)
 library(tmap)
 tmap_mode("view")
-setwd("N:/Earth&Environment/Research/ITS/Research-1/CyIPT")
+
 osm = st_read("../stars-data/data/osm/osm-lines-values-latlng.geojson")
 pal = c('#cdcdcd','#fefe94','#d6fe7f','#7efefd','#96d6fd','#95adfd','#7f7ffe','#fe7fe1')
 osm = st_transform(osm, 27700) # Tmap not plotting 4326????
