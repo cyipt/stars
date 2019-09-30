@@ -8,7 +8,7 @@ pal = c('#cdcdcd','#fefe94','#d6fe7f','#7efefd','#96d6fd','#95adfd','#7f7ffe','#
 osm = st_transform(osm, 27700) # Tmap not plotting 4326????
 
 tm_shape(osm[osm$Ebikes > 0,]) +
-  tm_lines("Ebikes", 
+  tm_lines(c("Dutch", "Ebikes"), 
            lwd = 2,
            palette = pal,
            style = "fixed", 

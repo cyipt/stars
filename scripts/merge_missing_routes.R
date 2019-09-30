@@ -5,12 +5,12 @@ library(transportAPI)
 
 # merge missing routes to rest of routes
 
-routes.missing = readRDS("../stars-data/routes_train_missing.Rds")
-routes.main = readRDS("../stars-data/routes_train_final.Rds")
+routes.missing = readRDS("../stars-data/data/routing/routes_train_missing.Rds")
+routes.main = readRDS("../stars-data/data/routing/routes_train_final.Rds")
 
 #bind
-routes.main <- routes.main[sapply(routes.main,function(x){class(x)[1]}) == "sf"]
-routes.main <- suppressWarnings(bind_rows(routes.main))
+# routes.main <- routes.main[sapply(routes.main,function(x){class(x)[1]}) == "sf"] # (what is this? Robin)
+# routes.main <- suppressWarnings(bind_rows(routes.main))
 #rebuild the sf object
 routes.main <- as.data.frame(routes.main)
 routes.main$geometry <- st_sfc(routes.main$geometry)
@@ -34,7 +34,7 @@ names(routes.missing) == names(routes.main)
 routes.merge = rbind(routes.main, routes.missing)
 
 #check we have them all
-flow = readRDS("../stars-data/flows2011.Rds")
+flow = readRDS("../stars-data/data/flow/flows_aggregatedCycleroutes.Rds")
 flow = flow[flow$Train_AllSexes_Age16Plus >0,]
 flow = flow[,c("Area of usual residence","Area of Workplace","AllMethods_AllSexes_Age16Plus","Train_AllSexes_Age16Plus")]
 flow$id = paste0(flow$`Area of usual residence`," ",flow$`Area of Workplace`)
@@ -97,7 +97,7 @@ fail.fcc <- Sys.time() - 3700
 for(i in 1:100000){
   # Periodically save results
   if(i %% 10 == 0){
-    saveRDS(routes.all,"../stars-data/routes_train_missing2_tmp.Rds")
+    saveRDS(routes.all,"./stars-data/data/routing/routes_train_missing2_tmp.Rds")
     saveRDS(flow.points,"../stars-data/flow_points_missing2_tmp.Rds")
   }
   
@@ -197,7 +197,7 @@ routes.all$id = paste0(routes.all$fromid," ",routes.all$toid)
 routes.all = routes.all[,names(routes.merge)]
 routes.merge = rbind(routes.merge, routes.all)
 
-saveRDS(routes.merge, "../stars-data/routes_train_completed.Rds")
+saveRDS(routes.merge, "./stars-data/data/routing/routes_train_completed.Rds")
 
 # Select best option for each route
 
@@ -240,4 +240,4 @@ routes.fastest = routes.fastest[dupe.check$check,]
 #routes.fastest$fast = sapply(1:nrow(routes.fastest),function(x){min(routes.fastest$dur[routes.fastest$id == routes.fastest$id[i]])})
 
 #routes.fastest = routes.fastest[routes.fastest$dur == routes.fastest$fast,]
-saveRDS(routes.fastest, "../stars-data/routes_train_fastest.Rds")
+saveRDS(routes.fastest, "./stars-data/data/routing/routes_train_fastest.Rds")

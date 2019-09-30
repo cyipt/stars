@@ -41,3 +41,5 @@ m = qtm(region, bbox = tmaptools::bb(region, ext = 1.5)) +
 # Save result to figures...
 dir.create("figures")
 tmap_save(m, "figures/region-overview-stations.png")
+tmap_save(m, "region-overview-stations.html")
+
