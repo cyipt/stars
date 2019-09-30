@@ -7,11 +7,11 @@ library(dplyr)
 
 bedford_entry = read_excel("../stars/luton-survey/Luton-Rail-Stations-Reports/1335-WTR_EntryExit_1-7_27th-29thNov.xlsx", range = "Bedford!A9:I37")
 dim(bedford_entry)
-bedford_entry = bedford_entry %>% rename(Time = ...1,OnFoot = "On Foot",PrivateCarDropOff = "Private Car Drop Off")
+bedford_entry = bedford_entry %>% rename(Time = ...1,OnFoot = "On Foot",PrivateCarDropOff = "Private Car Drop off")
 bedford_entry = drop_na(bedford_entry)
 
 bedford_exit = read_excel("../stars/luton-survey/Luton-Rail-Stations-Reports/1335-WTR_EntryExit_1-7_27th-29thNov.xlsx", range = "Bedford!K9:R37") 
-bedford_exit = bedford_exit %>% rename(Time = ...1,OnFoot = "On Foot",PrivateCarDropOff = "Private Car Drop Off")
+bedford_exit = bedford_exit %>% rename(Time = ...1,OnFoot = "On Foot",PrivateCarDropOff = "Private Car Drop off")
 bedford_exit = cbind(bedford_entry$Time,bedford_exit)
 bedford_exit = drop_na(bedford_exit)
 
