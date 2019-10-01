@@ -99,7 +99,12 @@ To add: summary stats and a figure (scatterplot showing ORR vs survey totals?)
 
 # Route network analysis
 
-Add figure showing PCT Dutch scenario
+Routes aggregated to create a 'route network' - available [online](http://rpubs.com/RobinLovelace/534280)
+
+```{r}
+knitr::include_graphics("../figures/rnet-new-luton.png")
+```
+
 
 ---
 
