@@ -36,9 +36,13 @@ knitr::opts_chunk$set(echo = FALSE)
 
 .pull-right[
 
-Aims 
+Aims: 
 
-Text here
+- Establish the potential for cycling to stations in the STARS study area
+
+- Inform investment decisions regarding cycle infrastructure and cycle parking at stations
+
+- Feed into monitoring and evaluation of cycling levels
 
 ]
 
@@ -49,6 +53,12 @@ Robin to do this bit
 Around 2/3rd of trips are within 5 miles.
 Many of these are cyclable, especially when considering Ebikes.
 But how to get people cycling who commute longer distances, e.g. those living in the commuter belts outside London?
+
+Modal shift to cycling under future scenarios
+Identify roads which may benefit from improved cycle infrastructure
+Estimate the number of cycle parking spaces required at stations
+Can identify potential monitoring sites and provide a baseline against which to assess cycling uptake 
+
 
 ---
 
