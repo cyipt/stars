@@ -1,0 +1,109 @@
+# Aim: generate first principles estimates of cycling to stations potential based on the PCT
+library(tidyverse)
+library(tmap)
+library(sf)
+tmap_mode("view")
+
+s = sf::read_sf("../stars-data/data/local-survey/sttns_major-orr-entries.geojson")
+z = sf::read_sf("../stars-data/data/zones-nearest-station.geojson")
+c = pct::get_pct_centroids(region = "bedfordshire", geography = "lsoa")
+summary(z$geo_code == c$geo_code)
+
+qtm(z) + qtm(c)
+
+names(s)
+od = z %>% st_drop_geometry() %>% select(geo_code, nearest_station, train_tube, all) 
+stations_duplicated = s[match(z$nearest_station, s$station_name), ]
+centroids = sf::st_sf(od, geometry = c$geometry)
+origin_coordinates = st_coordinates(centroids)
+dest_coordinates = st_coordinates(stations_duplicated)
+odc = cbind(origin_coordinates, dest_coordinates)
+l = stplanr::od_coords2line(odc)
+names(l)[1:4] = c("fx", "fy", "tx", "ty")
+plot(l)
+
+r = stplanr::route_cyclestreet(origin_coordinates[1, ], to = dest_coordinates[1, ])
+plot(r)
+
+r = cyclestreets::journey(origin_coordinates[1, ], to = dest_coordinates[1, ])
+plot(r)
+
+r19 = lapply(1:nrow(l), FUN = function(x) {
+  r = cyclestreets::journey(origin_coordinates[x, ], to = dest_coordinates[x, ])
+  r$fx = origin_coordinates[x, 1]
+  r$fy = origin_coordinates[x, 2]
+  r$tx = dest_coordinates[x, 1]
+  r$ty = dest_coordinates[x, 2]
+  r
+})
+r_all = do.call(rbind, r19)
+plot(r_all)
+
+nrow(r_all)
+summary(r_all$elevations)
+r_grouped = r_all %>% 
+  group_by(fx, fy, tx, ty) %>% 
+  summarise(
+    n = n(),
+    average_incline = sum(abs(diff(elevations))) / sum(distances),
+    distance_m = sum(distances)
+    ) %>% 
+  ungroup()
+
+summary(r_grouped)
+
+
+n = 1:9
+plot(r_grouped$geometry[n], col = n)
+plot(l$geometry[n], col = n, add = T) # mismatching routes
+
+l_routes = inner_join(st_drop_geometry(l), r_grouped)
+class(l_routes)
+l_routes = st_sf(l_routes)
+plot(l_routes)
+
+plot(l$geometry[n], col = n) # mismatching routes
+plot(l_routes$geometry[n], col = n, add = T) # mismatching routes
+
+l_routes$rail = od$train_tube
+l_routes$all = od$all
+plot(z["train_tube"])
+plot(l_routes["rail"])
+
+# calculate pct scenarios
+l_routes$godutch = pct::uptake_pct_godutch(distance = r_grouped$average_incline, gradient = r_grouped$average_incline) *
+  l_routes$all 
+
+plot(l_routes$all, l_routes$godutch)
+
+
+l_routes = st_cast(l_routes, "LINESTRING")
+rnet = stplanr::overline2(l_routes, "godutch")
+plot(rnet) # works but looses segment-level geometries...
+
+r_all_flow = aggregate(rnet, r_all, FUN = max)
+plot(r_all_flow)
+nrow(r_all_flow)
+nrow(r_all)
+
+plot(r_all[5555,])
+plot(r_all_flow[5555, ]) # they are the same
+
+r_all$flow = r_all_flow$godutch
+plot(r_all["flow"], lwd = r_all$godutch / mean(r_all$godutch))
+
+# save results
+saveRDS(r_all, "r_all_from_lsoa_to_stations.Rds")
+piggyback::pb_upload("r_all_from_lsoa_to_stations.Rds")
+
+# create map
+tm_shape(r_all) +
+  tm_lines("flow", palette = "-viridis", breaks = c(0, 50, 100, 200, 400, 1000, 2000, 20000), lwd = "flow", scale = 7) +
+  tm_scale_bar()
+
+
+# test matches
+# od$geo_code %in% z$geo_code
+# od$nearest_station %in% s$station_name
+
+# l = stplanr::od2line(flow = od, zones = z, destinations = s) # fail

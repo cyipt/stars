@@ -4,3 +4,4 @@
 .Ruserdata
 slides/libs
 slides/*.html
+*.Rds
