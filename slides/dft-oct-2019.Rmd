@@ -97,6 +97,12 @@ To add: summary stats and a figure (scatterplot showing ORR vs survey totals?)
 
 # Route network analysis
 
+Routes aggregated to create a 'route network' - available [online](http://rpubs.com/RobinLovelace/534280)
+
+```{r}
+knitr::include_graphics("../figures/rnet-new-luton.png")
+```
+
 ---
 
 # Infrastructure options
