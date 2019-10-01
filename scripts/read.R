@@ -96,7 +96,7 @@ harlington_exit_15min = harlington_exit %>%
   filter(!is.na(Time))
 harlington_exit_hourly$Time = hm(c("05:00","06:00","07:00","08:00","09:00","10:00"))
 
-################
+##########Histogram of mode and time######
 
 # bedford_all_15min = inner_join(bedford_entry_15min,bedford_exit_15min,by = bedford_entry_15min$Time)
 
@@ -108,7 +108,14 @@ bedford_exit_15min$Total = NULL
 bedford_exit_15min = bedford_exit_15min %>% 
   pivot_longer(-Time, names_to = "Mode",values_to = "Exits")
 
-ggplot(bedford_entry_15min,aes(col=Mode,Time,Count)) + geom_freqpoly(stat = "identity",size = 1) +theme_minimal()
+ggplot(bedford_entry_15min,aes(col=Mode,Time,Entries)) + geom_freqpoly(stat = "identity",size = 1) +theme_minimal()
+
+ggplot(bedford_exit_15min,aes(col=Mode,Time,Exits)) + geom_freqpoly(stat = "identity",size = 1) +theme_minimal()
+
+#######Entries and exits together
+
+bedford_all_hourly = bind_cols(bedford_entry_hourly,bedford_exit_hourly[2:9])
+
 
 # barplot(bedford_entry_15min,xlab = "Time")
 # 
@@ -120,4 +127,5 @@ ggplot(bedford_entry_15min,aes(col=Mode,Time,Count)) + geom_freqpoly(stat = "ide
 # barplot(bed_entry_totals)
 # 
 # read.x
+
 
