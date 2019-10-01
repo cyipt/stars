@@ -1,5 +1,5 @@
 library(readxl)
-# library(tidyr)
+library(tidyr)
 library(dplyr)
 # library(stringr)
 library(lubridate)
@@ -33,7 +33,7 @@ bedford_exit_15min = bedford_exit %>%
 bedford_exit_hourly$Time = hm(c("05:00","06:00","07:00","08:00","09:00","10:00"))
 
 
-bedford_sj_entry = read_excel("../stars/luton-survey/Luton-Rail-Stations-Reports/1335-WTR_EntryExit_1-7_27th-29thNov.xlsx", range = "Bedford St John!A9:H35",col_types = c("date","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric"))
+bedford_sj_entry = read_excel("../stars/luton-survey/Luton-Rail-Stations-Reports/1335-WTR_EntryExit_1-7_27th-29thNov.xlsx", range = "Bedford St John!A9:H35",col_types = c("date","numeric","numeric","numeric","numeric","numeric","numeric","numeric"))
 dim(bedford_sj_entry)
 bedford_sj_entry = bedford_sj_entry %>% rename(Time = ...1,OnFoot = "On Foot",PrivateCarDropOff = "Private Car Drop off")
 bedford_sj_entry$Time = hms::as_hms(bedford_sj_entry$Time)
@@ -97,12 +97,26 @@ harlington_exit_hourly$Time = hm(c("05:00","06:00","07:00","08:00","09:00","10:0
 
 ################
 
-bed_entry_totals = bedford_entry[nrow(bedford_entry),-ncol(bedford_entry)]
-bed_entry_totals = t(bed_entry_totals[,-1])
-colnames(bed_entry_totals) = "count"
+bedford_all_15min = inner_join(bedford_entry_15min,bedford_exit_15min,by = bedford_entry_15min$Time)
 
-bed_entry_totals = as.vector(bed_entry_totals)
-barplot(bed_entry_totals)
+bedford_entry_15min$Total = NULL
+bedford_entry_15min = bedford_entry_15min %>% 
+  pivot_longer(-Time, names_to = "Mode",values_to = "Entries")
 
-read.x
+bedford_exit_15min$Total = NULL
+bedford_exit_15min = bedford_exit_15min %>% 
+  pivot_longer(-Time, names_to = "Mode",values_to = "Exits")
+
+ggplot(bedford_entry_15min,aes(col=Mode,Time,Count)) + geom_freqpoly(stat = "identity",size = 1) +theme_minimal()
+
+# barplot(bedford_entry_15min,xlab = "Time")
+# 
+# bed_entry_totals = bedford_entry[nrow(bedford_entry),-ncol(bedford_entry)]
+# bed_entry_totals = t(bed_entry_totals[,-1])
+# colnames(bed_entry_totals) = "count"
+# 
+# bed_entry_totals = as.vector(bed_entry_totals)
+# barplot(bed_entry_totals)
+# 
+# read.x
 
