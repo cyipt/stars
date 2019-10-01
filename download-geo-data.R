@@ -1,3 +1,4 @@
+# Aim: generate overview map
 # devtools::install_github("robinlovelace/ukboundaries")
 # library(ukboundaries)
 library(tidyverse)
