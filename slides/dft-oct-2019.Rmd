@@ -76,6 +76,8 @@ knitr::include_url("../region-overview-stations.html")
 knitr::include_graphics("../figures/existing-cyipt.png")
 ```
 
+See https://www.cyipt.bike/ for full map
+
 
 ???
 
