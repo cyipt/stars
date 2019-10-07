@@ -208,13 +208,18 @@ knitr::include_graphics("../figures/recommended-cyipt.png")
 - Training?
 - New developments?
 
-
 ---
 
 class: center, middle
 
-# Thanks!
+# Thanks + further info
 
-Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+Robin Lovelace: r.lovelace@leeds.ac.uk
 
-The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
+Joey Talbot: J.D.Talbot@leeds.ac.uk
+
+For more on the PCT, see www.pct.bike
+
+www.cyipt.bike for the Cycling Infrastructure Prioritisation Toolkit (CyIPT)
+
+
