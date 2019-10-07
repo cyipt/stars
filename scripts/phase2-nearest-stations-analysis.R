@@ -118,14 +118,50 @@ readr::write_csv(.Last.value, "output-data/mode-data-local-authority.csv")
 
 # desire line analysis
 library(pct)
-l = pct::get_desire_lines(region = "bedforshire")
-plot(l) # only shows inter-zone travel
+l_pct = pct::get_desire_lines(region = "bedfordshire")
+l_pct_modes = l_pct %>% 
+  select(all, train, bicycle, foot) 
+
+od_beds = od %>% 
+  filter(geo_code1 %in% c_msoa$geo_code ) %>% 
+  mutate(is_in_bedfordshire = geo_code2 %in% c_msoa$geo_code)
+
+od_beds_intr = od_beds %>% 
+  filter(is_in_bedfordshire) %>% 
+  filter(all > 10) %>% 
+  select(geo_code1, geo_code2, all, train, bicycle, foot, car_driver) %>% 
+  mutate(percent_active = (bicycle + foot) / all * 100)
+
+
+l_pct_modes = stplanr::od2line(od_beds_intr, c_msoa)
+l_pct_modes = stplanr::od_oneway(l_pct_modes)
+
+summary({valid = l_pct_modes %>% sf::st_is_valid()})
+l_pct_modes = l_pct_modes %>% filter(valid)
+
+plot(l_pct_modes[3:7], lwd = l_pct_modes$all / mean(l_pct_modes$all)) # only shows inter-zone travel
+
+
+tm_shape(l_pct_modes) +
+  tm_lines("percent_active", lwd = "all", scale = 7)
+
+tm_shape(l_pct_modes) +
+  tm_lines(palette = "plasma", breaks = c(0, 5, 10, 20, 40, 100),
+           lwd = "all",
+           scale = 9,
+           title.lwd = "Number of trips",
+           alpha = 0.6,
+           col = "percent_active",
+           title = "Active travel (%)"
+  ) +
+  tm_scale_bar()
 
 c_msoa = pct::get_pct_centroids(region = "bedfordshire")
 
 od = pct::get_od()
 od_beds = od %>% 
   filter(geo_code1 %in% c_msoa$geo_code ) %>% 
-  mutate(is_in_bedfordshire = geo_code2 %in% c_msoa$geo_code)
+  mutate(is_in_bedfordshire = geo_code2 %in% c_msoa$geo_code) %>% 
+  select(all, train, bicycle, foot, ccar_driver) 
 
 sum(od_beds$all[od_beds$is_in_bedfordshire]) / sum(od_beds$all) 
