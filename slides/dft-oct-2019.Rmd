@@ -90,6 +90,25 @@ Cyclable distances (~3.5 km population-weighted mean to stations)
 
 ---
 
+# Mode split for commuting - LA
+
+```{r, message=FALSE}
+readr::read_csv("../output-data/mode-data-local-authority.csv") %>% 
+  knitr::kable(format = "html")
+```
+
+---
+
+# Mode split by station catchment
+
+```{r, message=FALSE}
+readr::read_csv("../output-data/mode-data-nearest-catchments.csv") %>% 
+  knitr::kable(format = "html")
+```
+
+
+---
+
 # Existing infrasture
 
 ```{r}
