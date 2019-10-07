@@ -83,13 +83,39 @@ See https://www.cyipt.bike/ for full map
 
 Worth chatting to Keith/Caroline about
 
+---
+
 # Data sources
+
+- 2011 census data
+
+- 2017-18 ORR Estimates of Station Usage 
+
+- 2018 travel survey of Bedfordshire Midland Main Line stations
+
+- Cyclestreets routing API
+
+- PCT travel to work scenarios
+
+- CyIPT street level cycle infrastructure data
 
 ---
 
 # Census travel to work data
 
-Add figure showing modal share and distance travelled of Bedfordshire commuters
+Add figure showing modal share and distance travelled of Bedfordshire commuters.
+
+---
+
+# Census travel to work data - rail journeys
+
+```{r}
+knitr::include_graphics("../figures/rail_desire_lines.png")
+```
+
+???
+
+These desire lines show MSOA commute data for all journeys starting in Bedfordshire where at least 20 people travel by rail
 
 ---
 
@@ -146,12 +172,20 @@ Routes aggregated to create a 'route network' - available [online](http://rpubs.
 knitr::include_graphics("../figures/rnet-new-luton.png")
 ```
 
+???
+
+This routes commutes to the major Bedfordshire stations only (as shown in previous slide) using the Cyclestreets routing API and the PCT 'Go Dutch' scenario
+Journeys are to the nearest station 'as the crow flies'
+
+
 
 ---
 
 # Infrastructure options
 
-Add CyIPT infrastructure recommendations
+```{r}
+knitr::include_graphics("../figures/recommended-cyipt.png")
+```
 
 ---
 
