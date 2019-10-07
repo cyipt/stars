@@ -20,6 +20,7 @@ stns_major = filter(stns, X1617.Entries...Exits > 1e6)
 stns_minor = filter(stns, X1617.Entries...Exits < 1e6)
 
 names(s)
+stns_major$Station.Name = gsub(pattern = "Luton Airport Parkway", replacement = "Luton Airport", x = stns_major$Station.Name)
 
 z_nearest_points = sf::st_nearest_feature(c, stns_major)
 # z_nearest_station = sf::st_join(z, s, op = sf::st_nearest_feature)
@@ -61,7 +62,6 @@ tm_shape(c) +
 #   add_osm_feature("name", "Midland Main Line") %>% 
 #   osmdata_sf()
 
-
 midland_mainline = readRDS("../stars-data/data/osm/midland_mainline_trackage_small.Rds")
 
 m = tm_shape(z) +
@@ -75,3 +75,43 @@ m = tm_shape(z) +
   tm_scale_bar()
 m
 tmap_save(m, "region-overview-stations.html")
+
+
+# stats on area of analysis -----------------------------------------------
+mapview::mapview(region)
+st_area(region) %>% units::set_units(km^2)
+
+z %>% sf::st_drop_geometry() %>% 
+  group_by(nearest_station) %>% 
+  summarise(
+    Commuters = sum(all),
+    `% drive` = round(sum(car_driver) / Commuters * 100),
+    `% rail` = round(sum(train_tube) / Commuters * 100),
+    `% cycle` = round(sum(bicycle) / sum(all) * 100),
+    `% active` = round(sum(bicycle + foot) / sum(all) * 100),
+    `% Go Dutch` = round(sum(dutch_slc) / sum(all) * 100)
+    ) %>% 
+  arrange(desc(Commuters))
+
+readr::write_csv(.Last.value, "output-data/mode-data-nearest-catchments.csv")
+
+z %>% sf::st_drop_geometry() %>% 
+  group_by(lad_name) %>% 
+  summarise(
+    Commuters = sum(all),
+    `% drive` = round(sum(car_driver) / Commuters * 100),
+    `% rail` = round(sum(train_tube) / Commuters * 100),
+    `% cycle` = round(sum(bicycle) / sum(all) * 100),
+    `% active` = round(sum(bicycle + foot) / sum(all) * 100),
+    `% Go Dutch` = round(sum(dutch_slc) / sum(all) * 100)
+  ) %>% 
+  arrange(desc(Commuters))
+
+readr::write_csv(.Last.value, "output-data/mode-data-local-authority.csv")
+
+# Failed attempt to get dimentions...
+# region_lake = lakemorpho::lakeMorphoClass(as(region, "Spatial"))
+# lakemorpho::lakeMaxLength(region_lake)
+# midland_mainline_region = sf::st_intersection(midland_mainline, region)
+# plot(midland_mainline_region)
+# mapview::mapview(midland_mainline_region)

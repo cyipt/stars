@@ -76,7 +76,18 @@ knitr::include_url("../figures/beford-overview-with mainline.png")
 
 .pull-right[
 
+664,000 people in 1,200 km^2^
+
+Moderate population density (~500 ppl/km^2^ vs ~400 in England)
+
+Relatively even distribution of stations
+
+For interactive map see [here](http://rpubs.com/RobinLovelace/536607)
+
+Cyclable distances (~3.5 km population-weighted mean to stations)
+
 ]
+
 ---
 
 # Existing infrasture

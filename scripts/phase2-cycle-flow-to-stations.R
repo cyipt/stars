@@ -19,6 +19,10 @@ origin_coordinates = st_coordinates(centroids)
 dest_coordinates = st_coordinates(stations_duplicated)
 odc = cbind(origin_coordinates, dest_coordinates)
 l = stplanr::od_coords2line(odc)
+l$pop = centroids$all
+# l$distance_km = sf::st_length(l) / 1000 %>% as.numeric()
+# weighted.mean(l$distance_km, centroids$all)
+
 names(l)[1:4] = c("fx", "fy", "tx", "ty")
 plot(l)
 
