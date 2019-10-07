@@ -62,7 +62,7 @@ Can identify potential monitoring sites and provide a baseline against which to 
 
 ---
 
-# Case study area
+# Case study area - zone analysis
 
 .pull-left[
 
@@ -76,7 +76,7 @@ knitr::include_url("../figures/beford-overview-with mainline.png")
 
 .pull-right[
 
-664,000 people in 1,200 km^2^
+664,000 people in 1,200 km2
 
 Moderate population density (~500 ppl/km^2^ vs ~400 in England)
 
@@ -106,6 +106,30 @@ readr::read_csv("../output-data/mode-data-nearest-catchments.csv") %>%
   knitr::kable(format = "html")
 ```
 
+---
+
+# Intra-region travel - OD data analysis
+
+.pull-left[
+
+```{r}
+knitr::include_graphics("../figures/bedford-intra-region-commutes.png")
+```
+
+
+]
+
+--
+
+.pull-right[
+
+See [here](http://rpubs.com/RobinLovelace/536634) for interactive map
+
+Around half of all commutes are within Bedfordshire
+
+The majority of these are to the nearest town centre, but there is some inter-town travel
+
+]
 
 ---
 
@@ -137,6 +161,10 @@ Worth chatting to Keith/Caroline about
 - PCT travel to work scenarios
 
 - CyIPT street level cycle infrastructure data
+
+---
+
+# Methodology
 
 ---
 

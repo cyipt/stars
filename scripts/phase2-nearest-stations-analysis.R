@@ -115,3 +115,17 @@ readr::write_csv(.Last.value, "output-data/mode-data-local-authority.csv")
 # midland_mainline_region = sf::st_intersection(midland_mainline, region)
 # plot(midland_mainline_region)
 # mapview::mapview(midland_mainline_region)
+
+# desire line analysis
+library(pct)
+l = pct::get_desire_lines(region = "bedforshire")
+plot(l) # only shows inter-zone travel
+
+c_msoa = pct::get_pct_centroids(region = "bedfordshire")
+
+od = pct::get_od()
+od_beds = od %>% 
+  filter(geo_code1 %in% c_msoa$geo_code ) %>% 
+  mutate(is_in_bedfordshire = geo_code2 %in% c_msoa$geo_code)
+
+sum(od_beds$all[od_beds$is_in_bedfordshire]) / sum(od_beds$all) 
