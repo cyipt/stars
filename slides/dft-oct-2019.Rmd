@@ -93,15 +93,48 @@ Add figure showing modal share and distance travelled of Bedfordshire commuters
 
 ---
 
-# Survey data analysis
+# Survey data
 
-To add: summary stats and a figure (scatterplot showing ORR vs survey totals?)
+To add: summary stats: 
+- modal share at each station in bedfordshire. Do we include the Luton stations?
+- station usage over time
 
 ```{r}
 knitr::include_graphics("../figures/survey_and_orr.png")
 ```
 
+---
 
+# Survey data analysis
+
+Luton Airport Parkway is less dominated by commuter journeys than other stations
+
+.pull-left[
+
+```{r}
+knitr::include_graphics("../figures/bedford-entries.png")
+
+knitr::include_graphics("../figures/luton-airpt-pkwy-entries.png")
+```
+
+]
+
+.pull-right[
+
+```{r}
+knitr::include_graphics("../figures/bedford-exits.png")
+
+knitr::include_graphics("../figures/luton-airpt-pkwy-exits.png")
+```
+
+]
+
+
+???
+
+The ORR data is from the Estimates of Station Usage for 2017-18 (the most recent year available)
+The survey data is from 27-29th Nov 2018, collected on a single day between the hours of 05:30-10:30am at each station. 
+Luton Airport Parkway is not used much for commuting, so we can expect the survey data (collected during the morning peak) to show lower usage than ORR data (representing total annual usage)
 
 ---
 

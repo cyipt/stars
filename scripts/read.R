@@ -177,6 +177,25 @@ ggplot(bedford_entry_15min,aes(col=Mode,Time,Entries)) + geom_freqpoly(stat = "i
 
 ggplot(bedford_exit_15min,aes(col=Mode,Time,Exits)) + geom_freqpoly(stat = "identity",size = 1) +theme_minimal()
 
+ggplot(bedford_entry_15min,aes(Time,Entries)) + geom_histogram(stat = "identity",size = 1) + labs(title= "Bedford entries") +theme_minimal() + theme(plot.title = element_text(size = 30),axis.title.x = element_text(size = 20),axis.title.y = element_text(size = 20),axis.text = element_text(size=15))
+
+ggplot(bedford_exit_15min,aes(Time,Exits)) + geom_histogram(stat = "identity",size = 1) +theme_minimal()
+
+####
+
+luton_airpt_pkwy_entry_15min$Total = NULL
+luton_airpt_pkwy_entry_15min = luton_airpt_pkwy_entry_15min %>% 
+  pivot_longer(-Time, names_to = "Mode",values_to = "Entries")
+
+luton_airpt_pkwy_exit_15min$Total = NULL
+luton_airpt_pkwy_exit_15min = luton_airpt_pkwy_exit_15min %>% 
+  pivot_longer(-Time, names_to = "Mode",values_to = "Exits")
+
+ggplot(luton_airpt_pkwy_entry_15min,aes(Time,Entries)) + geom_histogram(stat = "identity",size = 1) +theme_minimal()
+
+ggplot(luton_airpt_pkwy_exit_15min,aes(Time,Exits)) + geom_histogram(stat = "identity",size = 1) +theme_minimal()
+
+
 #######Entries and exits together
 
 bedford_all_hourly = bind_cols(bedford_entry_hourly,bedford_exit_hourly[2:ncol(bedford_exit_hourly)])
@@ -246,7 +265,7 @@ compare = tibble(Station_name = orr_data$Station.Name, EntriesAndExits_1718 = or
 ggplot(compare,aes(EntriesAndExits_1718,survey)) +
   geom_point(col = "red") +
   geom_text(aes(label = Station_name,hjust=-0.1)) +
-  xlab("ORR data 17_18 (million entries and exits)") + ylab("Bedfordshire survey data") +
+  xlab("ORR data for 2017-18 (million entries and exits)") + ylab("Bedfordshire survey data") +
   coord_cartesian(xlim = c(0,6)) +
   theme_grey()
 
