@@ -15,6 +15,7 @@ output:
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
 ```
 
 
@@ -78,13 +79,15 @@ knitr::include_url("../figures/beford-overview-with mainline.png")
 
 664,000 people in 1,200 km2
 
-Moderate population density (~500 ppl/km^2^ vs ~400 in England)
+Moderate population density (~500 ppl/km2 vs ~400 in England)
 
 Relatively even distribution of stations
 
 For interactive map see [here](http://rpubs.com/RobinLovelace/536607)
 
 Cyclable distances (~3.5 km population-weighted mean to stations)
+
+"train is the only practical method for getting to work for many people" (Phase I report)
 
 ]
 
@@ -164,25 +167,69 @@ Worth chatting to Keith/Caroline about
 
 ---
 
+.pull-left[
+
 # Methodology
 
----
 
-# Census travel to work data
+- Identify trips that could be made by cycle/PT combination
 
-Add figure showing modal share and distance travelled of Bedfordshire commuters.
+- Estimate travel to stations, currently (and potential?)
 
----
+- Estimate the potential for those trips to be cycled
 
-# Census travel to work data - rail journeys
+- Combine with cycling potential for other trip purposes
+
+- Visualise results to inform decision-making process
+
+- Assess specific interventions
+
+]
+
+--
+
+.pull-right[
+
+```{r}
+knitr::include_graphics("../figures/multi-stage-rail-schematic.png")
+```
+
 
 ```{r}
 knitr::include_graphics("../figures/rail_desire_lines.png")
 ```
 
+]
+
 ???
 
 These desire lines show MSOA commute data for all journeys starting in Bedfordshire where at least 20 people travel by rail
+
+
+---
+
+# Identification of public transport trips
+
+.pull-left[
+
+- Transport API used to find if trip could arrive by 9:00 AM.
+- Fastest train journey was used
+- Not simply routing cyclists to the nearest station, but takes account of their final destination 
+
+]
+
+Phase 1: 
+
+
+---
+
+
+
+???
+
+Add figure showing modal share and distance travelled of Bedfordshire commuters.
+
+---
 
 ---
 

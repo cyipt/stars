@@ -19,7 +19,8 @@ origin_coordinates = st_coordinates(centroids)
 dest_coordinates = st_coordinates(stations_duplicated)
 odc = cbind(origin_coordinates, dest_coordinates)
 l = stplanr::od_coords2line(odc)
-l$pop = centroids$all
+l$all = centroids$all
+l$rail = centroids$train_tube
 # l$distance_km = sf::st_length(l) / 1000 %>% as.numeric()
 # weighted.mean(l$distance_km, centroids$all)
 
@@ -29,20 +30,44 @@ plot(l)
 r = stplanr::route_cyclestreet(origin_coordinates[1, ], to = dest_coordinates[1, ])
 plot(r)
 
-r = cyclestreets::journey(origin_coordinates[1, ], to = dest_coordinates[1, ])
-plot(r)
+# r = cyclestreets::journey(origin_coordinates[1, ], to = dest_coordinates[1, ])
+# plot(r)
+# 
+# r19 = lapply(1:nrow(l), FUN = function(x) {
+#   r = cyclestreets::journey(origin_coordinates[x, ], to = dest_coordinates[x, ])
+#   r$fx = origin_coordinates[x, 1]
+#   r$fy = origin_coordinates[x, 2]
+#   r$tx = dest_coordinates[x, 1]
+#   r$ty = dest_coordinates[x, 2]
+#   r
+# })
+# r_all = do.call(rbind, r19)
+# plot(r_all)
 
-r19 = lapply(1:nrow(l), FUN = function(x) {
-  r = cyclestreets::journey(origin_coordinates[x, ], to = dest_coordinates[x, ])
-  r$fx = origin_coordinates[x, 1]
-  r$fy = origin_coordinates[x, 2]
-  r$tx = dest_coordinates[x, 1]
-  r$ty = dest_coordinates[x, 2]
-  r
-})
-r_all = do.call(rbind, r19)
-plot(r_all)
+# with latest version of stplanr
+devtools::install_github("ropensci/stplanr", ref = "dev")
+library(stplanr)
+r_all = route(l = l, route_fun = cyclestreets::journey)
+r_all$quietness = r_all$busynance / r_all$distances
+tm_shape(r_all[1:2222, ]) + tm_lines("quietness")
+saveRDS(r_all, "../stars-data/data/routing/phaseII-nearest-stplanr-dev.Rds")
+names(r_all)
 
+plot(r_all$distances, r_all$busynance)
+# busynance is simply distance time (the cost of) quietness
+plot(r_all$distances * r_all$quietness, r_all$busynance)
+rnet = overline2(r_all, "rail")
+
+r_grouped_by_segment = r_all %>% 
+  group_by(name, distances, busynance) %>% 
+  summarise(n = n(), all = sum(rail), busyness = mean(quietness))
+
+r_grouped_by_segment$all[r_grouped_by_segment$all > 1000] = 1000
+
+tm_shape(r_grouped_by_segment) +
+  tm_lines("busyness", lwd = "all", scale = 9, palette = "plasma")
+
+# experiments with grouping
 nrow(r_all)
 summary(r_all$elevations)
 r_grouped = r_all %>% 
@@ -50,7 +75,8 @@ r_grouped = r_all %>%
   summarise(
     n = n(),
     average_incline = sum(abs(diff(elevations))) / sum(distances),
-    distance_m = sum(distances)
+    distance_m = sum(distances),
+    quietness = mean(quietness)
     ) %>% 
   ungroup()
 
@@ -61,18 +87,18 @@ n = 1:9
 plot(r_grouped$geometry[n], col = n)
 plot(l$geometry[n], col = n, add = T) # mismatching routes
 
-l_routes = inner_join(st_drop_geometry(l), r_grouped)
-class(l_routes)
-l_routes = st_sf(l_routes)
-plot(l_routes)
+# l_routes = inner_join(st_drop_geometry(l), r_grouped)
+# class(l_routes)
+# l_routes = st_sf(l_routes)
+# plot(l_routes)
 
-plot(l$geometry[n], col = n) # mismatching routes
-plot(l_routes$geometry[n], col = n, add = T) # mismatching routes
+# plot(l$geometry[n], col = n) # mismatching routes
+# plot(l_routes$geometry[n], col = n, add = T) # mismatching routes
 
-l_routes$rail = od$train_tube
-l_routes$all = od$all
-plot(z["train_tube"])
-plot(l_routes["rail"])
+# l_routes$rail = od$train_tube
+# l_routes$all = od$all
+# plot(z["train_tube"])
+# plot(l_routes["rail"])
 
 # calculate pct scenarios
 l_routes$godutch = pct::uptake_pct_godutch(distance = r_grouped$average_incline, gradient = r_grouped$average_incline) *
