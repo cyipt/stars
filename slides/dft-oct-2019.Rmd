@@ -95,6 +95,12 @@ Add figure showing modal share and distance travelled of Bedfordshire commuters
 
 To add: summary stats and a figure (scatterplot showing ORR vs survey totals?)
 
+```{r}
+knitr::include_graphics("../figures/survey_and_orr.png")
+```
+
+
+
 ---
 
 # Route network analysis
