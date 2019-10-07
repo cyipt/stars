@@ -41,13 +41,37 @@ sf::st_write(z, "../stars-data/data/zones-nearest-station.geojson", delete_dsn =
 tm_shape(c) +
   tm_dots("nearest_station") +
   tm_shape(stns_major) + tm_dots(size = "entries_exits", col = "red") 
-  
+
+# get mainline to london
+# library(geofabric)
+# england = geofabric::get_geofabric("england")
+
+# england_rail = sf::read_sf("~/hd/data/osm/england.osm.pbf", layer = "multilinestrings",
+#                            query = "select * from multilinestrings where name = 'Midland Main Line trackage'")
+# 
+# 
+# saveRDS(england_rail, "../stars-data/data/osm/midland_mainline_trackage.Rds")
+# england_rail_small = rmapshaper::ms_simplify(england_rail)
+# saveRDS(england_rail_small, "../stars-data/data/osm/midland_mainline_trackage_small.Rds")
+# pryr::object_size(england_rail_small)
+
+# fails
+# library(osmdata)
+# osm_data = opq("united kingdom") %>% 
+#   add_osm_feature("name", "Midland Main Line") %>% 
+#   osmdata_sf()
+
+
+midland_mainline = readRDS("../stars-data/data/osm/midland_mainline_trackage_small.Rds")
 
 m = tm_shape(z) +
   tm_polygons("nearest_station", alpha = 0.3, legend.show = FALSE) +
   tm_shape(c) +
   tm_dots("nearest_station") +
   tm_shape(stns_major) + tm_dots(size = "entries_exits", col = "red", alpha = 0.4) +
+  tm_text(text = "station_name") +
+  tm_shape(midland_mainline) +
+  tm_lines() +
   tm_scale_bar()
 m
 tmap_save(m, "region-overview-stations.html")
