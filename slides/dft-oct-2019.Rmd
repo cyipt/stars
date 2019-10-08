@@ -275,6 +275,32 @@ Add figure showing modal share and distance travelled of Bedfordshire commuters.
 
 ---
 
+## Cycling potential estimates - Go Dutch
+
+.pull-left[
+
+### Phase I estimates
+
+```{r}
+knitr::include_graphics("../figures/bedford-rnet-go-dutch-phase1.png")
+```
+
+]
+
+
+.pull-right[
+
+### Phase II estimates
+
+```{r}
+knitr::include_graphics("../figures/bedford-rnet-go-dutch-phase2.png")
+```
+
+]
+
+
+---
+
 # Other considerations
 
 Busyness. Interactive map [here](http://rpubs.com/RobinLovelace/536820)

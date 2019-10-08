@@ -75,13 +75,14 @@ tm_shape(r_grouped_by_segment) +
   tm_shape(region) + tm_borders() +
   tm_scale_bar()
 
-# experiments with grouping
+# experiments with grouping - estimate uptake
 nrow(r_all)
 summary(r_all$elevations)
 r_grouped = r_all %>% 
   group_by(fx, fy, tx, ty) %>% 
   summarise(
     n = n(),
+    rail = mean(rail),
     average_incline = sum(abs(diff(elevations))) / sum(distances),
     distance_m = sum(distances),
     quietness = mean(quietness)
@@ -89,11 +90,19 @@ r_grouped = r_all %>%
   ungroup()
 
 summary(r_grouped)
+summary(r_grouped$rail)
+summary(l$rail) # good sense check: identical
+r_grouped$go_dutch = pct::uptake_pct_godutch(distance = r_grouped$distance_m, gradient = r_grouped$average_incline) *
+  r_grouped$rail
+r_grouped_lines = r_grouped %>% st_cast("LINESTRING")
+rnet_go_dutch = overline2(r_grouped_lines, "go_dutch")
+
+tm_shape(rnet_go_dutch) +
+  tm_lines("go_dutch", lwd = "go_dutch", scale = 9, palette = "plasma", breaks = c(0, 10, 200, 500, 1000)) +
+  tm_shape(region) + tm_borders()
 
 
-n = 1:9
-plot(r_grouped$geometry[n], col = n)
-plot(l$geometry[n], col = n, add = T) # mismatching routes
+r_grouped_by_segment = left_join(r_grouped_by_segment, r_grouped %>% select())
 
 # l_routes = inner_join(st_drop_geometry(l), r_grouped)
 # class(l_routes)
@@ -171,3 +180,26 @@ rnet_phase1_cycle1 = overline2(r_phase1_cycle1, "Train")
 tm_shape(rnet_phase1_cycle1) +
   tm_lines("Train", lwd = "Train", scale = 9, palette = "plasma", breaks = c(0, 10, 200, 500, 1000)) +
   tm_shape(region) + tm_borders()
+
+rnet_phase1_godutch1 = overline2(r_phase1_cycle1, "cycle1_dutch_slc")
+
+tm_shape(rnet_phase1_godutch1) +
+  tm_lines("cycle1_dutch_slc", lwd = "cycle1_dutch_slc", scale = 9, palette = "plasma", breaks = c(0, 10, 200, 500, 1000)) +
+  tm_shape(region) + tm_borders()
+
+# plot rail travel
+r_phase1_rail = r_phase1 %>% select(AllMethods, Train, Bicycle, cycle1_baseline_slc, cycle1_dutch_slc) %>% 
+  st_sf(geometry = r_phase1$geom_train) %>% 
+  filter(!lengths(geometry) == 0)
+
+class(r_phase1_rail)
+class(r_phase1_rail$geometry)
+
+r_phase1_rail = r_phase1_rail %>% st_zm() %>% st_cast("LINESTRING")
+rnet_phase1_rail = overline2(r_phase1_rail, "Train")
+rnet_phase1_rail = rmapshaper::ms_simplify(rnet_phase1_rail)
+summary(rnet_phase1_rail$Train)
+
+tm_shape(rnet_phase1_rail) +
+  tm_lines("Train", lwd = "Train", scale = 9, palette = "plasma", breaks = c(0, 1000, 2000, 10000, 20000)) +
+  tm_shape(region) + tm_borders() + tm_scale_bar()
