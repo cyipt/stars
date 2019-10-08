@@ -63,9 +63,17 @@ r_grouped_by_segment = r_all %>%
   summarise(n = n(), all = sum(rail), busyness = mean(quietness))
 
 r_grouped_by_segment$all[r_grouped_by_segment$all > 1000] = 1000
+r_grouped_linestring = r_grouped_by_segment %>% st_cast("LINESTRING")
+rnet_segment = overline(r_grouped_linestring, "all")
 
 tm_shape(r_grouped_by_segment) +
-  tm_lines("busyness", lwd = "all", scale = 9, palette = "plasma")
+  tm_lines("busyness", lwd = "all", scale = 9, palette = "plasma", breaks = c(0, 1, 2, 3, 5, 10, 25)) +
+  tm_shape(region) + tm_borders()
+
+tm_shape(r_grouped_by_segment) +
+  tm_lines("all", lwd = "all", scale = 9, palette = "plasma", breaks = c(0, 10, 200, 500, 1000)) +
+  tm_shape(region) + tm_borders() +
+  tm_scale_bar()
 
 # experiments with grouping
 nrow(r_all)
@@ -137,3 +145,29 @@ tm_shape(r_all) +
 # od$nearest_station %in% s$station_name
 
 # l = stplanr::od2line(flow = od, zones = z, destinations = s) # fail
+
+# compare with previous results
+
+r_phase1 = readRDS("../stars-data/data/routing/routes_scenarios.Rds")
+class(r_phase1)
+names(r_phase1)
+summary(r_phase1)
+
+sum(r_phase1$Train) / sum(r_phase1$AllMethods)
+
+r_phase1_cycle1 = r_phase1 %>% select(AllMethods, Train, Bicycle, cycle1_baseline_slc, cycle1_dutch_slc) %>% 
+  st_sf(geometry = r_phase1$geom_cycle1) %>% 
+  filter(!lengths(geometry) == 0)
+
+summary(r_phase1_cycle1$geometry)
+summary({empty = lengths(r_phase1_cycle1$geometry) == 0})
+
+class(r_phase1_cycle1)
+class(r_phase1_cycle1$geometry)
+
+r_phase1_cycle1 = r_phase1_cycle1 %>% st_zm()
+rnet_phase1_cycle1 = overline2(r_phase1_cycle1, "Train")
+
+tm_shape(rnet_phase1_cycle1) +
+  tm_lines("Train", lwd = "Train", scale = 9, palette = "plasma", breaks = c(0, 10, 200, 500, 1000)) +
+  tm_shape(region) + tm_borders()

@@ -212,17 +212,61 @@ These desire lines show MSOA commute data for all journeys starting in Bedfordsh
 
 .pull-left[
 
-- Transport API used to find if trip could arrive by 9:00 AM.
-- Fastest train journey was used
+## Phase I
+
+- Start with Census OD data
+- Transport API used to find if trip could arrive by 9:00 AM
+- Fastest train journey used (see [here](http://rpubs.com/RobinLovelace/536826))
 - Not simply routing cyclists to the nearest station, but takes account of their final destination 
+
+```{r}
+knitr::include_graphics("../figures/bedford-rnet-rail-geom-phase1.png")
+```
+
 
 ]
 
-Phase 1: 
+.pull-right[
 
+## Phase II 
+
+- Start with commutes that are already made by rail
+- Use OpenTripPlanner to identify shortest overall journey time for cycle/rail combination
+- Based on home-rail trip, estimate potential for trip to be cycled
+
+
+Next steps
+
+- Estimate travel-to-station levels for non commute trips based on local survey data
+- Use knowledge of capacity to estimate growth
+
+]
 
 ---
 
+# Current trips to stations
+
+.pull-left[
+
+### Phase I estimates
+
+```{r}
+knitr::include_graphics("../figures/bedford-rnet-all-phase1.png")
+```
+
+
+]
+
+
+.pull-right[
+
+### Phase II estimates
+
+```{r}
+knitr::include_graphics("../figures/bedford-rnet-nearest.png")
+```
+
+]
 
 
 ???
@@ -230,6 +274,16 @@ Phase 1:
 Add figure showing modal share and distance travelled of Bedfordshire commuters.
 
 ---
+
+# Other considerations
+
+Busyness. Interactive map [here](http://rpubs.com/RobinLovelace/536820)
+
+```{r}
+knitr::include_graphics("../figures/bedford-busyness.png")
+```
+
+
 
 ---
 
