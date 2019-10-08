@@ -99,7 +99,13 @@ rnet_go_dutch = overline2(r_grouped_lines, "go_dutch")
 
 tm_shape(rnet_go_dutch) +
   tm_lines("go_dutch", lwd = "go_dutch", scale = 9, palette = "plasma", breaks = c(0, 10, 200, 500, 1000)) +
-  tm_shape(region) + tm_borders()
+  tm_shape(region) + tm_borders() + tm_scale_bar()
+
+tm_shape(rnet_go_dutch) +
+  tm_lines("go_dutch", lwd = "go_dutch", scale = 9, palette = "plasma", breaks = c(0, 10, 200, 500, 1000)) +
+  tm_shape(region) + tm_borders() + tm_scale_bar() +
+  tm_basemap(server = "https://npttile.vs.mythic-beasts.com/commute/v2/olc/{z}/{x}/{y}.png", )
+
 
 
 r_grouped_by_segment = left_join(r_grouped_by_segment, r_grouped %>% select())

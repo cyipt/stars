@@ -360,18 +360,16 @@ Luton Airport Parkway is not used much for commuting, so we can expect the surve
 
 # Route network analysis
 
-Routes aggregated to create a 'route network' - available [online](http://rpubs.com/RobinLovelace/534280)
+Compare potential with plans - interactive map [online](http://rpubs.com/RobinLovelace/536827)
 
-```{r}
-knitr::include_graphics("../figures/rnet-new-luton.png")
+```{r, out.width="75%"}
+knitr::include_graphics("../figures/bedford-rnet-go-dutch-phase2-luton.png")
 ```
 
 ???
 
 This routes commutes to the major Bedfordshire stations only (as shown in previous slide) using the Cyclestreets routing API and the PCT 'Go Dutch' scenario
 Journeys are to the nearest station 'as the crow flies'
-
-
 
 ---
 
@@ -386,12 +384,20 @@ knitr::include_graphics("../figures/recommended-cyipt.png")
 
 # Next steps
 
+```{r}
+knitr::include_graphics("https://user-images.githubusercontent.com/1825120/66382281-de079480-e9b2-11e9-89b4-159a7022306f.png")
+```
+
+--
+
 - Feasibility assessment of route options 
 - Explore other interventions
-- Overlay with commuter potential
-- Cycle parking?
-- Training?
-- New developments?
+- [Overlay](http://rpubs.com/RobinLovelace/536834) with commuter and educational trip potential
+- Create integrated layer of cycling potential
+- Extend Phase I cycle parking analysis
+- Training / workshop
+- National deployment of cycling-transport layer
+
 
 ---
 
