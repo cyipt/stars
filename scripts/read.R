@@ -167,33 +167,37 @@ luton_exit_hourly$Time = hm(c("05:00","06:00","07:00","08:00","09:00","10:00"))
 
 bedford_entry_15min$Total = NULL
 bedford_entry_15min = bedford_entry_15min %>% 
-  pivot_longer(-Time, names_to = "Mode",values_to = "Entries")
+  # pivot_longer(-Time, names_to = "Mode",values_to = "Entries")
+  gather(-Time,key = "Mode", value = "Entries")
 
 bedford_exit_15min$Total = NULL
 bedford_exit_15min = bedford_exit_15min %>% 
-  pivot_longer(-Time, names_to = "Mode",values_to = "Exits")
+  # pivot_longer(-Time, names_to = "Mode",values_to = "Exits")
+  gather(-Time,key = "Mode", value = "Exits")
 
 ggplot(bedford_entry_15min,aes(col=Mode,Time,Entries)) + geom_freqpoly(stat = "identity",size = 1) +theme_minimal()
 
 ggplot(bedford_exit_15min,aes(col=Mode,Time,Exits)) + geom_freqpoly(stat = "identity",size = 1) +theme_minimal()
 
-ggplot(bedford_entry_15min,aes(Time,Entries)) + geom_histogram(stat = "identity",size = 1) + labs(title= "Bedford entries") +theme_minimal() + theme(plot.title = element_text(size = 30),axis.title.x = element_text(size = 20),axis.title.y = element_text(size = 20),axis.text = element_text(size=15))
+ggplot(bedford_entry_15min,aes(Time,Entries)) + geom_histogram(stat = "identity",size = 1) + labs(title= "Bedford entries") +theme_minimal() + theme(plot.title = element_text(size = 20),axis.title.x = element_text(size = 20),axis.title.y = element_text(size = 20),axis.text = element_text(size=15))
 
-ggplot(bedford_exit_15min,aes(Time,Exits)) + geom_histogram(stat = "identity",size = 1) +theme_minimal()
+ggplot(bedford_exit_15min,aes(Time,Exits)) + geom_histogram(stat = "identity",size = 1) + labs(title= "Bedford exits")+theme_minimal() + theme(plot.title = element_text(size = 20),axis.title.x = element_text(size = 20),axis.title.y = element_text(size = 20),axis.text = element_text(size=15))
 
 ####
 
 luton_airpt_pkwy_entry_15min$Total = NULL
 luton_airpt_pkwy_entry_15min = luton_airpt_pkwy_entry_15min %>% 
-  pivot_longer(-Time, names_to = "Mode",values_to = "Entries")
+  # pivot_longer(-Time, names_to = "Mode",values_to = "Entries")
+  gather(-Time,key = "Mode", value = "Entries")
 
 luton_airpt_pkwy_exit_15min$Total = NULL
 luton_airpt_pkwy_exit_15min = luton_airpt_pkwy_exit_15min %>% 
-  pivot_longer(-Time, names_to = "Mode",values_to = "Exits")
+  # pivot_longer(-Time, names_to = "Mode",values_to = "Exits")
+  gather(-Time,key = "Mode", value = "Exits")
 
-ggplot(luton_airpt_pkwy_entry_15min,aes(Time,Entries)) + geom_histogram(stat = "identity",size = 1) +theme_minimal()
+ggplot(luton_airpt_pkwy_entry_15min,aes(Time,Entries)) + geom_histogram(stat = "identity",size = 1) + labs(title= "Luton Airport Parkway entries")+theme_minimal() + theme(plot.title = element_text(size = 20),axis.title.x = element_text(size = 20),axis.title.y = element_text(size = 20),axis.text = element_text(size=15))
 
-ggplot(luton_airpt_pkwy_exit_15min,aes(Time,Exits)) + geom_histogram(stat = "identity",size = 1) +theme_minimal()
+ggplot(luton_airpt_pkwy_exit_15min,aes(Time,Exits)) + geom_histogram(stat = "identity",size = 1) + labs(title= "Luton Airport Parkway exits")+theme_minimal() + theme(plot.title = element_text(size = 20),axis.title.x = element_text(size = 20),axis.title.y = element_text(size = 20),axis.text = element_text(size=15))
 
 
 #######Entries and exits together

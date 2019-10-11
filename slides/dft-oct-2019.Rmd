@@ -397,6 +397,7 @@ knitr::include_graphics("https://user-images.githubusercontent.com/1825120/66382
 - Extend Phase I cycle parking analysis
 - Training / workshop
 - National deployment of cycling-transport layer
+- calculate with route network distance minimised
 
 
 ---
