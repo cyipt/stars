@@ -22,7 +22,6 @@ bedford_entry_hourly$Time = hm(c("05:00","06:00","07:00","08:00","09:00","10:00"
 
 bedford_exit = read_excel("../stars-data/luton-survey/Luton-Rail-Stations-Reports/1335-WTR_EntryExit_1-7_27th-29thNov.xlsx", range = "Bedford!K9:R35") 
 bedford_exit = bedford_exit %>% rename(OnFoot = "On Foot",PrivateCarPickUp = "Private Car Pick Up")
-# bedford_exit = drop_na(bedford_exit)
 bedford_exit = bind_cols(Time = bedford_entry$Time,bedford_exit)
 bedford_exit_hourly = bedford_exit %>% 
   filter(is.na(Time))
