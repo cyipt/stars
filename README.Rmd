@@ -26,7 +26,7 @@ However, the treatment of commuter journeys in all of these scenarios suffers fr
 
 In reality, almost all journeys involving public transport will necessarily be multimodal journeys. The passenger must first reach the train station, bus or tram stop, perhaps doing this on foot, on cycle, by car or taxi. Following a journey on one or more forms of public transport, they will again require another mode of transport to reach their final destination. 
 
-```{r}
+```{r combi1}
 knitr::include_graphics("./figures/multi-stage-rail-schematic.png")
 ```
 
@@ -47,17 +47,11 @@ Including journeys to rail stations in the assessment of cycle potential will gi
 
 The aims of this project are to:
 
-Aims: 
-
 - Establish the potential for cycling to stations in the STARS study area
 
 - Inform investment decisions regarding cycle infrastructure and cycle parking at stations
 
 - Feed into monitoring and evaluation of cycling levels
-
-```{r combi1}
-
-```
 
 
 ## Modal split of commuting
@@ -89,26 +83,21 @@ We have developed two methods for estimating cycle to rail stations.
 
 Our Phase I approach starts with Census OD data. Transport API is used to find out whether the trip could be made by rail to arrive by 9:00 AM. The fastest rail journey is then used. This method does not simply route commuters to their nearest station, but takes account of their final destination to pick an appropriate station. 
 
-The Phase II approach starts with commutes that are already made by rail. We then use OpenTripPlanner to identify the shortest overall journey time for the combined cycle and rail journey, and an appropriate station is chosen that minimises this overall journey time. This is different from the Phase I approach in which the departure station was chosen based on the rail journey time only. Based on these routings, we estimate the potential for the home-station journey to be cycled. 
+The Phase II approach starts with commutes that are already made by rail. These are routed via the nearest station as the crow flies. This is different from the Phase I approach in which the departure station was chosen based on the rail journey time only. Based on these routings, we estimate the potential for the journey from home to station to be cycled. 
 
-In Phase II we use only stations which had over 1 million entries and exits in 2016-17. This gives us the seven most-used rail stations in Bedfordshire, as listed in Table 3 below. These comprise five stations on the Midland Mainline, plus Leighton Buzzard and Biggleswade. All of these stations have regular 
+In Phase II we use only stations which had over 1 million entries and exits in 2016-17. This gives us the seven most-used rail stations in Bedfordshire, as listed in Table 3 below. These comprise five stations on the Midland Mainline, plus Leighton Buzzard and Biggleswade. Since all of these stations have frequent services to and from London, routing via the nearest station is realistic. 
 
-### Phase I estimates
+### All rail commutes (Phase I and II estimates)
 
 ```{r combi2, out.width="50%", fig.show='hold', fig.cap = "Phase I and II estimates of cycle to rail potential"}
 knitr::include_graphics(c("./figures/bedford-rnet-all-phase1.png","./figures/bedford-rnet-nearest.png"))
 ```
 
+### Go Dutch cycle to rail stations (Phase I and II estimates)
 
-]
-
-
-.pull-right[
-
-### Phase II estimates
 
 ```{r}
-knitr::include_graphics("./figures/bedford-rnet-nearest.png")
+knitr::include_graphics(c("./figures/bedford-go-dutch-phase1.png","./figures/bedford-go-dutch-phase2.png"))
 ```
 
 
