@@ -1,0 +1,116 @@
+---
+title: "Enhancements to the propensity to cycle tool to estimate cycle-to-station potential"
+author: Robin Lovelace and Joey Talbot
+institute: "Institute for Transport Studies, University of Leeds"
+date: "5th November 2019"
+output: bookdown::pdf_document2
+header-includes: 
+- \usepackage{float} 
+- \floatplacement{figure}{H}
+- \floatplacement{table}{H}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,   
+  collapse = TRUE,
+  comment = "#>"
+  )
+```
+
+# Introduction
+
+The Propensity to Cycle Tool (Lovelace et al. 2017) uses 2011 Census data to investigate the proportion of commuters that currently cycle to work, alongside a range of scenarios investigating how cycling levels could increase. These scenarios include two different approaches to meeting the Government target of doubling cycle commutes. Furthermore, the 'Gender Equality' scenario models what would happen if women cycled as much as men do, since this is the norm in high-cycling countries. The 'Go Dutch' scenario models what would happen if cycling in the UK was at the same levels as found in the Netherlands, while accounting for the impact of hilliness and journey distance.  The 'Ebikes' scenario further adds onto this by assuming widespread adoption of ebikes for longer distance commutes. 
+
+However, the treatment of commuter journeys in all of these scenarios suffers from a vital limitation. The 2011 Census provides a comprehensive dataset of journey origins and destinations, but the Census questions relating to commuter travel only ask for the main mode of transport to work, defined as the mode used for the longest portion of the journey according to distance. Therefore, multimodal journeys are not represented. This is particularly problematic when it comes to journeys involving public transport. 
+
+In reality, almost all journeys involving public transport will necessarily be multimodal journeys. The passenger must first reach the train station, bus or tram stop, perhaps doing this on foot, on cycle, by car or taxi. Following a journey on one or more forms of public transport, they will again require another mode of transport to reach their final destination. 
+
+```{r}
+knitr::include_graphics("./figures/multi-stage-rail-schematic.png")
+```
+
+In counties such as Bedfordshire, commuting by rail is widespread, with the great majority of these commuters travelling to work in London. There is therefore a large number of people travelling to and from local rail stations, who could potentially by accessing these stations by bicycle. These cycle journey are being missed from our estimates of cycle propensity.
+
+Including journeys to rail stations in the assessment of cycle potential will give a more complete picture of where people might want to cycle. This will aid cycle infrastructure planning and the choice of where to focus investment. 
+
+- About us
+
+- Updating the Propensity to Cycle Tool (PCT)
+
+- The Cycling Infrastructure Prioritisation Toolkit (CyIPT)
+
+- Why travel to stations
+
+
+## Aims
+
+The aims of this project are to:
+
+Aims: 
+
+- Establish the potential for cycling to stations in the STARS study area
+
+- Inform investment decisions regarding cycle infrastructure and cycle parking at stations
+
+- Feed into monitoring and evaluation of cycling levels
+
+```{r combi1}
+
+```
+
+
+## Modal split of commuting
+
+A high proportion of Bedfordshire commuters currently drive to work. Yet we can see that there is significant potential for cycle commuting to increase, if residents were to reach Dutch levels of cycling. 
+
+```{r, message=FALSE}
+library(dplyr)
+readr::read_csv("./output-data/mode-data-local-authority.csv") %>% 
+  knitr::kable()
+```
+
+When we look at individual stations catchments, we see that in each of these cycle mode share could rise substantially, from a 10% rise at Flitwick to a 21% rise at Bedford Midland.
+
+```{r, message=FALSE}
+readr::read_csv("./output-data/mode-data-nearest-catchments.csv") %>% 
+  knitr::kable()
+```
+
+## Intra-region travel
+
+When looking at travel within Bedfordshire, we can see that many of the shorter journeys, such as journeys within the larger towns, are made by active travel. These could be similar in distance to many journeys to rail stations, which could also be made by active travel. 
+
+
+
+# Methodology
+
+We have developed two methods for estimating cycle to rail stations. 
+
+Our Phase I approach starts with Census OD data. Transport API is used to find out whether the trip could be made by rail to arrive by 9:00 AM. The fastest rail journey is then used. This method does not simply route commuters to their nearest station, but takes account of their final destination to pick an appropriate station. 
+
+The Phase II approach starts with commutes that are already made by rail. We then use OpenTripPlanner to identify the shortest overall journey time for the combined cycle and rail journey, and an appropriate station is chosen that minimises this overall journey time. This is different from the Phase I approach in which the departure station was chosen based on the rail journey time only. Based on these routings, we estimate the potential for the home-station journey to be cycled. 
+
+In Phase II we use only stations which had over 1 million entries and exits in 2016-17. This gives us the seven most-used rail stations in Bedfordshire, as listed in Table 3 below. These comprise five stations on the Midland Mainline, plus Leighton Buzzard and Biggleswade. All of these stations have regular 
+
+### Phase I estimates
+
+```{r combi2, out.width="50%", fig.show='hold', fig.cap = "Phase I and II estimates of cycle to rail potential"}
+knitr::include_graphics(c("./figures/bedford-rnet-all-phase1.png","./figures/bedford-rnet-nearest.png"))
+```
+
+
+]
+
+
+.pull-right[
+
+### Phase II estimates
+
+```{r}
+knitr::include_graphics("./figures/bedford-rnet-nearest.png")
+```
+
+
+The first step is to identify trips that could be made by cycle and rail. 
+
