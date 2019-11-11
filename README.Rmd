@@ -3,7 +3,8 @@ title: "Enhancements to the propensity to cycle tool to estimate cycle-to-statio
 author: Robin Lovelace and Joey Talbot
 institute: "Institute for Transport Studies, University of Leeds"
 date: "5th November 2019"
-output: bookdown::pdf_document2
+# output: bookdown::pdf_document2
+output: html_document
 header-includes: 
 - \usepackage{float} 
 - \floatplacement{figure}{H}
@@ -20,11 +21,13 @@ knitr::opts_chunk$set(
 
 # Introduction
 
+Rail stations represent a major destination for cycle journeys. As such, it is vital to understand the dynamics of cycle-rail integration, especially in counties like Bedfordshire, where rail commuting is popular.
+
 The Propensity to Cycle Tool (Lovelace et al. 2017) uses 2011 Census data to investigate the proportion of commuters that currently cycle to work, alongside a range of scenarios investigating how cycling levels could increase. These scenarios include two different approaches to meeting the Government target of doubling cycle commutes. Furthermore, the 'Gender Equality' scenario models what would happen if women cycled as much as men do, since this is the norm in high-cycling countries. The 'Go Dutch' scenario models what would happen if cycling in the UK was at the same levels as found in the Netherlands, while accounting for the impact of hilliness and journey distance.  The 'Ebikes' scenario further adds onto this by assuming widespread adoption of ebikes for longer distance commutes. 
 
 However, the treatment of commuter journeys in all of these scenarios suffers from a vital limitation. The 2011 Census provides a comprehensive dataset of journey origins and destinations, but the Census questions relating to commuter travel only ask for the main mode of transport to work, defined as the mode used for the longest portion of the journey according to distance. Therefore, multimodal journeys are not represented. This is particularly problematic when it comes to journeys involving public transport. 
 
-In reality, almost all journeys involving public transport will necessarily be multimodal journeys. The passenger must first reach the train station, bus or tram stop, perhaps doing this on foot, on cycle, by car or taxi. Following a journey on one or more forms of public transport, they will again require another mode of transport to reach their final destination. 
+In reality, almost all journeys involving public transport will necessarily be multimodal journeys (Figure 1). The passenger must first reach the train station, bus or tram stop, perhaps doing this on foot, on cycle, or by car or taxi. Following a journey on one or more forms of public transport, they will again require another mode of transport to reach their final destination. 
 
 ```{r combi1}
 knitr::include_graphics("./figures/multi-stage-rail-schematic.png")
@@ -73,9 +76,11 @@ readr::read_csv("./output-data/mode-data-nearest-catchments.csv") %>%
 
 ## Intra-region travel
 
-When looking at travel within Bedfordshire, we can see that many of the shorter journeys, such as journeys within the larger towns, are made by active travel. These could be similar in distance to many journeys to rail stations, which could also be made by active travel. 
+Around half of all commutes in Bedfordshire take place entirely within the county. When looking at these journeys, we can see that the majority of them are to the nearest town centre, although there is also some inter-town travel. A high proportion of the shorter journeys are made by active travel. These journeys could be similar in distance to many journeys to rail stations, which may also be likely to be made by active travel. 
 
-
+```{r}
+knitr::include_graphics("../figures/bedford-intra-region-commutes.png")
+```
 
 # Methodology
 
@@ -97,9 +102,20 @@ knitr::include_graphics(c("./figures/bedford-rnet-all-phase1.png","./figures/bed
 
 
 ```{r}
-knitr::include_graphics(c("./figures/bedford-go-dutch-phase1.png","./figures/bedford-go-dutch-phase2.png"))
+knitr::include_graphics(c("./figures/bedford-rnet-go-dutch-phase1.png","./figures/bedford-rnet-go-dutch-phase2.png"))
 ```
 
 
 The first step is to identify trips that could be made by cycle and rail. 
 
+# Cycle infrastructure
+
+This analysis can help to identify places where it would be particularly useful to install new or improved cycle infrastructure, or to increase cycle parking.
+
+In Luton, we can see that the existing cycle infrastructure is relatively limited.
+
+```{r}
+knitr::include_graphics("../figures/existing-cyipt.png")
+```
+
+There is a strong overlap between the roads we find high to have cycle potential and proposed new cycle routes in Luton. These includes routes heading west from Leagrave station along Leagrave High Street, a route north from Leagrave station, and north from Luton station along High Town Road.
