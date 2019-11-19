@@ -19,29 +19,34 @@ summary(stns$X1617.Entries...Exits)
 stns_major = filter(stns, X1617.Entries...Exits > 1e6)
 stns_minor = filter(stns, X1617.Entries...Exits < 1e6)
 
+# Include all mainline Bedfordshire stations
+mainline = c("Luton Airport Parkway", "Luton", "Leagrave", "Harlington", "Flitwick", "Bedford Midland", "Leighton Buzzard", "Arlesey", "Biggleswade", "Sandy")
+stns_mainline = filter(stns, Station.Name %in% mainline)
+
 names(s)
-stns_major$Station.Name = gsub(pattern = "Luton Airport Parkway", replacement = "Luton Airport", x = stns_major$Station.Name)
+stns_mainline$Station.Name = gsub(pattern = "Luton Airport Parkway", replacement = "Luton Airport", x = stns_mainline$Station.Name)
 
-z_nearest_points = sf::st_nearest_feature(c, stns_major)
+
+z_nearest_points = sf::st_nearest_feature(c, stns_mainline)
 # z_nearest_station = sf::st_join(z, s, op = sf::st_nearest_feature)
-z$nearest_station = stns_major$Station.Name[z_nearest_points]
-c$nearest_station = stns_major$Station.Name[z_nearest_points]
+z$nearest_station = stns_mainline$Station.Name[z_nearest_points]
+c$nearest_station = stns_mainline$Station.Name[z_nearest_points]
 
 
-names(stns_major)
-stns_major = stns_major %>% 
+names(stns_mainline)
+stns_mainline = stns_mainline %>% 
   select(station_name = Station.Name, entries_exits = X1617.Entries...Exits )
 
 c = c %>% st_transform(4326)
 z = z %>% st_transform(4326)
-stns_major = stns_major %>% st_transform(4326)
+stns_mainline = stns_mainline %>% st_transform(4326)
   
-sf::st_write(stns_major, "../stars-data/data/local-survey/sttns_major-orr-entries.geojson", delete_dsn = T)
+sf::st_write(stns_mainline, "../stars-data/data/local-survey/stns-mainline-orr-entries.geojson", delete_dsn = T)
 sf::st_write(z, "../stars-data/data/zones-nearest-station.geojson", delete_dsn = T)
 
 tm_shape(c) +
   tm_dots("nearest_station") +
-  tm_shape(stns_major) + tm_dots(size = "entries_exits", col = "red") 
+  tm_shape(stns_mainline) + tm_dots(size = "entries_exits", col = "red") 
 
 # get mainline to london
 # library(geofabric)
@@ -68,7 +73,7 @@ m = tm_shape(z) +
   tm_polygons("nearest_station", alpha = 0.3, legend.show = FALSE) +
   tm_shape(c) +
   tm_dots("nearest_station") +
-  tm_shape(stns_major) + tm_dots(size = "entries_exits", col = "red", alpha = 0.4) +
+  tm_shape(stns_mainline) + tm_dots(size = "entries_exits", col = "red", alpha = 0.4) +
   tm_text(text = "station_name") +
   tm_shape(midland_mainline) +
   tm_lines() +
@@ -115,6 +120,9 @@ readr::write_csv(.Last.value, "output-data/mode-data-local-authority.csv")
 # midland_mainline_region = sf::st_intersection(midland_mainline, region)
 # plot(midland_mainline_region)
 # mapview::mapview(midland_mainline_region)
+
+
+###########Is this needed?###########
 
 # desire line analysis
 library(pct)

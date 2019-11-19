@@ -4,7 +4,9 @@ library(tmap)
 library(sf)
 tmap_mode("view")
 
-s = sf::read_sf("../stars-data/data/local-survey/sttns_major-orr-entries.geojson")
+#the next line is changed to use all mainline Bedfordshire stations 
+# s = sf::read_sf("../stars-data/data/local-survey/sttns_major-orr-entries.geojson")
+s = sf::read_sf("../stars-data/data/local-survey/stns-mainline-orr-entries.geojson")
 z = sf::read_sf("../stars-data/data/zones-nearest-station.geojson")
 c = pct::get_pct_centroids(region = "bedfordshire", geography = "lsoa")
 summary(z$geo_code == c$geo_code)
@@ -44,8 +46,8 @@ plot(r)
 # r_all = do.call(rbind, r19)
 # plot(r_all)
 
-# with latest version of stplanr
-devtools::install_github("ropensci/stplanr", ref = "dev")
+# with latest version of stplanr - no longer required
+# devtools::install_github("ropensci/stplanr", ref = "dev")
 library(stplanr)
 r_all = route(l = l, route_fun = cyclestreets::journey)
 r_all$quietness = r_all$busynance / r_all$distances
@@ -66,10 +68,13 @@ r_grouped_by_segment$all[r_grouped_by_segment$all > 1000] = 1000
 r_grouped_linestring = r_grouped_by_segment %>% st_cast("LINESTRING")
 rnet_segment = overline(r_grouped_linestring, "all")
 
+#Map busyness of route segments
 tm_shape(r_grouped_by_segment) +
   tm_lines("busyness", lwd = "all", scale = 9, palette = "plasma", breaks = c(0, 1, 2, 3, 5, 10, 25)) +
   tm_shape(region) + tm_borders()
+# tmap_save(busy, "./figures/bedford-busyness.png")
 
+#Map total number of journeys to stations on each route segment
 tm_shape(r_grouped_by_segment) +
   tm_lines("all", lwd = "all", scale = 9, palette = "plasma", breaks = c(0, 10, 200, 500, 1000)) +
   tm_shape(region) + tm_borders() +
@@ -97,6 +102,7 @@ r_grouped$go_dutch = pct::uptake_pct_godutch(distance = r_grouped$distance_m, gr
 r_grouped_lines = r_grouped %>% st_cast("LINESTRING")
 rnet_go_dutch = overline2(r_grouped_lines, "go_dutch")
 
+#Map modelled Go Dutch cycle journeys to stations
 tm_shape(rnet_go_dutch) +
   tm_lines("go_dutch", lwd = "go_dutch", scale = 9, palette = "plasma", breaks = c(0, 10, 200, 500, 1000)) +
   tm_shape(region) + tm_borders() + tm_scale_bar()
@@ -107,6 +113,7 @@ tm_shape(rnet_go_dutch) +
   tm_basemap(server = "https://npttile.vs.mythic-beasts.com/commute/v2/olc/{z}/{x}/{y}.png", )
 
 
+####Is this section needed?###########
 
 r_grouped_by_segment = left_join(r_grouped_by_segment, r_grouped %>% select())
 
