@@ -1,0 +1,436 @@
+---
+title: "Enhancements to the propensity to cycle tool to estimate cycle-to-station potential"
+subtitle: "`r emojifont::emoji('bike')` `r emojifont::emoji('train')` <br/>The mission to double the world's cycling potential"
+author: "Robin Lovelace and Joey Talbot"
+institute: "Institute for Transport Studies, University of Leeds"
+date: "2019-11-20"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+```
+
+# Introduction
+
+.pull-left[
+
+Talk structure:
+
+- Why travel to stations
+
+- Updating the Propensity to Cycle Tool (PCT) methods: case study of Luton
+
+- The Cycling Infrastructure Prioritisation Toolkit (CyIPT)
+
+]
+
+--
+
+.pull-right[
+
+Project aims: 
+
+- Establish the potential for cycling to stations in the STARS study area
+
+- Inform investment decisions regarding cycle infrastructure and cycle parking at stations
+
+- Feed into monitoring and evaluation of cycling levels
+
+]
+
+???
+
+Robin to do this bit
+
+Around 2/3rd of trips are within 5 miles.
+Many of these are cyclable, especially when considering Ebikes.
+But how to get people cycling who commute longer distances, e.g. those living in the commuter belts outside London?
+
+Modal shift to cycling under future scenarios
+Identify roads which may benefit from improved cycle infrastructure
+Estimate the number of cycle parking spaces required at stations
+Can identify potential monitoring sites and provide a baseline against which to assess cycling uptake 
+
+---
+
+# Prior work: national tool for strategic cycle planning
+
+![](https://raw.githubusercontent.com/npct/pct-team/master/figures/front-page-leeds-pct-demo.png)
+
+---
+
+background-image: url(https://user-images.githubusercontent.com/1825120/69228575-b55ee700-0b7b-11ea-922c-77601c30fff8.png)
+
+# Updates to the PCT
+
+
+## New travel to school layer
+
+--
+
+## Updated TAG calculations
+
+--
+## Extensions via the Cycling Infrastructure Prioritisation Toolkit (CyIPT)
+
+---
+
+# Case study area - zone analysis
+
+.pull-left[
+
+```{r}
+knitr::include_url("../figures/beford-overview-with mainline.png")
+```
+
+]
+
+--
+
+.pull-right[
+
+664,000 people in 1,200 km2
+
+Moderate population density (~500 ppl/km2 vs ~400 in England)
+
+Relatively even distribution of stations
+
+For interactive map see [here](http://rpubs.com/RobinLovelace/536607)
+
+Cyclable distances (~3.5 km population-weighted mean to stations)
+
+"train is the only practical method for getting to work for many people" (Phase I report)
+
+]
+
+---
+
+# Mode split for commuting - LA
+
+```{r, message=FALSE}
+library(dplyr)
+readr::read_csv("../output-data/mode-data-local-authority.csv") %>% 
+  knitr::kable(format = "html")
+```
+
+---
+
+# Mode split by station catchment
+
+```{r, message=FALSE}
+readr::read_csv("../output-data/mode-data-nearest-catchments.csv") %>% 
+  knitr::kable(format = "html")
+```
+
+---
+
+# Intra-region travel - OD data analysis
+
+.pull-left[
+
+```{r}
+knitr::include_graphics("../figures/bedford-intra-region-commutes.png")
+```
+
+
+]
+
+--
+
+.pull-right[
+
+See [here](http://rpubs.com/RobinLovelace/536634) for interactive map
+
+Around half of all commutes are within Bedfordshire
+
+The majority of these are to the nearest town centre, but there is some inter-town travel
+
+]
+
+---
+
+# Existing infrasture
+
+```{r}
+knitr::include_graphics("../figures/existing-cyipt.png")
+```
+
+See https://www.cyipt.bike/ for full map
+
+
+???
+
+Worth chatting to Keith/Caroline about
+
+---
+
+# Data sources
+
+- 2011 census data
+
+- 2017-18 ORR Estimates of Station Usage 
+
+- 2018 travel survey of Bedfordshire Midland Main Line stations
+
+- Cyclestreets routing API
+
+- PCT travel to work scenarios
+
+- CyIPT street level cycle infrastructure data
+
+---
+
+.pull-left[
+
+# Methodology
+
+
+- Identify trips that could be made by cycle/PT combination
+
+- Estimate travel to stations, currently (and potential?)
+
+- Estimate the potential for those trips to be cycled
+
+- Combine with cycling potential for other trip purposes
+
+- Visualise results to inform decision-making process
+
+- Assess specific interventions
+
+]
+
+--
+
+.pull-right[
+
+```{r}
+knitr::include_graphics("../figures/multi-stage-rail-schematic.png")
+```
+
+
+```{r}
+knitr::include_graphics("../figures/rail_desire_lines.png")
+```
+
+]
+
+???
+
+These desire lines show MSOA commute data for all journeys starting in Bedfordshire where at least 20 people travel by rail
+
+
+---
+
+# Identification of public transport trips
+
+.pull-left[
+
+## Phase I
+
+- Start with Census OD data
+- Transport API used to find if trip could arrive by 9:00 AM
+- Fastest train journey used (see [here](http://rpubs.com/RobinLovelace/536826))
+- Not simply routing cyclists to the nearest station, but takes account of their final destination 
+
+```{r}
+knitr::include_graphics("../figures/bedford-rnet-rail-geom-phase1.png")
+```
+
+
+]
+
+.pull-right[
+
+## Phase II 
+
+- Start with commutes that are already made by rail
+- Use OpenTripPlanner to identify shortest overall journey time for cycle/rail combination
+- Based on home-rail trip, estimate potential for trip to be cycled
+
+
+Next steps
+
+- Estimate travel-to-station levels for non commute trips based on local survey data
+- Use knowledge of capacity to estimate growth
+
+]
+
+---
+
+# Current trips to stations
+
+.pull-left[
+
+### Phase I estimates
+
+```{r}
+knitr::include_graphics("../figures/bedford-rnet-all-phase1.png")
+```
+
+
+]
+
+
+.pull-right[
+
+### Phase II estimates
+
+```{r}
+knitr::include_graphics("../figures/bedford-rnet-nearest.png")
+```
+
+]
+
+
+???
+
+Add figure showing modal share and distance travelled of Bedfordshire commuters.
+
+---
+
+## Cycling potential estimates - Go Dutch
+
+.pull-left[
+
+### Phase I estimates
+
+```{r}
+knitr::include_graphics("../figures/bedford-rnet-go-dutch-phase1.png")
+```
+
+]
+
+
+.pull-right[
+
+### Phase II estimates
+
+```{r}
+knitr::include_graphics("../figures/bedford-rnet-go-dutch-phase2.png")
+```
+
+]
+
+
+---
+
+# Other considerations
+
+Busyness. Interactive map [here](http://rpubs.com/RobinLovelace/536820)
+
+```{r}
+knitr::include_graphics("../figures/bedford-busyness.png")
+```
+
+
+
+---
+
+# Survey data
+
+To add: summary stats: 
+- modal share at each station in bedfordshire. Do we include the Luton stations?
+- station usage over time
+
+```{r}
+knitr::include_graphics("../figures/survey_and_orr.png")
+```
+
+---
+
+# Survey data analysis
+
+Luton Airport Parkway is less dominated by commuter journeys than other stations
+
+.pull-left[
+
+```{r}
+knitr::include_graphics("../figures/bedford-entries.png")
+
+knitr::include_graphics("../figures/luton-airpt-pkwy-entries.png")
+```
+
+]
+
+.pull-right[
+
+```{r}
+knitr::include_graphics("../figures/bedford-exits.png")
+
+knitr::include_graphics("../figures/luton-airpt-pkwy-exits.png")
+```
+
+]
+
+
+???
+
+The ORR data is from the Estimates of Station Usage for 2017-18 (the most recent year available)
+The survey data is from 27-29th Nov 2018, collected on a single day between the hours of 05:30-10:30am at each station. 
+Luton Airport Parkway is not used much for commuting, so we can expect the survey data (collected during the morning peak) to show lower usage than ORR data (representing total annual usage)
+
+---
+
+# Route network analysis
+
+Compare potential with plans - interactive map [online](http://rpubs.com/RobinLovelace/536827)
+
+```{r, out.width="75%"}
+knitr::include_graphics("../figures/bedford-rnet-go-dutch-phase2-luton.png")
+```
+
+???
+
+This routes commutes to the major Bedfordshire stations only (as shown in previous slide) using the Cyclestreets routing API and the PCT 'Go Dutch' scenario
+Journeys are to the nearest station 'as the crow flies'
+
+---
+
+# Infrastructure options
+
+```{r}
+knitr::include_graphics("../figures/recommended-cyipt.png")
+```
+
+---
+
+
+# Next steps
+
+```{r}
+knitr::include_graphics("https://user-images.githubusercontent.com/1825120/66382281-de079480-e9b2-11e9-89b4-159a7022306f.png")
+```
+
+--
+
+- Feasibility assessment of route options + other interventions
+- [Overlay](http://rpubs.com/RobinLovelace/536834) with commuter and educational trip potential
+- Create integrated layer of cycling potential
+- Extend Phase I cycle parking analysis
+- Training / workshop
+- National deployment of cycling-transport layer
+
+
+---
+
+class: center, middle
+
+# Thanks + further info
+
+Robin Lovelace: r.lovelace@leeds.ac.uk
+
+Joey Talbot: J.D.Talbot@leeds.ac.uk
+
+For more on the PCT, see www.pct.bike
+
+www.cyipt.bike for the Cycling Infrastructure Prioritisation Toolkit (CyIPT)
+
+
