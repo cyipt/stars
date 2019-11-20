@@ -113,6 +113,42 @@ Cyclable distances (~3.5 km population-weighted mean to stations)
 
 ---
 
+# Headline results
+
+![](https://ars.els-cdn.com/content/image/1-s2.0-S2214140518301257-gr4_lrg.jpg)
+
+---
+
+# An open source approach
+
+![](https://user-images.githubusercontent.com/1825120/69235655-cd3d6780-0b89-11ea-9531-b4fec935024c.png)
+
+- Transport planning is a **democratic process**
+
+--
+
+- For democracies to work **participation is vital**
+
+--
+
+- So important that the public can participate, with different levels making participation accessible for all, including:
+    - Lowest barrier to entry: interactive web tool
+    - Mid level: Place to interact with the planning process (e.g. comment on map)
+    - High level: Access to data
+    - Advanced users: Open source software
+
+--
+
+Reproducibility
+
+---
+
+# Cycle-public transport interaction
+
+![](https://raw.githubusercontent.com/npct/pct-team/master/infra-active/active-travel-options.png)
+
+---
+
 # Mode split for commuting - LA
 
 ```{r, message=FALSE}
