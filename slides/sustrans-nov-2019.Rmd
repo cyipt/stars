@@ -71,6 +71,8 @@ background-image: url(https://user-images.githubusercontent.com/1825120/69228575
 
 # Updates to the PCT
 
+- Source: Lovelace et al. ([2017](https://www.jtlu.org/index.php/jtlu/article/view/862))
+
 
 ## New travel to school layer
 
@@ -88,7 +90,7 @@ background-image: url(https://user-images.githubusercontent.com/1825120/69228575
 .pull-left[
 
 ```{r}
-knitr::include_url("../figures/beford-overview-with mainline.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/beford-overview-with mainline.png")
 ```
 
 ]
@@ -114,6 +116,8 @@ Cyclable distances (~3.5 km population-weighted mean to stations)
 ---
 
 # Headline results
+
+Source: Goodman et al. ([2019](https://www.sciencedirect.com/science/article/pii/S2214140518301257#f0020))
 
 ![](https://ars.els-cdn.com/content/image/1-s2.0-S2214140518301257-gr4_lrg.jpg)
 
@@ -173,7 +177,7 @@ readr::read_csv("../output-data/mode-data-nearest-catchments.csv") %>%
 .pull-left[
 
 ```{r}
-knitr::include_graphics("../figures/bedford-intra-region-commutes.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/bedford-intra-region-commutes.png")
 ```
 
 
@@ -196,7 +200,7 @@ The majority of these are to the nearest town centre, but there is some inter-to
 # Existing infrasture
 
 ```{r}
-knitr::include_graphics("../figures/existing-cyipt.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/existing-cyipt.png")
 ```
 
 See https://www.cyipt.bike/ for full map
@@ -248,12 +252,12 @@ Worth chatting to Keith/Caroline about
 .pull-right[
 
 ```{r}
-knitr::include_graphics("../figures/multi-stage-rail-schematic.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/multi-stage-rail-schematic.png")
 ```
 
 
 ```{r}
-knitr::include_graphics("../figures/rail_desire_lines.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/rail_desire_lines.png")
 ```
 
 ]
@@ -277,7 +281,7 @@ These desire lines show MSOA commute data for all journeys starting in Bedfordsh
 - Not simply routing cyclists to the nearest station, but takes account of their final destination 
 
 ```{r}
-knitr::include_graphics("../figures/bedford-rnet-rail-geom-phase1.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/bedford-rnet-rail-geom-phase1.png")
 ```
 
 
@@ -308,7 +312,7 @@ Next steps
 ### Phase I estimates
 
 ```{r}
-knitr::include_graphics("../figures/bedford-rnet-all-phase1.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/bedford-rnet-all-phase1.png")
 ```
 
 
@@ -320,7 +324,7 @@ knitr::include_graphics("../figures/bedford-rnet-all-phase1.png")
 ### Phase II estimates
 
 ```{r}
-knitr::include_graphics("../figures/bedford-rnet-nearest.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/bedford-rnet-nearest.png")
 ```
 
 ]
@@ -339,7 +343,7 @@ Add figure showing modal share and distance travelled of Bedfordshire commuters.
 ### Phase I estimates
 
 ```{r}
-knitr::include_graphics("../figures/bedford-rnet-go-dutch-phase1.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/bedford-rnet-go-dutch-phase1.png")
 ```
 
 ]
@@ -350,7 +354,7 @@ knitr::include_graphics("../figures/bedford-rnet-go-dutch-phase1.png")
 ### Phase II estimates
 
 ```{r}
-knitr::include_graphics("../figures/bedford-rnet-go-dutch-phase2.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/bedford-rnet-go-dutch-phase2.png")
 ```
 
 ]
@@ -363,7 +367,7 @@ knitr::include_graphics("../figures/bedford-rnet-go-dutch-phase2.png")
 Busyness. Interactive map [here](http://rpubs.com/RobinLovelace/536820)
 
 ```{r}
-knitr::include_graphics("../figures/bedford-busyness.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/bedford-busyness.png")
 ```
 
 
@@ -377,7 +381,7 @@ To add: summary stats:
 - station usage over time
 
 ```{r}
-knitr::include_graphics("../figures/survey_and_orr.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/survey_and_orr.png")
 ```
 
 ---
@@ -389,9 +393,9 @@ Luton Airport Parkway is less dominated by commuter journeys than other stations
 .pull-left[
 
 ```{r}
-knitr::include_graphics("../figures/bedford-entries.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/bedford-entries.png")
 
-knitr::include_graphics("../figures/luton-airpt-pkwy-entries.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/luton-airpt-pkwy-entries.png")
 ```
 
 ]
@@ -399,9 +403,9 @@ knitr::include_graphics("../figures/luton-airpt-pkwy-entries.png")
 .pull-right[
 
 ```{r}
-knitr::include_graphics("../figures/bedford-exits.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/bedford-exits.png")
 
-knitr::include_graphics("../figures/luton-airpt-pkwy-exits.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/luton-airpt-pkwy-exits.png")
 ```
 
 ]
@@ -420,7 +424,7 @@ Luton Airport Parkway is not used much for commuting, so we can expect the surve
 Compare potential with plans - interactive map [online](http://rpubs.com/RobinLovelace/536827)
 
 ```{r, out.width="75%"}
-knitr::include_graphics("../figures/bedford-rnet-go-dutch-phase2-luton.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/bedford-rnet-go-dutch-phase2-luton.png")
 ```
 
 ???
@@ -433,7 +437,7 @@ Journeys are to the nearest station 'as the crow flies'
 # Infrastructure options
 
 ```{r}
-knitr::include_graphics("../figures/recommended-cyipt.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/recommended-cyipt.png")
 ```
 
 ---
