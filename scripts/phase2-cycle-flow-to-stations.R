@@ -69,16 +69,22 @@ r_grouped_linestring = r_grouped_by_segment %>% st_cast("LINESTRING")
 rnet_segment = overline(r_grouped_linestring, "all")
 
 #Map busyness of route segments
+png(filename = "./figures/bedford-busyness.png", height = 1000, width = 700)
+tmap_mode("plot")
 tm_shape(r_grouped_by_segment) +
   tm_lines("busyness", lwd = "all", scale = 9, palette = "plasma", breaks = c(0, 1, 2, 3, 5, 10, 25)) +
   tm_shape(region) + tm_borders()
+dev.off()
 # tmap_save(busy, "./figures/bedford-busyness.png")
 
 #Map total number of journeys to stations on each route segment
+png(filename = "./figures/bedford-rnet-all-phase2.png", height = 1000, width = 700)
+tmap_mode("plot")
 tm_shape(r_grouped_by_segment) +
   tm_lines("all", lwd = "all", scale = 9, palette = "plasma", breaks = c(0, 10, 200, 500, 1000)) +
   tm_shape(region) + tm_borders() +
   tm_scale_bar()
+dev.off()
 
 # experiments with grouping - estimate uptake
 nrow(r_all)

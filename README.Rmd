@@ -55,7 +55,7 @@ The aims of this project are to:
 
 ## Modal split of commuting
 
-A high proportion of Bedfordshire commuters currently drive to work. Yet we can see that there is significant potential for cycle commuting to increase, if residents were to reach Dutch levels of cycling. 
+A high proportion of Bedfordshire commuters currently drive to work. Yet we can see that there is significant potential for cycle commuting to increase. Table 1 shows that the percentage who cycle to work in Bedfordshire currently stands at between 1-4%. If residents were to reach Dutch levels of cycling, this would jump to 14-25%. However, this still ignores the possibility of combined cycle and rail commuting. If we also consider the cycle-to-rail potential, the proportion of cyclists could rise even higher. 
 
 ```{r combi3, message = FALSE}
 library(dplyr)
@@ -63,7 +63,7 @@ readr::read_csv("./output-data/mode-data-local-authority.csv") %>%
   knitr::kable()
 ```
 
-When we look at individual stations catchments, we see that in each of these cycle mode share could rise substantially, from a 10% rise at Flitwick to a 21% rise at Bedford Midland.
+When we look at individual station catchments, the picture is similar. Again, even when we ignore the potential for combining rail and cycle, the cycle mode share in each catchment could rise substantially, from a 10% rise at Flitwick to a 21% rise at Bedford Midland.
 
 ```{r combi4, message = FALSE}
 readr::read_csv("./output-data/mode-data-nearest-catchments.csv") %>% 
@@ -86,14 +86,14 @@ Our Phase 1 approach starts with Census OD data. Transport API is used to find o
 
 The Phase 2 approach starts with commutes that are already made by rail. These are routed via the nearest station as the crow flies. This is different from the Phase 1 approach in which the departure station was chosen based on the rail journey time only. Based on these routings, we estimate the potential for the journey from home to station to be cycled. 
 
-In Phase 2 we only use Bedfordshire stations which had over 1 million entries and exits in 2016-17. This gives us the seven most-used rail stations in Bedfordshire, as listed in Table 3 below. These comprise five stations on the Midland Mainline, plus Leighton Buzzard and Biggleswade. Since all of these stations have frequent services to and from London, routing via the nearest station is realistic. 
+In Phase 2 we only use mainline Bedfordshire stations. These all have frequent direct services to London, and are well-used with seven of the ten stations having over 1 million entries and exits in 2016-17. This gives us the seven most-used rail stations in Bedfordshire, as listed in Table 3 below. These comprise six stations on the Midland Mainline, three stations on the East Coast Mainline, and one stations on the West Coast Mainline. Since all of these stations have frequent services to and from London, routing via the nearest station is realistic. 
 
 ### All rail commutes (Phase 1 and 2 estimates)
 
 The first step is to identify trips that could be made by cycle and rail. @ref/combi6 shows all rail commutes originating in Bedfordshire, as estimated according to our Phase 1 and Phase 2 approaches. The two panels differ because under the Phase 1 method trips are routed to a station that provides the shortest rail journey time, which can include stations outside Bedfordshire, while in Phase 2 trips are routed to the nearest station, including only the seven largest Bedfordshire stations.  
 
 ```{r combi6, out.width="50%", fig.show='hold', fig.cap = "Phase 1 and 2 estimates of cycle to rail potential"}
-knitr::include_graphics(c("./figures/bedford-rnet-all-phase1.png","./figures/bedford-rnet-nearest.png"))
+knitr::include_graphics(c("./figures/bedford-rnet-all-phase1.png","./figures/bedford-rnet-all-phase2.png"))
 ```
 
 ### Go Dutch cycle to rail stations (Phase 1 and 2 estimates)
