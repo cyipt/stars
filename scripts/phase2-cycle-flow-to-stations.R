@@ -15,6 +15,9 @@ qtm(z) + qtm(c)
 
 names(s)
 od = z %>% st_drop_geometry() %>% select(geo_code, nearest_station, train_tube, all) 
+
+#####distance as the crow flies########
+
 stations_duplicated = s[match(z$nearest_station, s$station_name), ]
 centroids = sf::st_sf(od, geometry = c$geometry)
 origin_coordinates = st_coordinates(centroids)
@@ -31,6 +34,66 @@ plot(l)
 
 r = stplanr::route_cyclestreet(origin_coordinates[1, ], to = dest_coordinates[1, ])
 plot(r)
+
+
+#########finding the shortest route distance, instead of distance as the crow flies
+
+odex = expand(od, geo_code, nearest_station)
+odex = left_join(odex,od[,-2], by = "geo_code")
+stations_duplicated_ex = s[match(odex$nearest_station, s$station_name), ]
+centroids_ex = sf::st_sf(odex, geometry = c$geometry)
+origin_coordinates_ex = st_coordinates(centroids_ex)
+dest_coordinates_ex = st_coordinates(stations_duplicated_ex)
+odc_ex = cbind(origin_coordinates_ex,dest_coordinates_ex)
+l_ex = stplanr::od_coords2line(odc_ex)
+l_ex$all = centroids_ex$all
+l_ex$rail = centroids_ex$train_tube
+l_ex$nearest_station = centroids_ex$nearest_station
+
+l_ex$distance_km = sf::st_length(l_ex) / 1000 %>% as.numeric()
+
+names(l_ex)[1:4] = c("fx", "fy", "tx", "ty")
+plot(l_ex)
+
+l_short = filter(l_ex,unclass(distance_km)<5)
+stations_duplicated_short = s[match(l_short$nearest_station, s$station_name), ]
+
+id = 1:dim(l_short)[1]
+l_short = cbind(l_short,id)
+plot(l_short)
+
+
+#r_ex = stplanr::route_cyclestreet(origin_coordinates_ex[1, ], to = dest_coordinates_ex[1, ])
+#plot(r_ex)
+
+library(stplanr)
+r_all_short = route(l = l_short, route_fun = cyclestreets::journey)
+
+###
+route_dist = aggregate(r_all_short$distances,by = list(id = r_all_short$id), FUN = sum)
+left_join(r_all_short,route_dist,by = id)
+
+r_all_short$route_dist = lapply(r_all_short$id,sum(r_all_short$distances))
+###
+
+r_all_short$quietness = r_all_short$busynance / r_all_short$distances
+tm_shape(r_all_short[1:2222, ]) + tm_lines("quietness")
+saveRDS(r_all_short, "../stars-data/data/routing/phaseII-nearest-stplanr-dev.Rds")
+names(r_all_short)
+
+plot(r_all_short$distances, r_all_short$busynance)
+# busynance is simply distance time (the cost of) quietness
+plot(r_all_short$distances * r_all_short$quietness, r_all_short$busynance)
+rnet = overline2(r_all_short, "rail")
+
+r_grouped_by_segment = r_all_short %>% 
+  group_by(name, distances, busynance) %>% 
+  summarise(n = n(), all = sum(rail), busyness = mean(quietness))
+
+##still need to remove the routes that don't go to the nearest station. So far we have routes split into route segments, so these route segments will need to be reconstituted back into routes then the longer ones culled from the dataset.
+
+
+###########distance as the crow flies###########
 
 # r = cyclestreets::journey(origin_coordinates[1, ], to = dest_coordinates[1, ])
 # plot(r)
@@ -64,6 +127,8 @@ r_grouped_by_segment = r_all %>%
   group_by(name, distances, busynance) %>% 
   summarise(n = n(), all = sum(rail), busyness = mean(quietness))
 
+#########both versions################
+
 r_grouped_by_segment$all[r_grouped_by_segment$all > 1000] = 1000
 r_grouped_linestring = r_grouped_by_segment %>% st_cast("LINESTRING")
 rnet_segment = overline(r_grouped_linestring, "all")
@@ -75,7 +140,7 @@ tm_shape(r_grouped_by_segment) +
   tm_lines("busyness", lwd = "all", scale = 9, palette = "plasma", breaks = c(0, 1, 2, 3, 5, 10, 25)) +
   tm_shape(region) + tm_borders()
 dev.off()
-# tmap_save(busy, "./figures/bedford-busyness.png")
+# tmap_save(.Last.value, "./figures/bedford-busyness.png")
 
 #Map total number of journeys to stations on each route segment
 png(filename = "./figures/bedford-rnet-all-phase2.png", height = 1000, width = 700)
