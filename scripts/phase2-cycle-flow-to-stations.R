@@ -77,7 +77,7 @@ route_dist = aggregate(r_all_short$distances,by = list(id = r_all_short$id), FUN
 
 r_all_short$id = as.character(r_all_short$id)
 route_dist$id = as.character(route_dist$id)
-r_all_short = full_join(r_all_short,route_dist,by = "id")
+r_all_short = inner_join(r_all_short,route_dist,by = "id")
 
 r_all_short = r_all_short %>% rename(distance_road = x)
 
@@ -100,10 +100,13 @@ r_all_short = r_all_short %>% rename(distance_road = x)
 ###select only routes that are nearest by road###
 r_nearest_by_road = r_all_short %>%
   group_by(geo_code) %>%
-  filter(distance_road == min(distance_road))
+  dplyr::filter(distance_road == min(distance_road))
 
 # length(unique(r_all_short$geo_code))
 # length(unique(r_nearest_by_road$geo_code))
+
+plot(r_all_short[,20])
+plot(r_nearest_by_road[,20])
 
 
 
@@ -126,7 +129,7 @@ plot(r_nearest_by_road$distances * r_nearest_by_road$quietness, r_nearest_by_roa
 rnet = overline2(r_nearest_by_road, "rail")
 
 r_grouped_by_segment = r_nearest_by_road %>% 
-  group_by(name, distances, busynance) %>% 
+  group_by(name, distances, busynance) %>% ##will probably need to add more columns in to this line
   summarise(n = n(), all = sum(rail), busyness = mean(quietness))
 
 ##still need to remove the routes that don't go to the nearest station. So far we have routes split into route segments, so these route segments will need to be reconstituted back into routes then the longer ones culled from the dataset.
