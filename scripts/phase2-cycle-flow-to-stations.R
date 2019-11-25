@@ -26,8 +26,8 @@ odc = cbind(origin_coordinates, dest_coordinates)
 l = stplanr::od_coords2line(odc)
 l$all = centroids$all
 l$rail = centroids$train_tube
-# l$distance_km = sf::st_length(l) / 1000 %>% as.numeric()
-# weighted.mean(l$distance_km, centroids$all)
+# l$distance_crow = sf::st_length(l) / 1000 %>% as.numeric()
+# weighted.mean(l$distance_crow, centroids$all)
 
 names(l)[1:4] = c("fx", "fy", "tx", "ty")
 plot(l)
@@ -45,17 +45,19 @@ centroids_ex = sf::st_sf(odex, geometry = c$geometry)
 origin_coordinates_ex = st_coordinates(centroids_ex)
 dest_coordinates_ex = st_coordinates(stations_duplicated_ex)
 odc_ex = cbind(origin_coordinates_ex,dest_coordinates_ex)
+
 l_ex = stplanr::od_coords2line(odc_ex)
+
 l_ex$all = centroids_ex$all
 l_ex$rail = centroids_ex$train_tube
 l_ex$nearest_station = centroids_ex$nearest_station
-
-l_ex$distance_km = sf::st_length(l_ex) / 1000 %>% as.numeric()
+l_ex$geo_code = centroids_ex$geo_code
+l_ex$distance_crow = sf::st_length(l_ex) / 1000 %>% as.numeric()
 
 names(l_ex)[1:4] = c("fx", "fy", "tx", "ty")
 plot(l_ex)
 
-l_short = filter(l_ex,unclass(distance_km)<5)
+l_short = filter(l_ex,unclass(distance_crow)<5)
 stations_duplicated_short = s[match(l_short$nearest_station, s$station_name), ]
 
 id = 1:dim(l_short)[1]
@@ -68,25 +70,62 @@ plot(l_short)
 
 library(stplanr)
 r_all_short = route(l = l_short, route_fun = cyclestreets::journey)
+dim(r_all_short)
 
-###
+###find route distance by road######
 route_dist = aggregate(r_all_short$distances,by = list(id = r_all_short$id), FUN = sum)
-left_join(r_all_short,route_dist,by = id)
 
-r_all_short$route_dist = lapply(r_all_short$id,sum(r_all_short$distances))
+r_all_short$id = as.character(r_all_short$id)
+route_dist$id = as.character(route_dist$id)
+r_all_short = full_join(r_all_short,route_dist,by = "id")
+
+r_all_short = r_all_short %>% rename(distance_road = x)
+
+# r_all_short$route_dist = lapply(,sum(r_all_short$distances))
+# 
+# r_all_short = as.tibble(r_all_short)
+# 
+# mapped = r_all_short[,c(2,18)] %>%
+#   group_by(id) %>%
+#   group_map( ~ sum(.x))
+# 
+# r_all_short %>%
+#   split(.$id) %>%
+#   lapply(X = distances,sum)
+# 
+# r_all_short %>%
+#   split(.$id) %>%
+#   map(.f = sum(.$distances))
+
+###select only routes that are nearest by road###
+r_nearest_by_road = r_all_short %>%
+  group_by(geo_code) %>%
+  filter(distance_road == min(distance_road))
+
+# length(unique(r_all_short$geo_code))
+# length(unique(r_nearest_by_road$geo_code))
+
+
+
+# test = r_all_short[which(r_all_short$geo_code == "E01015693"),c(1,2,3,18,19,20)]
+# filter(test,distance_road == min(distance_road))
+
+
+
+
 ###
 
-r_all_short$quietness = r_all_short$busynance / r_all_short$distances
-tm_shape(r_all_short[1:2222, ]) + tm_lines("quietness")
-saveRDS(r_all_short, "../stars-data/data/routing/phaseII-nearest-stplanr-dev.Rds")
-names(r_all_short)
+r_nearest_by_road$quietness = r_nearest_by_road$busynance / r_nearest_by_road$distances
+tm_shape(r_nearest_by_road) + tm_lines("quietness")
+saveRDS(r_nearest_by_road, "../stars-data/data/routing/phaseII-nearest-stplanr-dev.Rds")
+names(r_nearest_by_road)
 
-plot(r_all_short$distances, r_all_short$busynance)
+plot(r_nearest_by_road$distances, r_nearest_by_road$busynance)
 # busynance is simply distance time (the cost of) quietness
-plot(r_all_short$distances * r_all_short$quietness, r_all_short$busynance)
-rnet = overline2(r_all_short, "rail")
+plot(r_nearest_by_road$distances * r_nearest_by_road$quietness, r_nearest_by_road$busynance)
+rnet = overline2(r_nearest_by_road, "rail")
 
-r_grouped_by_segment = r_all_short %>% 
+r_grouped_by_segment = r_nearest_by_road %>% 
   group_by(name, distances, busynance) %>% 
   summarise(n = n(), all = sum(rail), busyness = mean(quietness))
 
