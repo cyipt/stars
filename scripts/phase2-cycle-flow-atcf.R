@@ -16,130 +16,57 @@ qtm(z) + qtm(c)
 names(s)
 od = z %>% st_drop_geometry() %>% select(geo_code, nearest_station, train_tube, all) 
 
-####
+stations_duplicated = s[match(z$nearest_station, s$station_name), ]
+centroids = sf::st_sf(od, geometry = c$geometry)
+origin_coordinates = st_coordinates(centroids)
+dest_coordinates = st_coordinates(stations_duplicated)
+odc = cbind(origin_coordinates, dest_coordinates)
+l = stplanr::od_coords2line(odc)
+l$all = centroids$all
+l$rail = centroids$train_tube
+# l$distance_crow = sf::st_length(l) / 1000 %>% as.numeric()
+# weighted.mean(l$distance_crow, centroids$all)
 
-odex = expand(od, geo_code, nearest_station)
-mapview::mapview(c)
-mapview::mapview(s)
-odex2 = expand.grid(o = c$geo_code, d = s$station_name)
-odex2$flow = 1
-odex_line = od2line(flow = odex2, c, s)
+names(l)[1:4] = c("fx", "fy", "tx", "ty")
+plot(l)
 
-odex = left_join(odex, od[,-2], by = "geo_code")
-stations_duplicated_ex = s[match(odex$nearest_station, s$station_name), ]
-centroids_ex = sf::st_sf(odex, geometry = c$geometry)
-origin_coordinates_ex = st_coordinates(centroids_ex)
-dest_coordinates_ex = st_coordinates(stations_duplicated_ex)
-odc_ex = cbind(origin_coordinates_ex,dest_coordinates_ex)
-
-l_ex = stplanr::od_coords2line(odc_ex)
-
-l_ex$all = centroids_ex$all
-l_ex$rail = centroids_ex$train_tube
-l_ex$nearest_station = centroids_ex$nearest_station
-l_ex$geo_code = centroids_ex$geo_code
-l_ex$distance_crow = sf::st_length(l_ex) # calculate distance (m)
-l_ex$distance_crow = as.numeric(l_ex$distance_crow) / 1000
-
-names(l_ex)[1:4] = c("fx", "fy", "tx", "ty")
-
-l_short = filter(l_ex, distance_crow < 5) # change to increase max
-
-l_short = l_short %>% 
-  group_by(geo_code) %>% 
-  mutate(
-    n_stations_near = n(),
-    distance_crow_nearest = min(distance_crow),
-    distance_crow_ratio = distance_crow / distance_crow_nearest
-    ) %>% 
-  ungroup()
-
-summary(l_short$distance_crow_ratio) # mean is a ratio of 1.7
-
-l_short = l_short %>% 
-  filter(distance_crow_ratio < 1.5)
-
-summary(l_short$distance_crow_ratio) # mean is a ratio of 1.05
-
-stations_duplicated_short = s[match(l_short$nearest_station, s$station_name), ]
-
-l_short$id = as.character(1:nrow(l_short))
-plot(l_short)
+r = stplanr::route_cyclestreet(origin_coordinates[1, ], to = dest_coordinates[1, ])
+plot(r)
 
 
-#r_ex = stplanr::route_cyclestreet(origin_coordinates_ex[1, ], to = dest_coordinates_ex[1, ])
-#plot(r_ex)
+# r = cyclestreets::journey(origin_coordinates[1, ], to = dest_coordinates[1, ])
+# plot(r)
+# 
+# r19 = lapply(1:nrow(l), FUN = function(x) {
+#   r = cyclestreets::journey(origin_coordinates[x, ], to = dest_coordinates[x, ])
+#   r$fx = origin_coordinates[x, 1]
+#   r$fy = origin_coordinates[x, 2]
+#   r$tx = dest_coordinates[x, 1]
+#   r$ty = dest_coordinates[x, 2]
+#   r
+# })
+# r_all = do.call(rbind, r19)
+# plot(r_all)
 
+# with latest version of stplanr - no longer required
+# devtools::install_github("ropensci/stplanr", ref = "dev")
 library(stplanr)
-l_short = l_short[1:20, ] # for testing, uncomment when done for real!
-r_all_short = route(l = l_short, route_fun = cyclestreets::journey)
-# r_all_short = route(l = l_short, route_fun = cyclestreets::journey)
-dim(r_all_short)
-mapview::mapview(r_all_short)
-summary(r_all_short)
-head(r_all_short$id)
+r_all = route(l = l, route_fun = cyclestreets::journey)
+r_all$quietness = r_all$busynance / r_all$distances
+tm_shape(r_all[1:2222, ]) + tm_lines("quietness")
+saveRDS(r_all, "../stars-data/data/routing/phaseII-nearest-stplanr-dev.Rds")
+names(r_all)
 
-###find route distance by road######
-
-r_aggregated = r_all_short %>% 
-  group_by(id) %>% 
-  summarise(
-    distance_road = sum(distances) / 1000,
-    average_busynance = mean(busynance),
-    max_busynance = max(busynance)
-  )
-
-plot(r_aggregated)
-summary(r_aggregated)
-
-r_aggregated$id == l_short$id
-l_short_df = l_short %>%
-  st_drop_geometry()
-r_joined = inner_join(r_aggregated, l_short_df)
-plot(r_joined)
-plot(r_joined$distance_crow, r_joined$distance_road)
-mapview::mapview(r_joined %>% filter(geo_code == "E01015706"))
-mapview::mapview(l_short %>% filter(geo_code == "E01015706"))
-
-###select only routes that are nearest by road###
-r_nearest_by_road = r_joined %>%
-  group_by(geo_code) %>%
-  dplyr::filter(distance_road == min(distance_road))
-
-# length(unique(r_all_short$geo_code))
-# length(unique(r_nearest_by_road$geo_code))
-
-plot(r_all_short[,20])
-plot(r_nearest_by_road[,20])
-
-
-
-# test = r_all_short[which(r_all_short$geo_code == "E01015693"),c(1,2,3,18,19,20)]
-# filter(test,distance_road == min(distance_road))
-
-
-
-
-###
-
-r_nearest_by_road$quietness = r_nearest_by_road$busynance / r_nearest_by_road$distances
-tm_shape(r_nearest_by_road) + tm_lines("quietness")
-saveRDS(r_nearest_by_road, "../stars-data/data/routing/phaseII-nearest-stplanr-dev.Rds")
-names(r_nearest_by_road)
-
-plot(r_nearest_by_road$distances, r_nearest_by_road$busynance)
+plot(r_all$distances, r_all$busynance)
 # busynance is simply distance time (the cost of) quietness
-plot(r_nearest_by_road$distances * r_nearest_by_road$quietness, r_nearest_by_road$busynance)
-rnet = overline2(r_nearest_by_road, "rail")
+plot(r_all$distances * r_all$quietness, r_all$busynance)
+rnet = overline2(r_all, "rail")
 
-r_grouped_by_segment = r_nearest_by_road %>% 
-  group_by(name, distances, busynance) %>% ##will probably need to add more columns in to this line
+r_grouped_by_segment = r_all %>% 
+  group_by(name, distances, busynance) %>% 
   summarise(n = n(), all = sum(rail), busyness = mean(quietness))
 
-##still need to remove the routes that don't go to the nearest station. So far we have routes split into route segments, so these route segments will need to be reconstituted back into routes then the longer ones culled from the dataset.
-
-
-####
+#######
 
 r_grouped_by_segment$all[r_grouped_by_segment$all > 1000] = 1000
 r_grouped_linestring = r_grouped_by_segment %>% st_cast("LINESTRING")
@@ -174,7 +101,7 @@ r_grouped = r_all %>%
     average_incline = sum(abs(diff(elevations))) / sum(distances),
     distance_m = sum(distances),
     quietness = mean(quietness)
-    ) %>% 
+  ) %>% 
   ungroup()
 
 summary(r_grouped)
