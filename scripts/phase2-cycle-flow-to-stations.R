@@ -35,11 +35,16 @@ plot(l)
 r = stplanr::route_cyclestreet(origin_coordinates[1, ], to = dest_coordinates[1, ])
 plot(r)
 
-
 #########finding the shortest route distance, instead of distance as the crow flies
 
 odex = expand(od, geo_code, nearest_station)
-odex = left_join(odex,od[,-2], by = "geo_code")
+mapview::mapview(c)
+mapview::mapview(s)
+odex2 = expand.grid(o = c$geo_code, d = s$station_name)
+odex2$flow = 1
+odex_line = od2line(flow = odex2, c, s)
+
+odex = left_join(odex, od[,-2], by = "geo_code")
 stations_duplicated_ex = s[match(odex$nearest_station, s$station_name), ]
 centroids_ex = sf::st_sf(odex, geometry = c$geometry)
 origin_coordinates_ex = st_coordinates(centroids_ex)
@@ -52,16 +57,32 @@ l_ex$all = centroids_ex$all
 l_ex$rail = centroids_ex$train_tube
 l_ex$nearest_station = centroids_ex$nearest_station
 l_ex$geo_code = centroids_ex$geo_code
-l_ex$distance_crow = sf::st_length(l_ex) / 1000 %>% as.numeric()
+l_ex$distance_crow = sf::st_length(l_ex) # calculate distance (m)
+l_ex$distance_crow = as.numeric(l_ex$distance_crow) / 1000
 
 names(l_ex)[1:4] = c("fx", "fy", "tx", "ty")
-plot(l_ex)
 
-l_short = filter(l_ex,unclass(distance_crow)<5)
+l_short = filter(l_ex, distance_crow < 5) # change to increase max
+
+l_short = l_short %>% 
+  group_by(geo_code) %>% 
+  mutate(
+    n_stations_near = n(),
+    distance_crow_nearest = min(distance_crow),
+    distance_crow_ratio = distance_crow / distance_crow_nearest
+    ) %>% 
+  ungroup()
+
+summary(l_short$distance_crow_ratio) # mean is a ratio of 1.7
+
+l_short = l_short %>% 
+  filter(distance_crow_ratio < 1.5)
+
+summary(l_short$distance_crow_ratio) # mean is a ratio of 1.05
+
 stations_duplicated_short = s[match(l_short$nearest_station, s$station_name), ]
 
-id = 1:dim(l_short)[1]
-l_short = cbind(l_short,id)
+l_short$id = as.character(1:nrow(l_short))
 plot(l_short)
 
 
@@ -69,36 +90,38 @@ plot(l_short)
 #plot(r_ex)
 
 library(stplanr)
+l_short = l_short[1:20, ] # for testing, uncomment when done for real!
 r_all_short = route(l = l_short, route_fun = cyclestreets::journey)
+# r_all_short = route(l = l_short, route_fun = cyclestreets::journey)
 dim(r_all_short)
+mapview::mapview(r_all_short)
+summary(r_all_short)
+head(r_all_short$id)
 
 ###find route distance by road######
-route_dist = aggregate(r_all_short$distances,by = list(id = r_all_short$id), FUN = sum)
 
-r_all_short$id = as.character(r_all_short$id)
-route_dist$id = as.character(route_dist$id)
-r_all_short = inner_join(r_all_short,route_dist,by = "id")
+r_aggregated = r_all_short %>% 
+  group_by(id) %>% 
+  summarise(
+    distance_road = sum(distances) / 1000,
+    average_busynance = mean(busynance),
+    max_busynance = max(busynance)
+  )
 
-r_all_short = r_all_short %>% rename(distance_road = x)
+plot(r_aggregated)
+summary(r_aggregated)
 
-# r_all_short$route_dist = lapply(,sum(r_all_short$distances))
-# 
-# r_all_short = as.tibble(r_all_short)
-# 
-# mapped = r_all_short[,c(2,18)] %>%
-#   group_by(id) %>%
-#   group_map( ~ sum(.x))
-# 
-# r_all_short %>%
-#   split(.$id) %>%
-#   lapply(X = distances,sum)
-# 
-# r_all_short %>%
-#   split(.$id) %>%
-#   map(.f = sum(.$distances))
+r_aggregated$id == l_short$id
+l_short_df = l_short %>%
+  st_drop_geometry()
+r_joined = inner_join(r_aggregated, l_short_df)
+plot(r_joined)
+plot(r_joined$distance_crow, r_joined$distance_road)
+mapview::mapview(r_joined %>% filter(geo_code == "E01015706"))
+mapview::mapview(l_short %>% filter(geo_code == "E01015706"))
 
 ###select only routes that are nearest by road###
-r_nearest_by_road = r_all_short %>%
+r_nearest_by_road = r_joined %>%
   group_by(geo_code) %>%
   dplyr::filter(distance_road == min(distance_road))
 
@@ -329,3 +352,19 @@ summary(rnet_phase1_rail$Train)
 tm_shape(rnet_phase1_rail) +
   tm_lines("Train", lwd = "Train", scale = 9, palette = "plasma", breaks = c(0, 1000, 2000, 10000, 20000)) +
   tm_shape(region) + tm_borders() + tm_scale_bar()
+
+# r_all_short$route_dist = lapply(,sum(r_all_short$distances))
+# 
+# r_all_short = as.tibble(r_all_short)
+# 
+# mapped = r_all_short[,c(2,18)] %>%
+#   group_by(id) %>%
+#   group_map( ~ sum(.x))
+# 
+# r_all_short %>%
+#   split(.$id) %>%
+#   lapply(X = distances,sum)
+# 
+# r_all_short %>%
+#   split(.$id) %>%
+#   map(.f = sum(.$distances))
