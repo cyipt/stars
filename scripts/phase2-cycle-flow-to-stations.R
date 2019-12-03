@@ -4,8 +4,6 @@ library(tmap)
 library(sf)
 tmap_mode("view")
 
-#the next line is changed to use all mainline Bedfordshire stations 
-# s = sf::read_sf("../stars-data/data/local-survey/sttns_major-orr-entries.geojson")
 s = sf::read_sf("../stars-data/data/local-survey/stns-mainline-orr-entries.geojson")
 z = sf::read_sf("../stars-data/data/zones-nearest-station.geojson")
 c = pct::get_pct_centroids(region = "bedfordshire", geography = "lsoa")
@@ -14,36 +12,56 @@ summary(z$geo_code == c$geo_code)
 qtm(z) + qtm(c)
 
 names(s)
+
+
 od = z %>% st_drop_geometry() %>% select(geo_code, nearest_station, train_tube, all) 
 
-####
+####Trying to workaround stplanr bug#######
+s = st_as_sf(as.data.frame(s))
 
-odex = expand(od, geo_code, nearest_station)
 mapview::mapview(c)
 mapview::mapview(s)
+
 odex2 = expand.grid(o = c$geo_code, d = s$station_name)
 odex2$flow = 1
-odex_line = od2line(flow = odex2, c, s)
+odex_line = od2line(flow = odex2, as(c, "Spatial"), as(s, "Spatial")) %>%
+  sf::st_as_sf()
+plot(odex_line)
 
-odex = left_join(odex, od[,-2], by = "geo_code")
-stations_duplicated_ex = s[match(odex$nearest_station, s$station_name), ]
-centroids_ex = sf::st_sf(odex, geometry = c$geometry)
-origin_coordinates_ex = st_coordinates(centroids_ex)
-dest_coordinates_ex = st_coordinates(stations_duplicated_ex)
-odc_ex = cbind(origin_coordinates_ex,dest_coordinates_ex)
+###Previous attempt uses odex and l_ex###but might still need centroids_ex
 
-l_ex = stplanr::od_coords2line(odc_ex)
+# odex = left_join(odex, od[,-2], by = "geo_code")
+# stations_duplicated_ex = s[match(odex$nearest_station, s$station_name), ]
+# centroids_ex = sf::st_sf(odex, geometry = c$geometry)
+# 
+# #####
+# 
+# 
+# origin_coordinates_ex = st_coordinates(centroids_ex)
+# dest_coordinates_ex = st_coordinates(stations_duplicated_ex)
+# odc_ex = cbind(origin_coordinates_ex,dest_coordinates_ex)
+# 
+# l_ex = stplanr::od_coords2line(odc_ex)
+# 
+# ##is this where things went wrong? should it have been an inner join?
+# l_ex$all = centroids_ex$all
+# l_ex$rail = centroids_ex$train_tube
+# l_ex$nearest_station = centroids_ex$nearest_station
+# l_ex$geo_code = centroids_ex$geo_code
+# l_ex$distance_crow = sf::st_length(l_ex) # calculate distance (m)
+# l_ex$distance_crow = as.numeric(l_ex$distance_crow) / 1000
 
-l_ex$all = centroids_ex$all
-l_ex$rail = centroids_ex$train_tube
-l_ex$nearest_station = centroids_ex$nearest_station
-l_ex$geo_code = centroids_ex$geo_code
-l_ex$distance_crow = sf::st_length(l_ex) # calculate distance (m)
-l_ex$distance_crow = as.numeric(l_ex$distance_crow) / 1000
+####Latest attempt uses odex_line
+odex_line = left_join(odex_line, od[,-2], by = c("o" = "geo_code"))
 
-names(l_ex)[1:4] = c("fx", "fy", "tx", "ty")
+odex_line$distance_crow = sf::st_length(odex_line) # calculate distance (m)
+odex_line$distance_crow = as.numeric(odex_line$distance_crow) / 1000
 
-l_short = filter(l_ex, distance_crow < 5) # change to increase max
+##these names might want changing esp 'nearest_station' which is not correct. Do we really need flow?
+names(odex_line)[1:4] = c("geo_code", "nearest_station", "flow", "rail")
+
+###Removing all desire lines longer than 5km
+l_short = filter(odex_line, distance_crow < 5) # change to increase max
 
 l_short = l_short %>% 
   group_by(geo_code) %>% 
@@ -56,6 +74,7 @@ l_short = l_short %>%
 
 summary(l_short$distance_crow_ratio) # mean is a ratio of 1.7
 
+###Removing all desire lines where the distance to the station is more than 1.5x the distance to the nearest station
 l_short = l_short %>% 
   filter(distance_crow_ratio < 1.5)
 
@@ -71,7 +90,7 @@ plot(l_short)
 #plot(r_ex)
 
 library(stplanr)
-l_short = l_short[1:20, ] # for testing, uncomment when done for real!
+# l_short = l_short[1:20, ] # for testing, uncomment when done for real!
 r_all_short = route(l = l_short, route_fun = cyclestreets::journey)
 # r_all_short = route(l = l_short, route_fun = cyclestreets::journey)
 dim(r_all_short)
@@ -92,27 +111,30 @@ r_aggregated = r_all_short %>%
 plot(r_aggregated)
 summary(r_aggregated)
 
-r_aggregated$id == l_short$id
+# r_aggregated$id == l_short$id
 l_short_df = l_short %>%
   st_drop_geometry()
 r_joined = inner_join(r_aggregated, l_short_df)
-plot(r_joined)
+# plot(r_joined)
 plot(r_joined$distance_crow, r_joined$distance_road)
-mapview::mapview(r_joined %>% filter(geo_code == "E01015706"))
-mapview::mapview(l_short %>% filter(geo_code == "E01015706"))
+mapview::mapview(r_joined %>% filter(geo_code == "E01015720"))
+mapview::mapview(l_short %>% filter(geo_code == "E01015720"))
 
 ###select only routes that are nearest by road###
 r_nearest_by_road = r_joined %>%
   group_by(geo_code) %>%
   dplyr::filter(distance_road == min(distance_road))
 
+mapview::mapview(r_nearest_by_road %>% filter(geo_code == "E01015719"))
+
 # length(unique(r_all_short$geo_code))
-# length(unique(r_nearest_by_road$geo_code))
+# length(r_nearest_by_road$geo_code))
 
 plot(r_all_short[,20])
-plot(r_nearest_by_road[,20])
+plot(r_nearest_by_road[,5])
 
-
+mapview::mapview(r_nearest_by_road)
+mapview::mapview(r_all_short)
 
 # test = r_all_short[which(r_all_short$geo_code == "E01015693"),c(1,2,3,18,19,20)]
 # filter(test,distance_road == min(distance_road))
@@ -135,8 +157,6 @@ rnet = overline2(r_nearest_by_road, "rail")
 r_grouped_by_segment = r_nearest_by_road %>% 
   group_by(name, distances, busynance) %>% ##will probably need to add more columns in to this line
   summarise(n = n(), all = sum(rail), busyness = mean(quietness))
-
-##still need to remove the routes that don't go to the nearest station. So far we have routes split into route segments, so these route segments will need to be reconstituted back into routes then the longer ones culled from the dataset.
 
 
 ####
