@@ -51,7 +51,7 @@ plot(r)
 # with latest version of stplanr - no longer required
 # devtools::install_github("ropensci/stplanr", ref = "dev")
 library(stplanr)
-r_all = route(l = l, route_fun = cyclestreets::journey)
+r_all = route(l = l[1:20,], route_fun = cyclestreets::journey)
 r_all$quietness = r_all$busynance / r_all$distances
 tm_shape(r_all[1:2222, ]) + tm_lines("quietness")
 saveRDS(r_all, "../stars-data/data/routing/phaseII-nearest-stplanr-dev.Rds")
@@ -60,6 +60,8 @@ names(r_all)
 plot(r_all$distances, r_all$busynance)
 # busynance is simply distance time (the cost of) quietness
 plot(r_all$distances * r_all$quietness, r_all$busynance)
+
+###Create the route network
 rnet = overline2(r_all, "rail")
 
 r_grouped_by_segment = r_all %>% 

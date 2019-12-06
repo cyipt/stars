@@ -4,6 +4,8 @@ library(tmap)
 library(sf)
 tmap_mode("view")
 
+##Can I remove the need to create z? And stop using the term nearest_station?
+
 s = sf::read_sf("../stars-data/data/local-survey/stns-mainline-orr-entries.geojson")
 z = sf::read_sf("../stars-data/data/zones-nearest-station.geojson")
 c = pct::get_pct_centroids(region = "bedfordshire", geography = "lsoa")
@@ -98,14 +100,22 @@ mapview::mapview(r_all_short)
 summary(r_all_short)
 head(r_all_short$id)
 
+r_all_short$busyness = r_all_short$busynance / r_all_short$distances
+
+plot(r_all_short$distances, r_all_short$busynance)
+# busynance is simply distance time (the cost of) quietness
+plot(r_all_short$distances * r_all_short$busyness, r_all_short$busynance)
+
 ###find route distance by road######
 
+##Can I change this to group by(id, geo_code), and avoid having to create r_joined?
 r_aggregated = r_all_short %>% 
   group_by(id) %>% 
   summarise(
     distance_road = sum(distances) / 1000,
     average_busynance = mean(busynance),
-    max_busynance = max(busynance)
+    max_busynance = max(busynance),
+    busyness2 = mean(busyness)
   )
 
 plot(r_aggregated)
@@ -125,6 +135,7 @@ r_nearest_by_road = r_joined %>%
   group_by(geo_code) %>%
   dplyr::filter(distance_road == min(distance_road))
 
+r_nearest_by_road = st_as_sf(as.data.frame(r_nearest_by_road))
 mapview::mapview(r_nearest_by_road %>% filter(geo_code == "E01015719"))
 
 # length(unique(r_all_short$geo_code))
@@ -140,23 +151,25 @@ mapview::mapview(r_all_short)
 # filter(test,distance_road == min(distance_road))
 
 
+####Filter the route segments to select only those that are part of routes to stations nearest by road 
+r_all_selected = r_all_short %>%
+  filter(id %in% r_nearest_by_road$id)
 
-
-###
-
-r_nearest_by_road$quietness = r_nearest_by_road$busynance / r_nearest_by_road$distances
-tm_shape(r_nearest_by_road) + tm_lines("quietness")
+tm_shape(r_all_selected) + tm_lines("busynance")
 saveRDS(r_nearest_by_road, "../stars-data/data/routing/phaseII-nearest-stplanr-dev.Rds")
-names(r_nearest_by_road)
 
-plot(r_nearest_by_road$distances, r_nearest_by_road$busynance)
+
+plot(r_all_selected$distances, r_all_selected$busynance)
 # busynance is simply distance time (the cost of) quietness
-plot(r_nearest_by_road$distances * r_nearest_by_road$quietness, r_nearest_by_road$busynance)
-rnet = overline2(r_nearest_by_road, "rail")
+plot(r_all_selected$distances * r_all_selected$busyness, r_all_selected$busynance)
 
-r_grouped_by_segment = r_nearest_by_road %>% 
+#######Route networks and grouping by segment
+
+rnet = overline2(r_all_selected, "rail")
+
+r_grouped_by_segment = r_all_selected %>% 
   group_by(name, distances, busynance) %>% ##will probably need to add more columns in to this line
-  summarise(n = n(), all = sum(rail), busyness = mean(quietness))
+  summarise(n = n(), all = sum(rail), busyness = mean(busyness))
 
 
 ####
@@ -183,23 +196,23 @@ tm_shape(r_grouped_by_segment) +
   tm_scale_bar()
 dev.off()
 
-# experiments with grouping - estimate uptake
-nrow(r_all)
-summary(r_all$elevations)
-r_grouped = r_all %>% 
-  group_by(fx, fy, tx, ty) %>% 
+# experiments with grouping - estimate uptake###Do I need to do this, or does r_nearest_by_rail already provide what I need?
+nrow(r_all_selected)
+summary(r_all_selected$elevations)
+r_grouped = r_all_selected %>% 
+  group_by(start_longitude, start_latitude, finish_longitude, finish_latitude) %>% 
   summarise(
     n = n(),
     rail = mean(rail),
     average_incline = sum(abs(diff(elevations))) / sum(distances),
     distance_m = sum(distances),
-    quietness = mean(quietness)
+    busyness = mean(busyness)
     ) %>% 
   ungroup()
 
 summary(r_grouped)
 summary(r_grouped$rail)
-summary(l$rail) # good sense check: identical
+summary(r_nearest_by_road$rail) # good sense check: identical
 r_grouped$go_dutch = pct::uptake_pct_godutch(distance = r_grouped$distance_m, gradient = r_grouped$average_incline) *
   r_grouped$rail
 r_grouped_lines = r_grouped %>% st_cast("LINESTRING")
