@@ -6,9 +6,30 @@ tmap_mode("view")
 
 ##Can I remove the need to create z? And stop using the term nearest_station?
 
-s = sf::read_sf("../stars-data/data/local-survey/stns-mainline-orr-entries.geojson")
-z = sf::read_sf("../stars-data/data/zones-nearest-station.geojson")
-c = pct::get_pct_centroids(region = "bedfordshire", geography = "lsoa")
+stns = sf::read_sf("output-data/stns.geojson") %>% st_transform(27700)
+mainline = c("Luton Airport Parkway", "Luton", "Leagrave", "Harlington", "Flitwick", "Bedford Midland", "Leighton Buzzard", "Arlesey", "Biggleswade", "Sandy")
+s = filter(stns, Station.Name %in% mainline)
+s$Station.Name = gsub(pattern = "Luton Airport Parkway", replacement = "Luton Airport", x = s$Station.Name)
+s = s %>% 
+  select(station_name = Station.Name, entries_exits = X1617.Entries...Exits )
+
+# stns_mainline = stns_mainline %>% st_transform(4326)
+# sf::st_write(stns_mainline, "../stars-data/data/local-survey/stns-mainline-orr-entries.geojson", delete_dsn = T)
+# s = sf::read_sf("../stars-data/data/local-survey/stns-mainline-orr-entries.geojson")
+# s = stns_mainline
+
+######
+
+z = pct::get_pct_zones("bedfordshire", geography = "lsoa") %>% st_transform(27700)
+c = pct::get_pct_centroids("bedfordshire", geography = "lsoa") %>% st_transform(27700)
+summary(z$geo_code == c$geo_code)
+z = z[match(c$geo_code, z$geo_code), ]
+summary(z$geo_code == c$geo_code)
+
+#######
+
+# z = sf::read_sf("../stars-data/data/zones-nearest-station.geojson")
+# c = pct::get_pct_centroids(region = "bedfordshire", geography = "lsoa") 
 summary(z$geo_code == c$geo_code)
 
 qtm(z) + qtm(c)
@@ -16,7 +37,7 @@ qtm(z) + qtm(c)
 names(s)
 
 
-od = z %>% st_drop_geometry() %>% select(geo_code, nearest_station, train_tube, all) 
+od = z %>% st_drop_geometry() %>% select(geo_code, nearest_station, train_tube, all) # can I avoid having to use nearest_station?
 
 ####Trying to workaround stplanr bug#######
 s = st_as_sf(as.data.frame(s))
@@ -127,8 +148,10 @@ l_short_df = l_short %>%
 r_joined = inner_join(r_aggregated, l_short_df)
 # plot(r_joined)
 plot(r_joined$distance_crow, r_joined$distance_road)
-mapview::mapview(r_joined %>% filter(geo_code == "E01015720"))
-mapview::mapview(l_short %>% filter(geo_code == "E01015720"))
+
+
+mapview::mapview(r_joined %>% filter(geo_code == "E01015719"))
+mapview::mapview(l_short %>% filter(geo_code == "E01015719"))
 
 ###select only routes that are nearest by road###
 r_nearest_by_road = r_joined %>%

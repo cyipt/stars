@@ -115,17 +115,17 @@ We can see some notable differences between the modelled distributions of cyclin
 
 In general, when deciding whether to use the Phase 1 or Phase 2 approach to model cycle-to-station potential, a key question is whether, for the area in question, commuters are likely to choose to cycle to a more distant station in order to shave some time off their rail journey. 
 
-# Cycle infrastructure
+# Cycle infrastructure planning
 
 This analysis can help to identify places where it would be particularly useful to install new or improved cycle infrastructure, or to increase cycle parking.
 
-In Luton, we can see that the existing cycle infrastructure is relatively limited.
+In Luton, we can see that the existing cycle infrastructure is relatively limited, with cycle lanes or tracks only present on a small number of routes from Luton or Leagrave stations.  
 
 ```{r combi8, out.width="100%", fig.cap="Existing cycle infrastructure in central Luton, as recorded by CyIPT"}
 knitr::include_graphics("./figures/existing-cyipt.png")
 ```
 
-There is a strong overlap between the roads we find high to have cycle potential and proposed new cycle routes in Luton. These includes routes heading west from Leagrave station along Leagrave High Street, a route north from Leagrave station, and north from Luton station along High Town Road.
+However, there is a strong overlap between the roads we find high to have cycle potential under the Go Dutch scenario, and  routes that have already been proposed as candidates for new cycle routes in Luton. These include routes heading west from Leagrave station along Leagrave High Street, a route north from Leagrave station that links the station to , and north from Luton station along High Town Road.
 
 # References
 
