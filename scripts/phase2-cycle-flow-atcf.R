@@ -5,7 +5,6 @@ library(sf)
 tmap_mode("view")
 
 #the next line is changed to use all mainline Bedfordshire stations 
-# s = sf::read_sf("../stars-data/data/local-survey/sttns_major-orr-entries.geojson")
 s = sf::read_sf("../stars-data/data/local-survey/stns-mainline-orr-entries.geojson")
 z = sf::read_sf("../stars-data/data/zones-nearest-station.geojson")
 c = pct::get_pct_centroids(region = "bedfordshire", geography = "lsoa")

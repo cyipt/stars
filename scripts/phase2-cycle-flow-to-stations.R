@@ -2,9 +2,10 @@
 library(tidyverse)
 library(tmap)
 library(sf)
+library(stplanr)
 tmap_mode("view")
 
-##Can I remove the need to create z? And stop using the term nearest_station?
+region = read_sf("output-data/region.geojson")
 
 stns = sf::read_sf("output-data/stns.geojson") %>% st_transform(27700)
 mainline = c("Luton Airport Parkway", "Luton", "Leagrave", "Harlington", "Flitwick", "Bedford Midland", "Leighton Buzzard", "Arlesey", "Biggleswade", "Sandy")
@@ -13,11 +14,7 @@ s$Station.Name = gsub(pattern = "Luton Airport Parkway", replacement = "Luton Ai
 s = s %>% 
   select(station_name = Station.Name, entries_exits = X1617.Entries...Exits )
 
-# stns_mainline = stns_mainline %>% st_transform(4326)
-# sf::st_write(stns_mainline, "../stars-data/data/local-survey/stns-mainline-orr-entries.geojson", delete_dsn = T)
-# s = sf::read_sf("../stars-data/data/local-survey/stns-mainline-orr-entries.geojson")
-# s = stns_mainline
-
+sf::st_write(s, "../stars-data/data/local-survey/stns-mainline-orr-entries.geojson", delete_dsn = T)
 ######
 
 z = pct::get_pct_zones("bedfordshire", geography = "lsoa") %>% st_transform(27700)
@@ -26,18 +23,13 @@ summary(z$geo_code == c$geo_code)
 z = z[match(c$geo_code, z$geo_code), ]
 summary(z$geo_code == c$geo_code)
 
-#######
-
-# z = sf::read_sf("../stars-data/data/zones-nearest-station.geojson")
-# c = pct::get_pct_centroids(region = "bedfordshire", geography = "lsoa") 
-summary(z$geo_code == c$geo_code)
-
 qtm(z) + qtm(c)
 
 names(s)
 
+#######
 
-od = z %>% st_drop_geometry() %>% select(geo_code, nearest_station, train_tube, all) # can I avoid having to use nearest_station?
+od = z %>% st_drop_geometry() %>% select(geo_code, train_tube, all)
 
 ####Trying to workaround stplanr bug#######
 s = st_as_sf(as.data.frame(s))
@@ -45,43 +37,19 @@ s = st_as_sf(as.data.frame(s))
 mapview::mapview(c)
 mapview::mapview(s)
 
-odex2 = expand.grid(o = c$geo_code, d = s$station_name)
-odex2$flow = 1
-odex_line = od2line(flow = odex2, as(c, "Spatial"), as(s, "Spatial")) %>%
+odex = expand.grid(geo_code = c$geo_code, station_used = s$station_name)
+odex_line = od2line(flow = odex, as(c, "Spatial"), as(s, "Spatial")) %>%
   sf::st_as_sf()
 plot(odex_line)
 
-###Previous attempt uses odex and l_ex###but might still need centroids_ex
-
-# odex = left_join(odex, od[,-2], by = "geo_code")
-# stations_duplicated_ex = s[match(odex$nearest_station, s$station_name), ]
-# centroids_ex = sf::st_sf(odex, geometry = c$geometry)
-# 
-# #####
-# 
-# 
-# origin_coordinates_ex = st_coordinates(centroids_ex)
-# dest_coordinates_ex = st_coordinates(stations_duplicated_ex)
-# odc_ex = cbind(origin_coordinates_ex,dest_coordinates_ex)
-# 
-# l_ex = stplanr::od_coords2line(odc_ex)
-# 
-# ##is this where things went wrong? should it have been an inner join?
-# l_ex$all = centroids_ex$all
-# l_ex$rail = centroids_ex$train_tube
-# l_ex$nearest_station = centroids_ex$nearest_station
-# l_ex$geo_code = centroids_ex$geo_code
-# l_ex$distance_crow = sf::st_length(l_ex) # calculate distance (m)
-# l_ex$distance_crow = as.numeric(l_ex$distance_crow) / 1000
-
-####Latest attempt uses odex_line
-odex_line = left_join(odex_line, od[,-2], by = c("o" = "geo_code"))
+odex_line$geo_code = as.character(odex_line$geo_code) 
+# Otherwise it would be coerced to character when performing left_join. But should they both be factors instead?
+odex_line = left_join(odex_line, od, by = "geo_code")
 
 odex_line$distance_crow = sf::st_length(odex_line) # calculate distance (m)
 odex_line$distance_crow = as.numeric(odex_line$distance_crow) / 1000
 
-##these names might want changing esp 'nearest_station' which is not correct. Do we really need flow?
-names(odex_line)[1:4] = c("geo_code", "nearest_station", "flow", "rail")
+names(odex_line)[3] = "rail"
 
 ###Removing all desire lines longer than 5km
 l_short = filter(odex_line, distance_crow < 5) # change to increase max
@@ -103,19 +71,16 @@ l_short = l_short %>%
 
 summary(l_short$distance_crow_ratio) # mean is a ratio of 1.05
 
-stations_duplicated_short = s[match(l_short$nearest_station, s$station_name), ]
-
 l_short$id = as.character(1:nrow(l_short))
 plot(l_short)
 
 
-#r_ex = stplanr::route_cyclestreet(origin_coordinates_ex[1, ], to = dest_coordinates_ex[1, ])
-#plot(r_ex)
-
-library(stplanr)
 # l_short = l_short[1:20, ] # for testing, uncomment when done for real!
-r_all_short = route(l = l_short, route_fun = cyclestreets::journey)
-# r_all_short = route(l = l_short, route_fun = cyclestreets::journey)
+
+##Change the projection for cyclestreets
+l_short_longlat = l_short %>% st_transform(4326)
+
+r_all_short = route(l = l_short_longlat, route_fun = cyclestreets::journey)
 dim(r_all_short)
 mapview::mapview(r_all_short)
 summary(r_all_short)
@@ -124,19 +89,17 @@ head(r_all_short$id)
 r_all_short$busyness = r_all_short$busynance / r_all_short$distances
 
 plot(r_all_short$distances, r_all_short$busynance)
-# busynance is simply distance time (the cost of) quietness
+# busynance is simply distance times busyness
 plot(r_all_short$distances * r_all_short$busyness, r_all_short$busynance)
 
 ###find route distance by road######
-
-##Can I change this to group by(id, geo_code), and avoid having to create r_joined?
 r_aggregated = r_all_short %>% 
   group_by(id) %>% 
   summarise(
-    distance_road = sum(distances) / 1000,
-    average_busynance = mean(busynance),
+    distance_road = sum(distances),
     max_busynance = max(busynance),
-    busyness2 = mean(busyness)
+    average_busyness = sum(busynance)/sum(distances),
+    average_incline = sum(abs(diff(elevations))) / sum(distances)
   )
 
 plot(r_aggregated)
@@ -146,12 +109,9 @@ summary(r_aggregated)
 l_short_df = l_short %>%
   st_drop_geometry()
 r_joined = inner_join(r_aggregated, l_short_df)
-# plot(r_joined)
+
 plot(r_joined$distance_crow, r_joined$distance_road)
 
-
-mapview::mapview(r_joined %>% filter(geo_code == "E01015719"))
-mapview::mapview(l_short %>% filter(geo_code == "E01015719"))
 
 ###select only routes that are nearest by road###
 r_nearest_by_road = r_joined %>%
@@ -159,19 +119,16 @@ r_nearest_by_road = r_joined %>%
   dplyr::filter(distance_road == min(distance_road))
 
 r_nearest_by_road = st_as_sf(as.data.frame(r_nearest_by_road))
+
+mapview::mapview(r_joined %>% filter(geo_code == "E01015719"))
+mapview::mapview(l_short %>% filter(geo_code == "E01015719"))
 mapview::mapview(r_nearest_by_road %>% filter(geo_code == "E01015719"))
 
 # length(unique(r_all_short$geo_code))
-# length(r_nearest_by_road$geo_code))
-
-plot(r_all_short[,20])
-plot(r_nearest_by_road[,5])
+# length(r_nearest_by_road$geo_code) # to check the number of geo_codes remains the same
 
 mapview::mapview(r_nearest_by_road)
 mapview::mapview(r_all_short)
-
-# test = r_all_short[which(r_all_short$geo_code == "E01015693"),c(1,2,3,18,19,20)]
-# filter(test,distance_road == min(distance_road))
 
 
 ####Filter the route segments to select only those that are part of routes to stations nearest by road 
@@ -179,33 +136,35 @@ r_all_selected = r_all_short %>%
   filter(id %in% r_nearest_by_road$id)
 
 tm_shape(r_all_selected) + tm_lines("busynance")
-saveRDS(r_nearest_by_road, "../stars-data/data/routing/phaseII-nearest-stplanr-dev.Rds")
+tm_shape(r_all_selected) + tm_lines("busyness")
+saveRDS(r_all_selected, "../stars-data/data/routing/phaseII-route-segments-nearest-station.Rds")
 
 
-plot(r_all_selected$distances, r_all_selected$busynance)
-# busynance is simply distance time (the cost of) quietness
-plot(r_all_selected$distances * r_all_selected$busyness, r_all_selected$busynance)
+# plot(r_all_selected$distances, r_all_selected$busynance)
+# # busynance is simply distance times busyness
+# plot(r_all_selected$distances * r_all_selected$busyness, r_all_selected$busynance)
 
 #######Route networks and grouping by segment
 
-rnet = overline2(r_all_selected, "rail")
+# rnet = overline2(r_all_selected, "rail")
 
 r_grouped_by_segment = r_all_selected %>% 
-  group_by(name, distances, busynance) %>% ##will probably need to add more columns in to this line
-  summarise(n = n(), all = sum(rail), busyness = mean(busyness))
+  group_by(name, distances, busynance, busyness) %>% ##may need to add more columns in to this line
+  summarise(n = n(), rail = sum(rail))
 
 
 ####
 
-r_grouped_by_segment$all[r_grouped_by_segment$all > 1000] = 1000
-r_grouped_linestring = r_grouped_by_segment %>% st_cast("LINESTRING")
-rnet_segment = overline(r_grouped_linestring, "all")
+#Are these three lines necessary?
+r_grouped_by_segment$rail[r_grouped_by_segment$rail > 1000] = 1000 # This just makes the line widths on the busyness and all journey tmaps easier to read - they show more detail away from stations
+# r_grouped_linestring = r_grouped_by_segment %>% st_cast("LINESTRING")
+# rnet_segment = overline(r_grouped_linestring, "all")
 
 #Map busyness of route segments
 png(filename = "./figures/bedford-busyness.png", height = 1000, width = 700)
 tmap_mode("plot")
 tm_shape(r_grouped_by_segment) +
-  tm_lines("busyness", lwd = "all", scale = 9, palette = "plasma", breaks = c(0, 1, 2, 3, 5, 10, 25)) +
+  tm_lines("busyness", lwd = "rail", scale = 9, palette = "plasma", breaks = c(0, 1, 2, 3, 5, 10, 25)) +
   tm_shape(region) + tm_borders()
 dev.off()
 # tmap_save(.Last.value, "./figures/bedford-busyness.png")
@@ -214,31 +173,19 @@ dev.off()
 png(filename = "./figures/bedford-rnet-all-phase2.png", height = 1000, width = 700)
 tmap_mode("plot")
 tm_shape(r_grouped_by_segment) +
-  tm_lines("all", lwd = "all", scale = 9, palette = "plasma", breaks = c(0, 10, 200, 500, 1000)) +
+  tm_lines("rail", lwd = "rail", scale = 9, palette = "plasma", breaks = c(0, 10, 200, 500, 1000)) +
   tm_shape(region) + tm_borders() +
   tm_scale_bar()
 dev.off()
 
-# experiments with grouping - estimate uptake###Do I need to do this, or does r_nearest_by_rail already provide what I need?
-nrow(r_all_selected)
-summary(r_all_selected$elevations)
-r_grouped = r_all_selected %>% 
-  group_by(start_longitude, start_latitude, finish_longitude, finish_latitude) %>% 
-  summarise(
-    n = n(),
-    rail = mean(rail),
-    average_incline = sum(abs(diff(elevations))) / sum(distances),
-    distance_m = sum(distances),
-    busyness = mean(busyness)
-    ) %>% 
-  ungroup()
 
-summary(r_grouped)
-summary(r_grouped$rail)
-summary(r_nearest_by_road$rail) # good sense check: identical
-r_grouped$go_dutch = pct::uptake_pct_godutch(distance = r_grouped$distance_m, gradient = r_grouped$average_incline) *
-  r_grouped$rail
-r_grouped_lines = r_grouped %>% st_cast("LINESTRING")
+##Create estimates for the Go Dutch scenario
+r_nearest_by_road$go_dutch = pct::uptake_pct_godutch(distance = r_nearest_by_road$distance_road, gradient = r_nearest_by_road$average_incline) * r_nearest_by_road$rail
+
+saveRDS(r_nearest_by_road, "../stars-data/data/routing/phaseII-routes-nearest-station.Rds")
+
+
+r_grouped_lines = r_nearest_by_road %>% st_cast("LINESTRING") # Is this the best approach or should we be using `r_all_selected` with inner_join instead?
 rnet_go_dutch = overline2(r_grouped_lines, "go_dutch")
 
 #Map modelled Go Dutch cycle journeys to stations
