@@ -88,36 +88,37 @@ We have developed two methods for estimating cycle to rail stations. Both of the
 
 In our Phase 1 approach we take the 2011 Census returns and assess them using the journey planning service TransportAPI, to find out whether the trip could be made by rail to arrive by 9:00 AM. If so, we select the fastest rail journey. This method does not simply route commuters to their nearest station, but takes account of their final destination to pick an appropriate station. 
 
-The Phase 2 approach starts with commutes that are already made by rail according to the 2011 Census. We filter these to select only the trips where there is a rail station within 5 km of the centroid of the LSOA in which the journey originates. Taking the mainline Bedfordshire stations as our dataset, we find the nearest station by road, and route the trip to that station. This is different from the Phase 1 approach in which the departure station was chosen based on the rail journey time only. Based on these routings, we estimate the potential for the journey from home to station to be cycled. 
+The Phase 2 approach starts with commutes originating in Bedfordshire, which are already made by rail according to the 2011 Census. We filter these to select only the trips where there is a rail station within 5 km of the centroid of the LSOA in which the journey originates. Taking the mainline Bedfordshire stations as our dataset, we find the nearest station by road, and route the trip to that station. This is different from the Phase 1 approach in which the departure station was chosen based on the rail journey time only. Based on these routings, we estimate the potential for the journey from home to station to be cycled. 
 
 In Phase 2 we only use mainline Bedfordshire stations, because these all have frequent direct services to and from London and are all well-used stations, with seven of the ten stations having over 1 million entries and exits in 2016-17. This gives us the ten most-used rail stations in Bedfordshire, as listed in Table 3 below. These comprise six stations on the Midland Mainline, three stations on the East Coast Mainline, and one station on the West Coast Mainline. Since the presence of frequent direct services to the main commuter destination of London is a feature of all of these stations, routing via the nearest station seems appropriate when modelling potential cycle journeys. 
 
-### Modelling all rail commutes
+## Modelling all rail commutes
 
-The first step is to identify commuter journeys currently made by rail. @ref/combi6 shows all rail commutes originating in Bedfordshire, as estimated according to our Phase 1 and Phase 2 approaches. The two panels differ because under the Phase 1 method trips are routed to a station that provides the shortest rail journey time, which can include stations outside Bedfordshire, while in Phase 2 trips are routed to the nearest station, including only the ten mainline Bedfordshire stations.  
+The first step is to identify commuter journeys currently made by rail. @ref/combi6 shows all rail commutes originating in Bedfordshire, as estimated according to our Phase 1 and Phase 2 approaches. The two panels differ because the Phase 1 method routes trips to the station that provides the shortest rail journey time. This can include stations outside Bedfordshire, and the approach also models trips to Bedfordshire stations that originate outside the county. In Phase 2 trips are routed to the nearest Bedfordshire mainline station. We only include trips that originate within Bedfordshire and can be routed to one of the ten mainline Bedfordshire stations.
 
-A further difference is that in Phase 2, we only consider journeys where the distance 
+A further difference is that in Phase 2, we only consider journeys where the distance to the station is <5km. While this will capture the majority of cycleable trips, it would also be possible to increase this maximum distance to include longer journeys.
 
 ```{r combi6, out.width="50%", fig.show='hold', fig.cap = "Phase 1 and 2 estimates of cycle to rail potential"}
 knitr::include_graphics(c("./figures/bedford-rnet-all-phase1.png","./figures/bedford-rnet-all-phase2.png"))
 ```
 
-### Go Dutch cycle to rail stations (Phase 1 and 2 estimates)
+## Go Dutch cycle to rail stations (Phase 1 and 2 estimates)
 
-
-```{r combi7, out.width="50%", fig.cap="Cycle commuting to rail stations under the Phase 1 and Phase 2 approaches"}
-knitr::include_graphics(c("./figures/bedford-rnet-go-dutch-phase1.png","./figures/bedford-rnet-go-dutch-phase2.png"))
-```
-
-We can now estimate how many commuters would cycle to the station, if cycling levels in Bedfordshire were equivalent to those in the Netherlands. To do this we use the Go Dutch scenario developed as part of the Propensity to Cycle Tool. 
+We can now estimate how many commuters would cycle to the station, if cycling levels in Bedfordshire were equivalent to those in the Netherlands. To do this we use the Go Dutch scenario developed as part of the Propensity to Cycle Tool (ref). 
 
 We can see some notable differences between the modelled distributions of cycling to stations under Phase 1 and Phase 2. In particular, Phase 2 shows many more cycle trips to Leagrave station. Most of these were routed to Luton station in the Phase 1 method, but since Leagrave has a good quality rail service to London, with trains running every 15 minutes, it may be reasonable to assume that commuters who cycle to the station would be more likely to use Leagrave if it is their nearest station. 
 
 In general, when deciding whether to use the Phase 1 or Phase 2 approach to model cycle-to-station potential, a key question is whether, for the area in question, commuters are likely to choose to cycle to a more distant station in order to shave some time off their rail journey. 
 
-# Cycle infrastructure planning
+```{r combi7, out.width="50%", fig.cap="Cycle commuting to rail stations under the Phase 1 and Phase 2 approaches"}
+knitr::include_graphics(c("./figures/bedford-rnet-go-dutch-phase1.png","./figures/bedford-rnet-go-dutch-phase2.png"))
+```
+
+# Applications for infrastructure planning
 
 This analysis can help to identify places where it would be particularly useful to install new or improved cycle infrastructure, or to increase cycle parking.
+
+## Cycle route improvements
 
 In Luton, we can see that the existing cycle infrastructure is relatively limited, with cycle lanes or tracks only present on a small number of routes from Luton or Leagrave stations.  
 
@@ -125,7 +126,33 @@ In Luton, we can see that the existing cycle infrastructure is relatively limite
 knitr::include_graphics("./figures/existing-cyipt.png")
 ```
 
-However, there is a strong overlap between the roads we find high to have cycle potential under the Go Dutch scenario, and  routes that have already been proposed as candidates for new cycle routes in Luton. These include routes heading west from Leagrave station along Leagrave High Street, a route north from Leagrave station that links the station to , and north from Luton station along High Town Road.
+However, there is a strong overlap between the roads we find high to have cycle potential under the Go Dutch (Phase 2?) scenario, and routes that have already been proposed as candidates for new cycle routes in Luton. These include routes heading west from Leagrave station along Leagrave High Street, a route north from Leagrave station that links the station to (sustrans route xx), and a route north from Luton station that is broadly parallel to High Town Road.
+
+In Bedford.....
+
+Other routes that are appear to be candidates for cycle improvements according to the Phase 2 analysis include xxxx
+
+According to the Phase 1 analysis, xx Road heading north from Luton station shows high cycle potential. As we can see in @ref/combi8, this road already benefits from a cycle track.
+
+## Cycle provision at rail stations
+
+In addition to the routes to stations, it is important to consider cycle provision at the stations themselves. The need for improvements such as additional cycle parking stands can be assessed using this tool. There may be an overall need for more cycle stands at a given station, or there may be a need for more stands at a specific station entrance to cater for journeys coming from a particular direction. 
+
+Our Phase 1 model shows xx journeys to Luton station, suggesting a need for more cycle stands as cycling uptake increases. Meanwhile, our Phase 2 model shows xx journeys to Leagrave, of which xx follow x Road to reach the station from the east. There may be a need for more cycle stands on this side of the station. 
+
+A range of other station improvements may also be considered. These could include more secure cycle parking facilities such as lockable bike bins, or staffed 'cycle hubs' that could also offer additional services such as repairs and sales. Cycle hire facilities would cater for those travelling to Bedfordshire stations from elsewhere. If feasible, working with Train Operating Companies to improve cycle carriage on board trains could enable many further journey options, with the flexibility gained by cycling at both ends of the rail journey. In relation to this, the installation of lifts to allow level access to platforms may also be considered.
+
+## Monitoring and evaluation of cycling levels
+
+A programme of monitoring and evaluation of cycling levels is vital for the assessment of progress in raising cycle-to-station uptake. Having established baseline cycling levels across the county, the scenarios found in this report can assist the monitoring programme in terms of guiding the locations of monitoring sites (at stations or on-road) and guiding expectations for increased cycling uptake at these sites. 
+
+Monitoring can be used to evaluate the impact of interventions. It can also feed back to suggest whether our Phase 1 or Phase 2 approach appears to better model cycling patterns in a given area, or whether changes may be needed to these models.
+
+# Options for further research
+
+There are various ways in which these models could be changed or improved. 
+
+Currently, the assessment of hilliness uses the average gradient across the full journey distance. An assessment of maximum gradient may be more appropriate, since this will be a limiting factor for many cyclists. 
 
 # References
 
