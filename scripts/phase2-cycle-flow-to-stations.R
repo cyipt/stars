@@ -88,6 +88,8 @@ head(r_all_short$id)
 
 r_all_short$busyness = r_all_short$busynance / r_all_short$distances
 
+# r_all_short$elev_change = abs(diff(r_all_short$elevations))
+
 plot(r_all_short$distances, r_all_short$busynance)
 # busynance is simply distance times busyness
 plot(r_all_short$distances * r_all_short$busyness, r_all_short$busynance)
@@ -100,6 +102,7 @@ r_aggregated = r_all_short %>%
     max_busynance = max(busynance),
     average_busyness = sum(busynance)/sum(distances),
     average_incline = sum(abs(diff(elevations))) / sum(distances)
+    #, max_incline = max(abs(diff(elevations))/distances[1])
   )
 
 plot(r_aggregated)
