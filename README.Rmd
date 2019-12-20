@@ -1,5 +1,5 @@
 ---
-title: "Enhancements to the Propensity to Cycle Tool to estimate cycle-to-station potential: PCT STARS Phase 2 Report"
+title: "STARS Phase 2 Report: Estimating cycle potential to Bedfordshire rail stations"
 author: Robin Lovelace and Joey Talbot
 institute: "Institute for Transport Studies, University of Leeds"
 date: "5th November 2019"
@@ -20,6 +20,8 @@ knitr::opts_chunk$set(
 ```
 
 # Introduction
+
+Benefits of cycling and reasons to increase it....
 
 Combining rail travel with cycling is one of the most flexible ways to get around, opening up destinations that might not otherwise be reachable without using a private motor vehicle. Rail stations represent a major destination for cycle journeys, and travel by rail has almost doubled in the last 20 years (ORR 2019). As such, it is vital to understand the dynamics of cycle-rail integration. We investigate this for commuter journeys originating in Bedfordshire.
 
@@ -120,23 +122,50 @@ This analysis can help to identify places where it would be particularly useful 
 
 ## Cycle route improvements
 
+Any suggestion for routes will depend on local context. 
+
+Suggestions based on our Phase 1 analysis have already been discussed in the Phase 1 report. Routes that stand out as having high cycle potential in the phase 1 analysis include New Bedford Road north of Luton station, and the cycle path alongside the Luton-Dunstable Busway. As we can see in @ref/combi8, these routes both already benefit from some cycle provision, however improvements would be welcome, in particular to increase the number of access points onto the Luton-Dunstable Busway path. At the moment, the limited number of access points is likely to restrict usage of this path.
+
+### Phase 2 suggestions - Luton
+
 In Luton, we can see that the existing cycle infrastructure is relatively limited, with cycle lanes or tracks only present on a small number of routes from Luton or Leagrave stations.  
 
 ```{r combi8, out.width="100%", fig.cap="Existing cycle infrastructure in central Luton, as recorded by CyIPT"}
 knitr::include_graphics("./figures/existing-cyipt.png")
 ```
 
-However, there is a strong overlap between the roads we find high to have cycle potential under the Go Dutch (Phase 2?) scenario, and routes that have already been proposed as candidates for new cycle routes in Luton. These include routes heading west from Leagrave station along Leagrave High Street, a route north from Leagrave station that links the station to (sustrans route xx), and a route north from Luton station that is broadly parallel to High Town Road.
+However, there is a strong overlap between the roads we find high to have cycle potential under the Go Dutch Phase 2 scenario, and routes that have already been proposed as candidates for new cycle routes in Luton. These include:
+- a route heading west from Leagrave station along Compton Avenue and Leagrave High Street;
+- a route north from Leagrave station along Toddington Road, linking the station to the Luton to Dunstable and Sewell Greenway; 
+- and a route north from Luton station that is broadly parallel to High Town Road.
 
-In Bedford.....
 
-Other routes that are appear to be candidates for cycle improvements according to the Phase 2 analysis include xxxx
+Other routes that are appear to be candidates for cycle improvements according to the Phase 2 analysis include: 
+- Old Bedford Road in Luton, 
+- Bramingham Road east of Leagrave station, 
+- connections from Luton station southwards to Farley Hill.
 
-According to the Phase 1 analysis, xx Road heading north from Luton station shows high cycle potential. As we can see in @ref/combi8, this road already benefits from a cycle track.
+### Phase 2 suggestions - Bedford
+
+In Bedford the cycle provision is more heavily developed, as we can see if Fig x. However, there is a lack of cycle infrastructure in the immediate vicinity of Bedford Midland station. 
+
+Our analyses call for cycle improvements in three main directions from Bedford station:
+- southwards along the A5141 to allow cyclists to cross the River Great Ouse on Prebend Street. This allows access to the station from Bedford's southern suburbs;
+- northwards on the A5141 (including a link across the railway line on Bromham Road) to link into the existing cycle provision on Bromham Road and Clapham Road. This allows connections to the villages of Bromham, Biddenham and Clapham;
+- and eastwards to reach the station from the eastern and northern suburbs of Bedford. The two key routes that emerge here are the A4280 across Bedford town centre, and a more northerly route that follows Union Street, Roff Avenue and Park Avenue.
+
+### Other Phase 2 suggestions 
+
+Other routes that are appear to be candidates for cycle improvements according to the Phase 2 analysis include: 
+- Flitwick Road / Ampthill Road between Ampthill and Flitwick;
+- routes from Arlesey station to nearby towns and villages such as Stotfold and Henlow;
+- Leighton Road, crossing the River Ousel between Leighton Buzzard station and the town centre.
 
 ## Cycle provision at rail stations
 
 In addition to the routes to stations, it is important to consider cycle provision at the stations themselves. The need for improvements such as additional cycle parking stands can be assessed using this tool. There may be an overall need for more cycle stands at a given station, or there may be a need for more stands at a specific station entrance to cater for journeys coming from a particular direction. 
+
+Table showing number of journeys to each station in Phase 1 and Phase 2, and the number of cycle racks at each station (National Rail data).
 
 Our Phase 1 model shows xx journeys to Luton station, suggesting a need for more cycle stands as cycling uptake increases. Meanwhile, our Phase 2 model shows xx journeys to Leagrave, of which xx follow x Road to reach the station from the east. There may be a need for more cycle stands on this side of the station. 
 
@@ -144,13 +173,17 @@ A range of other station improvements may also be considered. These could includ
 
 ## Monitoring and evaluation of cycling levels
 
-A programme of monitoring and evaluation of cycling levels is vital for the assessment of progress in raising cycle-to-station uptake. Having established baseline cycling levels across the county, the scenarios found in this report can assist the monitoring programme in terms of guiding the locations of monitoring sites (at stations or on-road) and guiding expectations for increased cycling uptake at these sites. 
+A programme of monitoring and evaluation of cycling levels is vital for the assessment of progress in raising cycle-to-station uptake. The goals of monitoring will include establishing a baseline estimate of cycling levels across the county, and assessing changes from this baseline. Monitoring can be used to evaluate the impact of interventions, to provide a before-and-after picture revealing how new cycle infrastructure changes travel behaviour. 
 
-Monitoring can be used to evaluate the impact of interventions. It can also feed back to suggest whether our Phase 1 or Phase 2 approach appears to better model cycling patterns in a given area, or whether changes may be needed to these models.
+The scenarios found in this report can assist a monitoring programme in terms of guiding the locations of monitoring sites (at stations or on-road), and guiding expectations for increased cycling uptake at these sites. Conversely, survey results can also be fed back to suggest whether our Phase 1 or Phase 2 approach appears to better model cycling patterns in a given area, or whether changes may be needed to these models.
 
-# Options for further research
+# Limitations and scope for further research
 
 There are various ways in which these models could be changed or improved. 
+
+In this report, each Bedfordshire station is represented by a single point, located at the main station entrance. However, many stations have multiple entrances giving access from two or more different streets. If these other entrances are also accessible by bicycle, this opens up potential for cycle routes to the station that are not currently being modelled. We expect the impact of this on suburban routings to be relatively limited, but it could have greater impact on our town centre cycle routings. For example, Luton station has a second entrance on Midland Road. If this entrance was included, we could expect that many of the cycle journeys which our Phase 2 analysis shows as passing along North Street and Old Bedford Road would be rerouted to instead follow High Town Road. 
+
+Combination of Cyclestreets routing and distance-based criteria can produce counter-intuitive results...
 
 Currently, the assessment of hilliness uses the average gradient across the full journey distance. An assessment of maximum gradient may be more appropriate, since this will be a limiting factor for many cyclists. 
 
