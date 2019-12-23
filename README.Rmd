@@ -82,26 +82,36 @@ knitr::include_graphics("./figures/bedford-intra-region-commutes.png")
 
 # Methodology
 
-Our approach uses data relating to commuting. This means we are only considering the cycle-to-station potential for commuter journeys. People also travel by rail for various other purposes, such as leisure, business trips, education, and other personal business. (add in some stats from the ORR) Therefore our estimates do not capture the full potential for cycle to rail stations.
+We have developed two different methods for estimating cycle to rail stations. Both approaches follow these steps:
+
+1) Use 2011 Census data to find journeys to work that are made by rail in Bedfordshire. In the 2011 census, the main journey mode is recorded, but secondary modes are not....Phase 1?.....
+
+2) Using our Phase 1 or Phase 2 approach, identify which outbound rail station the journey is likely to use, and map the route from home to this station using the Cyclestreets API. 
+
+3) Having identified the expected routes to the station for qualifying Bedfordshire commuter journeys, the final step is to estimate the potential for the journey from home to the station to be cycled. For this, we use the Go Dutch scenario developed as part of the Propensity to Cycle Tool (Lovelace et al. 2017). This estimates what the cycle uptake would be if people in the UK cycled as much as they do in the Netherlands, taking into account hilliness and journey distance. 
+
+Our approach is focused on commuting. This means we are only considering the cycle-to-station potential for commuter journeys. People also travel by rail for various other purposes, such as leisure, business trips, education, and other personal business. (add in some stats from the ORR) Therefore our estimates do not capture the full potential for cycle to rail stations.
 
 ## Phase 1 and Phase 2 approaches for journey routing
 
-We have developed two methods for estimating cycle to rail stations. Both of these methods make use of 2011 Census data on travel to work. The census data is spatially aggregated at the LSOA (Lower Layer Super Output Area) level, a geographic unit with a population of around 1500. For each LSOA it is possible to calculate a 'centroid' marking the centre of gravity of the population of the LSOA. Thus we can see which LSOA each commuter lives and works in, and we use the LSOA centroids as the points of origin and destination for each journey.
+Both of our methods make use of 2011 Census data on travel to work. In reality the starting point we use for these journeys is not the commuter's home. Census data is anonymised and spatially aggregated at the LSOA (Lower Layer Super Output Area) level, a geographic unit with a population of around 1500. For each LSOA it is possible to calculate a 'centroid' marking the centre of gravity of the population of the LSOA. Thus, with the identities of the LSOAs each commuter lives and works in, we can use the LSOA centroids as the points of origin and destination for each journey.
 
 In our Phase 1 approach we take the 2011 Census returns and assess them using the journey planning service TransportAPI, to find out whether the trip could be made by rail to arrive by 9:00 AM. If so, we select the fastest rail journey. This method does not simply route commuters to their nearest station, but takes account of their final destination to pick an appropriate station. 
 
-The Phase 2 approach starts with commutes originating in Bedfordshire, which are already made by rail according to the 2011 Census. We filter these to select only the trips where there is a rail station within 5 km of the centroid of the LSOA in which the journey originates. Taking the mainline Bedfordshire stations as our dataset, we find the nearest station by road, and route the trip to that station. This is different from the Phase 1 approach in which the departure station was chosen based on the rail journey time only. Based on these routings, we estimate the potential for the journey from home to station to be cycled. 
+The Phase 2 approach starts with commutes originating in Bedfordshire, which are already made by rail according to the 2011 Census. We filter these to select only the trips where there is a rail station within 5 km of the centroid of the LSOA in which the journey originates. Taking the mainline Bedfordshire stations as our dataset, we find the nearest station by road, and route the trip to that station. This is different from the Phase 1 approach in which the departure station was chosen based on the rail journey time. 
 
 In Phase 2 we only use mainline Bedfordshire stations, because these all have frequent direct services to and from London and are all well-used stations, with seven of the ten stations having over 1 million entries and exits in 2016-17. This gives us the ten most-used rail stations in Bedfordshire, as listed in Table 3 below. These comprise six stations on the Midland Mainline, three stations on the East Coast Mainline, and one station on the West Coast Mainline. Since the presence of frequent direct services to the main commuter destination of London is a feature of all of these stations, routing via the nearest station seems appropriate when modelling potential cycle journeys. 
 
+When deciding whether to use the Phase 1 or Phase 2 approach to model cycle-to-station potential, a key question is whether, for the area in question, commuters are likely to choose to cycle to a more distant station in order to shave some time off their rail journey. If a study focuses solely on relatively large stations with frequent services to the key destinations of interest, the Phase 2 approach is likely to provide the most realistic cycle routings. However, if the aim is to also investigate travel to minor stations which may not have direct services to some important destinations (such as the stations on the Marston Vale line), the Phase 1 approach is likely to be best.
+
 ## Modelling all rail commutes
 
-The first step is to identify commuter journeys currently made by rail. @ref/combi6 shows all rail commutes originating in Bedfordshire, as estimated according to our Phase 1 and Phase 2 approaches. The two panels differ because the Phase 1 method routes trips to the station that provides the shortest rail journey time. This can include stations outside Bedfordshire, and the approach also models trips to Bedfordshire stations that originate outside the county. In Phase 2 trips are routed to the nearest Bedfordshire mainline station. We only include trips that originate within Bedfordshire and can be routed to one of the ten mainline Bedfordshire stations.
+Before estimating cycle-to-station uptake, we must first identify commuter journeys currently made by rail. @ref/combi6 shows all rail commutes originating in Bedfordshire, as estimated according to our Phase 1 and Phase 2 approaches. The two panels differ because the Phase 1 method routes trips to the station that provides the shortest rail journey time. This can include stations outside Bedfordshire, and the approach also models trips to Bedfordshire stations that originate outside the county. In Phase 2 trips are routed to the nearest Bedfordshire mainline station. We only include trips that originate within Bedfordshire and can be routed to one of the ten mainline Bedfordshire stations.
 
 A further difference is that in Phase 2, we only consider journeys where the distance to the station is <5km. While this will capture the majority of cycleable trips, it would also be possible to increase this maximum distance to include longer journeys.
 
 ```{r combi6, out.width="50%", fig.show='hold', fig.cap = "Phase 1 and 2 estimates of cycle to rail potential"}
-knitr::include_graphics(c("./figures/bedford-rnet-all-phase1.png","./figures/bedford-rnet-all-phase2.png"))
+knitr::include_graphics(c("./figures/bedford-rnet-all-phase1.png","./figures/phase-2-all.png"))
 ```
 
 ## Go Dutch cycle to rail stations (Phase 1 and 2 estimates)
@@ -110,10 +120,9 @@ We can now estimate how many commuters would cycle to the station, if cycling le
 
 We can see some notable differences between the modelled distributions of cycling to stations under Phase 1 and Phase 2. In particular, Phase 2 shows many more cycle trips to Leagrave station. Most of these were routed to Luton station in the Phase 1 method, but since Leagrave has a good quality rail service to London, with trains running every 15 minutes, it may be reasonable to assume that commuters who cycle to the station would be more likely to use Leagrave if it is their nearest station. 
 
-In general, when deciding whether to use the Phase 1 or Phase 2 approach to model cycle-to-station potential, a key question is whether, for the area in question, commuters are likely to choose to cycle to a more distant station in order to shave some time off their rail journey. 
 
-```{r combi7, out.width="50%", fig.cap="Cycle commuting to rail stations under the Phase 1 and Phase 2 approaches"}
-knitr::include_graphics(c("./figures/bedford-rnet-go-dutch-phase1.png","./figures/bedford-rnet-go-dutch-phase2.png"))
+```{r combi7, out.width="50%", fig.show='hold', fig.cap="Cycle commuting to rail stations under the Phase 1 and Phase 2 approaches"}
+knitr::include_graphics(c("./figures/bedford-rnet-go-dutch-phase1.png","./figures/phase-2-go-dutch.png"))
 ```
 
 # Applications for infrastructure planning
@@ -122,9 +131,9 @@ This analysis can help to identify places where it would be particularly useful 
 
 ## Cycle route improvements
 
-Any suggestion for routes will depend on local context. 
+Our analyses map cycle journeys onto the road network based on the route distance and hilliness. The routes we depict may not necessarily be the ones that are most used by local cyclists. For example, we may route cycle journeys along a major trunk road that in reality is not used by cyclists due to safety fears. Therefore, these results must be interpreted together with knowledge of the local context. There may be alternative routes that local knowledge suggests are more appropriate ways to reach the same destination. However, there are also direct benefits of using this approach. We can reveal roads that are rarely cycled today but could be heavily used by cyclists in future, once improvements are put in place to make cycling there safer or more attractive.
 
-Suggestions based on our Phase 1 analysis have already been discussed in the Phase 1 report. Routes that stand out as having high cycle potential in the phase 1 analysis include New Bedford Road north of Luton station, and the cycle path alongside the Luton-Dunstable Busway. As we can see in @ref/combi8, these routes both already benefit from some cycle provision, however improvements would be welcome, in particular to increase the number of access points onto the Luton-Dunstable Busway path. At the moment, the limited number of access points is likely to restrict usage of this path.
+Suggestions based on our Phase 1 analysis have already been discussed in the Phase 1 report. There is a high degree of convergence between the routes selected in the Phase 1 and Phase 2 analyses. However, two routes stand out which are identified as having high cycle potential in the phase 1 analysis, but do not emerge as major routes in the Phase 2 analysis. These are New Bedford Road north of Luton station, and the cycle path alongside the Luton-Dunstable Busway. The reason these routes do not emerge in the Phase 2 route network map is because the journeys in these areas are routed to Leagrave station rather than Luton station. However, even if residents here do tend to use Leagrave station, cycle access into Luton town centre will still be important for accessing all of the other services the town centre provides, such as employment, retail, leisure and entertainment. As we can see in @ref/combi8, both of these routes both already benefit from some cycle provision, but improvements such as increasing the number of access points onto the Luton-Dunstable Busway path would be welcome. At the moment, the limited number of access points is likely to restrict usage of this path.
 
 ### Phase 2 suggestions - Luton
 
@@ -135,31 +144,45 @@ knitr::include_graphics("./figures/existing-cyipt.png")
 ```
 
 However, there is a strong overlap between the roads we find high to have cycle potential under the Go Dutch Phase 2 scenario, and routes that have already been proposed as candidates for new cycle routes in Luton. These include:
+
 - a route heading west from Leagrave station along Compton Avenue and Leagrave High Street;
+
 - a route north from Leagrave station along Toddington Road, linking the station to the Luton to Dunstable and Sewell Greenway; 
+
 - and a route north from Luton station that is broadly parallel to High Town Road.
 
 
 Other routes that are appear to be candidates for cycle improvements according to the Phase 2 analysis include: 
-- Old Bedford Road in Luton, 
-- Bramingham Road east of Leagrave station, 
-- connections from Luton station southwards to Farley Hill.
+
+- Old Bedford Road in Luton; 
+
+- Bramingham Road east of Leagrave station; 
+
+- and connections from Luton station southwards to Farley Hill.
 
 ### Phase 2 suggestions - Bedford
 
-In Bedford the cycle provision is more heavily developed, as we can see if Fig x. However, there is a lack of cycle infrastructure in the immediate vicinity of Bedford Midland station. 
+In Bedford the cycle provision is more heavily developed, as we can see if Fig x. However, there is a lack of cycle infrastructure in the immediate vicinity of Bedford Midland station. Add in maps?
 
 Our analyses call for cycle improvements in three main directions from Bedford station:
+
 - southwards along the A5141 to allow cyclists to cross the River Great Ouse on Prebend Street. This allows access to the station from Bedford's southern suburbs;
+
 - northwards on the A5141 (including a link across the railway line on Bromham Road) to link into the existing cycle provision on Bromham Road and Clapham Road. This allows connections to the villages of Bromham, Biddenham and Clapham;
+
 - and eastwards to reach the station from the eastern and northern suburbs of Bedford. The two key routes that emerge here are the A4280 across Bedford town centre, and a more northerly route that follows Union Street, Roff Avenue and Park Avenue.
 
-### Other Phase 2 suggestions 
+### Phase 2 suggestions - Central Bedfordshire
 
-Other routes that are appear to be candidates for cycle improvements according to the Phase 2 analysis include: 
+Within Central Bedfordshire, routes that appear to be candidates for cycle improvements according to the Phase 2 analysis include: 
+
+- Leighton Road, crossing the River Ousel between Leighton Buzzard station and the town centre;
+
 - Flitwick Road / Ampthill Road between Ampthill and Flitwick;
-- routes from Arlesey station to nearby towns and villages such as Stotfold and Henlow;
-- Leighton Road, crossing the River Ousel between Leighton Buzzard station and the town centre.
+
+- and routes from Arlesey station to nearby towns and villages such as Stotfold and Henlow.
+
+Add in detailed PCT and cyipt maps?
 
 ## Cycle provision at rail stations
 
@@ -185,9 +208,11 @@ In this report, each Bedfordshire station is represented by a single point, loca
 
 Combination of Cyclestreets routing and distance-based criteria can produce counter-intuitive results...
 
-Currently, the assessment of hilliness uses the average gradient across the full journey distance. An assessment of maximum gradient may be more appropriate, since this will be a limiting factor for many cyclists. 
+Currently, the assessment of hilliness uses the average gradient across the full journey distance. Use of maximum gradient may be more appropriate, since this better reflects the limiting factor for many cyclists. 
 
 # References
+
+Lovelace, Robin, Anna Goodman, Rachel Aldred, Nikolai Berkoff, Ali Abbas, and James Woodcock. ‘The Propensity to Cycle Tool: An Open Source Online System for Sustainable Transport Planning’. Journal of Transport and Land Use 10, no. 1 (2017): 505–28.
 
 ORR (2019), '2019-20 Q1 Statistical Release – Passenger Rail Usage | ORR Data Portal’. Accessed 12 November 2019. https://dataportal.orr.gov.uk/statistics/usage/passenger-rail-usage/.
 
