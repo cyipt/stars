@@ -21,9 +21,7 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-Benefits of cycling and reasons to increase it....
-
-Combining rail travel with cycling is one of the most flexible ways to get around, opening up destinations that might not otherwise be reachable without using a private motor vehicle. Rail stations represent a major destination for cycle journeys, and travel by rail has almost doubled in the last 20 years (ORR 2019). As such, it is vital to understand the dynamics of cycle-rail integration. We investigate this for commuter journeys originating in Bedfordshire.
+In 2018, transport was responsible for more CO~2~ emissions than any other UK sector (BEIS 2019). To reduce carbon emissions and air pollution we need to move away from private vehicle use and increase uptake of sustainable travel modes such as walking, cycling and public transport. Combining rail travel with cycling is one of the most flexible ways to get around, opening up destinations that might not otherwise be reachable without using a private motor vehicle. Rail stations represent a major destination for cycle journeys, and travel by rail has almost doubled in the last 20 years (ORR 2019). As such, it is vital to understand the dynamics of cycle-rail integration. We investigate this for commuter journeys originating in Bedfordshire.
 
 The Propensity to Cycle Tool (Lovelace et al. 2017) uses 2011 Census data to investigate the proportion of commuters that currently cycle to work, alongside a range of scenarios investigating how cycling levels could increase. These scenarios include two different approaches to meeting the Government target of doubling cycle commutes. Additionally, the 'Gender Equality' scenario models what would happen if women cycled as much as men currently do, since this is the norm in high-cycling countries. The 'Go Dutch' scenario models what would happen if cycling in the UK was at the same levels as found in the Netherlands, while accounting for the impact of hilliness and journey distance.  The 'Ebikes' scenario expands this by assuming widespread adoption of ebikes for longer distance commutes. 
 
@@ -82,15 +80,15 @@ knitr::include_graphics("./figures/bedford-intra-region-commutes.png")
 
 # Methodology
 
-We have developed two different methods for estimating cycle to rail stations. Both approaches follow these steps:
+We have developed two different methods for estimating cycle to rail stations. Both methods are focused on commuting. This means we are only considering the cycle-to-station potential for commuter journeys. People also travel by rail for various other purposes, such as leisure, business trips, education, and other personal business. (add in some stats from the ORR) Therefore our estimates do not capture the full potential for cycle to rail stations.
 
-1) Use 2011 Census data to find journeys to work that are made by rail in Bedfordshire. In the 2011 census, the main journey mode is recorded, but secondary modes are not....Phase 1?.....
+Both of our methods follow these steps:
 
-2) Using our Phase 1 or Phase 2 approach, identify which outbound rail station the journey is likely to use, and map the route from home to this station using the Cyclestreets API. 
+1) Use 2011 Census data to find journeys to work that are made by rail in Bedfordshire. In the 2011 census, the main journey mode is recorded - defined as the mode of travel used for the single longest journey leg by distance - but secondary modes are not, which means we do not know which mode of transport rail commuters use to travel to the station. In addition to this, we do not have any information identifying which stations these commuters use.
+
+2) Using our Phase 1 or Phase 2 approach, we identify which outbound rail station we expect the journey is likely to use, and map the route from home to this station using the Cyclestreets API. 
 
 3) Having identified the expected routes to the station for qualifying Bedfordshire commuter journeys, the final step is to estimate the potential for the journey from home to the station to be cycled. For this, we use the Go Dutch scenario developed as part of the Propensity to Cycle Tool (Lovelace et al. 2017). This estimates what the cycle uptake would be if people in the UK cycled as much as they do in the Netherlands, taking into account hilliness and journey distance. 
-
-Our approach is focused on commuting. This means we are only considering the cycle-to-station potential for commuter journeys. People also travel by rail for various other purposes, such as leisure, business trips, education, and other personal business. (add in some stats from the ORR) Therefore our estimates do not capture the full potential for cycle to rail stations.
 
 ## Phase 1 and Phase 2 approaches for journey routing
 
@@ -200,17 +198,23 @@ A programme of monitoring and evaluation of cycling levels is vital for the asse
 
 The scenarios found in this report can assist a monitoring programme in terms of guiding the locations of monitoring sites (at stations or on-road), and guiding expectations for increased cycling uptake at these sites. Conversely, survey results can also be fed back to suggest whether our Phase 1 or Phase 2 approach appears to better model cycling patterns in a given area, or whether changes may be needed to these models.
 
-# Limitations and scope for further research
+Monitoring of how rail users access Bedfordshire stations is currently being carried out. We have not used these monitoring results in the current report, but we hope that in future we will be able to use them to assess how cycling levels are changing and how these changes relate to our models and to local improvements in cycle infrastructure.
 
-There are various ways in which these models could be changed or improved. 
+# Conclusion
 
-In this report, each Bedfordshire station is represented by a single point, located at the main station entrance. However, many stations have multiple entrances giving access from two or more different streets. If these other entrances are also accessible by bicycle, this opens up potential for cycle routes to the station that are not currently being modelled. We expect the impact of this on suburban routings to be relatively limited, but it could have greater impact on our town centre cycle routings. For example, Luton station has a second entrance on Midland Road. If this entrance was included, we could expect that many of the cycle journeys which our Phase 2 analysis shows as passing along North Street and Old Bedford Road would be rerouted to instead follow High Town Road. 
+We have presented two methods for investigating the routes used by commuters to access Bedfordshire rail stations. Using a scenario from the Propensity to Cycle Tool to model the potential for future cycle uptake, we are able to provide evidence identifying where to invest in better cycle infrastructure and which stations are likely to need improved facilities for cyclists.
 
-Combination of Cyclestreets routing and distance-based criteria can produce counter-intuitive results...
+## Limitations and scope for further research
 
-Currently, the assessment of hilliness uses the average gradient across the full journey distance. Use of maximum gradient may be more appropriate, since this better reflects the limiting factor for many cyclists. 
+There are various ways in which these models could be changed or improved. In this report, each Bedfordshire station is represented by a single point, located at the main station entrance. However, many stations have multiple entrances giving access from two or more different streets. If these additional entrances are also accessible by bicycle, this opens up potential for cycle routes to the station that are not currently being modelled. We expect the impact of this on suburban routings to be relatively limited, but it could have greater impact on our modelling of the cycle usage of some town centre streets. For example, Luton station has a second entrance on Midland Road. If this entrance was included, we could expect that many of the cycle journeys which our Phase 2 analysis shows as passing along North Street and Old Bedford Road would be rerouted to instead follow High Town Road. 
+
+Another minor limitation is related to the way in which we assess cycle routes to stations. To do this, we first use the CycleStreets API to identify routes from a given origin to nearby stations. This is based on a 'fastest route' algorithm which accounts for the hilliness of the route, delay at traffic signals, and road surface quality, as well as distance. This means the selected route to a particular station may not necessarily be the route which is shortest in terms of distance. However, once we have obtained these on-road routes from the origin to all nearby rail stations, we must then identify which station the commuter is assumed to be using. We do this based purely on the on-road distance from the journey origin to the station. It would be more appropriate to use journey time instead of distance to make this selection. 
+
+Additionally, our assessment of hilliness currently uses the average gradient across the full journey distance. Use of maximum gradient may be more appropriate, since this better reflects the limiting factor for many cyclists. 
 
 # References
+
+BEIS. “Provisional UK Greenhouse Gas Emissions National Statistics 2018.” Accessed October 28, 2019. https://www.gov.uk/government/statistics/provisional-uk-greenhouse-gas-emissions-national-statistics-2018.
 
 Lovelace, Robin, Anna Goodman, Rachel Aldred, Nikolai Berkoff, Ali Abbas, and James Woodcock. ‘The Propensity to Cycle Tool: An Open Source Online System for Sustainable Transport Planning’. Journal of Transport and Land Use 10, no. 1 (2017): 505–28.
 
