@@ -80,33 +80,55 @@ knitr::include_graphics("./figures/bedford-intra-region-commutes.png")
 
 # Methodology
 
-We have developed two different methods for estimating cycle to rail stations. Both methods are focused on commuting. This means we are only considering the cycle-to-station potential for commuter journeys. People also travel by rail for various other purposes, such as leisure, business trips, education, and other personal business. (add in some stats from the ORR) Therefore our estimates do not capture the full potential for cycle to rail stations.
+We have developed two different methods for estimating cycle to rail stations. Both methods are based on travel-to-work data from the 2011 Census. This means we are only considering the cycle-to-station potential for commuter journeys. People also travel by rail for various other purposes, such as leisure, business trips, education, and other personal business. (add in some stats from the ORR) Therefore our estimates do not capture the full potential for cycle to rail stations.
 
-Both of our methods follow these steps:
+In the 2011 census, the main journey mode of commuter trips is recorded - defined as the mode of travel used for the single longest journey leg by distance - but secondary modes are not. This means we do not know which mode of transport rail commuters use to travel to the station. In addition to this, we do not have any information identifying which stations these commuters use.
 
-1) Use 2011 Census data to find journeys to work that are made by rail in Bedfordshire. In the 2011 census, the main journey mode is recorded - defined as the mode of travel used for the single longest journey leg by distance - but secondary modes are not, which means we do not know which mode of transport rail commuters use to travel to the station. In addition to this, we do not have any information identifying which stations these commuters use.
+In our models, we do not use the commuter's actual home and workplace as the journey start and end points. Census data is anonymised and spatially aggregated at the LSOA (Lower Layer Super Output Area) level, a geographic unit with a population of around 1500. For each LSOA it is possible to calculate a 'centroid' marking the centre of gravity of the population of the LSOA. Thus, with the identities of the LSOAs each commuter lives and works in, we can use the LSOA centroids as the points of origin and destination for each journey.
 
-2) Using our Phase 1 or Phase 2 approach, we identify which outbound rail station we expect the journey is likely to use, and map the route from home to this station using the Cyclestreets API. 
+## Our Phase 1 method:
 
-3) Having identified the expected routes to the station for qualifying Bedfordshire commuter journeys, the final step is to estimate the potential for the journey from home to the station to be cycled. For this, we use the Go Dutch scenario developed as part of the Propensity to Cycle Tool (Lovelace et al. 2017). This estimates what the cycle uptake would be if people in the UK cycled as much as they do in the Netherlands, taking into account hilliness and journey distance. 
+1) Using 2011 Census data, identify all journeys to work that either start or end in Bedfordshire. 
+
+2) Model these journeys using the public transport routefinder TransportAPI, to find the three fastest suggested journey options that allow the commuter to arrive at their destination by 9:00 AM. Exclude all journeys where none of these options uses the rail network, or where the journey start and end points are so close together that using the rail network would result in an unnecessarily circuitous journey. 
+
+3) For the remaining journeys, pick the option for which the rail component of the journey is fastest. This option determines which rail entry and exit stations we assume will be used. This method does not simply route commuters to their nearest station, but takes account of their final destination to pick an appropriate station. 
+
+4) We then model how the non-rail components of the journey (such as walk or bus) can be replaced by cycling. We use the CycleStreets API to model the fastest cycleable route to/from the station. We thereby obtain routes from the home to the station (for Bedfordshire residents) and from the station to the workplace (for people who work in Bedfordshire).
+
+5) Having identified the expected routes to and from the station, the final step is to estimate the potential for these journeys to be cycled. For this, we use the Go Dutch scenario developed as part of the Propensity to Cycle Tool (Lovelace et al. 2017). This estimates what the cycle uptake would be if people in the UK cycled as much as they do in the Netherlands, taking into account hilliness and journey distance. 
+
+## Our Phase 2 method:
+
+1) Identify all journeys to work that are made by rail by Bedfordshire residents, according to the 2011 Census. 
+
+2) Filter these, to select only the trips where the designated journey origin - defined as an LSOA centroid - lies within 5 km (as the crow flies) of one of the ten mainline Bedfordshire rail stations. 
+
+3) The next step is to identify the nearest rail station and find a route from the journey origin to this station. Using the CycleStreets API, we model the fastest cycleable route from the journey origin to all nearby rail stations. This generates on-road routes. To determine which rail station we expect the journey is likely to use, we select the cycle route which has the shortest distance by road. 
+
+4) Having identified the expected routes from home to the station, again the final step is to estimate the potential for these journeys to be cycled, using the PCT Go Dutch scenario.
 
 ## Phase 1 and Phase 2 approaches for journey routing
 
-Both of our methods make use of 2011 Census data on travel to work. In reality the starting point we use for these journeys is not the commuter's home. Census data is anonymised and spatially aggregated at the LSOA (Lower Layer Super Output Area) level, a geographic unit with a population of around 1500. For each LSOA it is possible to calculate a 'centroid' marking the centre of gravity of the population of the LSOA. Thus, with the identities of the LSOAs each commuter lives and works in, we can use the LSOA centroids as the points of origin and destination for each journey.
+There are some key differences between the Phase 1 and Phase 2 approaches. The most important difference is in how we determine which rail stations are used. In Phase 1, the aim is to minimise the rail journey time, while in Phase 2 the aim is to minimise the distance from the home to the station. 
 
-In our Phase 1 approach we take the 2011 Census returns and assess them using the journey planning service TransportAPI, to find out whether the trip could be made by rail to arrive by 9:00 AM. If so, we select the fastest rail journey. This method does not simply route commuters to their nearest station, but takes account of their final destination to pick an appropriate station. 
+In Phase 1, all UK rail stations can be selected as arrival or departure stations, including stations outside Bedfordshire. In Phase 2 we only use mainline Bedfordshire stations. These all have frequent direct services to and from London and are all well-used stations, with seven of the ten stations having over 1 million entries and exits in 2016-17. This gives us the ten most-used rail stations in Bedfordshire, as listed in Table 3 below. These comprise six stations on the Midland Mainline, three stations on the East Coast Mainline, and one station on the West Coast Mainline. Since the presence of frequent direct services to the main commuter destination of London is a feature of all of these stations, routing via the nearest station seems appropriate when modelling potential cycle journeys. 
 
-The Phase 2 approach starts with commutes originating in Bedfordshire, which are already made by rail according to the 2011 Census. We filter these to select only the trips where there is a rail station within 5 km of the centroid of the LSOA in which the journey originates. Taking the mainline Bedfordshire stations as our dataset, we find the nearest station by road, and route the trip to that station. This is different from the Phase 1 approach in which the departure station was chosen based on the rail journey time. 
+A further difference is that in Phase 1 journeys to work in Bedfordshire are also modelled...
 
-In Phase 2 we only use mainline Bedfordshire stations, because these all have frequent direct services to and from London and are all well-used stations, with seven of the ten stations having over 1 million entries and exits in 2016-17. This gives us the ten most-used rail stations in Bedfordshire, as listed in Table 3 below. These comprise six stations on the Midland Mainline, three stations on the East Coast Mainline, and one station on the West Coast Mainline. Since the presence of frequent direct services to the main commuter destination of London is a feature of all of these stations, routing via the nearest station seems appropriate when modelling potential cycle journeys. 
+In addition, the Phase 1 approach models all commuter journeys that could potentially be made by rail, with a car-free option that enables arrival by 9:00 AM, while the Phase 2 approach focuses strictly on journeys that were made by rail in 2011.
+
+Finally, in Phase 2 we exclude journeys where the distance from the origin to the nearest station is greater than 5km as the crow flies.
 
 When deciding whether to use the Phase 1 or Phase 2 approach to model cycle-to-station potential, a key question is whether, for the area in question, commuters are likely to choose to cycle to a more distant station in order to shave some time off their rail journey. If a study focuses solely on relatively large stations with frequent services to the key destinations of interest, the Phase 2 approach is likely to provide the most realistic cycle routings. However, if the aim is to also investigate travel to minor stations which may not have direct services to some important destinations (such as the stations on the Marston Vale line), the Phase 1 approach is likely to be best.
 
 ## Modelling all rail commutes
 
-Before estimating cycle-to-station uptake, we must first identify commuter journeys currently made by rail. @ref/combi6 shows all rail commutes originating in Bedfordshire, as estimated according to our Phase 1 and Phase 2 approaches. The two panels differ because the Phase 1 method routes trips to the station that provides the shortest rail journey time. This can include stations outside Bedfordshire, and the approach also models trips to Bedfordshire stations that originate outside the county. In Phase 2 trips are routed to the nearest Bedfordshire mainline station. We only include trips that originate within Bedfordshire and can be routed to one of the ten mainline Bedfordshire stations.
+Before estimating cycle-to-station uptake, we must first identify which commuter journeys could be made by rail. @ref/combi6 shows all rail commutes originating in Bedfordshire, as estimated according to our Phase 1 and Phase 2 approaches. The two panels differ because the Phase 1 method starts by modelling all journeys, not just those made by rail in 2011..... routes trips to the station that provides the shortest rail journey time. This can include stations outside Bedfordshire, and the approach also models trips to Bedfordshire stations that originate outside the county. In Phase 2 trips are routed to the nearest Bedfordshire mainline station. We only include trips that originate within Bedfordshire and can be routed to one of the ten mainline Bedfordshire stations.
 
 A further difference is that in Phase 2, we only consider journeys where the distance to the station is <5km. While this will capture the majority of cycleable trips, it would also be possible to increase this maximum distance to include longer journeys.
+
+Which method produces more rail journeys? If Phase 2, is it because many people are (driving to the station and) doing commutes for which there no is possible way to complete the journey by 9:00 AM by public transport?
 
 ```{r combi6, out.width="50%", fig.show='hold', fig.cap = "Phase 1 and 2 estimates of cycle to rail potential"}
 knitr::include_graphics(c("./figures/bedford-rnet-all-phase1.png","./figures/phase-2-all.png"))
