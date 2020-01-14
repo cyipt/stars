@@ -222,17 +222,23 @@ The scenarios found in this report can assist a monitoring programme in terms of
 
 Monitoring of how rail users access Bedfordshire stations is currently being carried out. We have not used these monitoring results in the current report, but we hope that in future we will be able to use them to assess how cycling levels are changing and how these changes relate to our models and to local improvements in cycle infrastructure.
 
-# Conclusion
+# Conclusions
 
 We have presented two methods for investigating the routes used by commuters to access Bedfordshire rail stations. Using a scenario from the Propensity to Cycle Tool to model the potential for future cycle uptake, we are able to provide evidence identifying where to invest in better cycle infrastructure and which stations are likely to need improved facilities for cyclists.
 
 ## Limitations and scope for further research
 
-There are various ways in which these models could be changed or improved. In this report, each Bedfordshire station is represented by a single point, located at the main station entrance. However, many stations have multiple entrances giving access from two or more different streets. If these additional entrances are also accessible by bicycle, this opens up potential for cycle routes to the station that are not currently being modelled. We expect the impact of this on suburban routings to be relatively limited, but it could have greater impact on our modelling of the cycle usage of some town centre streets. For example, Luton station has a second entrance on Midland Road. If this entrance was included, we could expect that many of the cycle journeys which our Phase 2 analysis shows as passing along North Street and Old Bedford Road would be rerouted to instead follow High Town Road. 
+There are some ways in which these models could be changed or improved. In this report, each Bedfordshire station is represented by a single point, located at the main station entrance. However, many stations have multiple entrances giving access from two or more different streets. If these additional entrances are also accessible by bicycle, this opens up potential for cycle routes to the station that are not currently being modelled. We expect the impact of this on suburban routings to be relatively limited, but it could have greater impact on our modelling of the cycle usage of some town centre streets. For example, Luton station has a second entrance on Midland Road. If this entrance was included, we could expect that many of the cycle journeys which our Phase 2 analysis shows as passing along North Street and Old Bedford Road would be rerouted to instead follow High Town Road. 
 
-Another minor limitation is related to the way in which we assess cycle routes to stations. To do this, we first use the CycleStreets API to identify routes from a given origin to nearby stations. This is based on a 'fastest route' algorithm which accounts for the hilliness of the route, delay at traffic signals, and road surface quality, as well as distance. This means the selected route to a particular station may not necessarily be the route which is shortest in terms of distance. However, once we have obtained these on-road routes from the origin to all nearby rail stations, we must then identify which station the commuter is assumed to be using. We do this based purely on the on-road distance from the journey origin to the station. It would be more appropriate to use journey time instead of distance to make this selection. 
+Another minor limitation is related to the way in which we assess cycle routes to stations in Phase 2. To do this, we first use the CycleStreets API to identify routes from a given origin to nearby stations. This is based on a 'fastest route' algorithm which accounts for the hilliness of the route, delay at traffic signals, and road surface quality, as well as distance. This means the selected route to a particular station may not necessarily be the route which is shortest in terms of distance. However, once we have obtained these on-road routes from the origin to all nearby rail stations, we must then identify which station the commuter is assumed to be using. We do this based purely on the on-road distance from the journey origin to the station. It may be more appropriate to use journey time instead of distance to make this selection. 
 
-Additionally, our assessment of hilliness currently uses the average gradient across the full journey distance. Use of maximum gradient may be more appropriate, since this better reflects the limiting factor for many cyclists. 
+Additionally, our assessment of hilliness currently uses the average gradient across the full journey distance. Use of maximum gradient may be more appropriate, since this better reflects the limiting factor for many cyclists.
+
+In Phase 2 we exclude journeys to/from rail stations outside Bedfordshire, and journeys originating from outside the county to Bedfordeshire stations. These could be added in future, to better characterise journeys for residents living on the borders of the county.
+
+# Recommendations
+
+We recommend the following:
 
 # References
 
