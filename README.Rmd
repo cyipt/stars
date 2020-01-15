@@ -124,7 +124,9 @@ When deciding whether to use the Phase 1 or Phase 2 approach to model cycle-to-s
 
 ## Modelling all rail commutes
 
-Before estimating cycle-to-station uptake, we must first identify which commuter journeys could be made by rail. @ref/combi6 shows all rail commutes originating in Bedfordshire, as estimated according to our Phase 1 and Phase 2 approaches. The two panels differ because the Phase 1 method starts by modelling all journeys, not just those made by rail in 2011..... routes trips to the station that provides the shortest rail journey time. This can include stations outside Bedfordshire, and the approach also models trips to Bedfordshire stations that originate outside the county. In Phase 2 trips are routed to the nearest Bedfordshire mainline station. We only include trips that originate within Bedfordshire and can be routed to one of the ten mainline Bedfordshire stations.
+Before estimating cycle-to-station uptake, we must first identify which commuter journeys could be made by rail. @ref/combi6 shows  all Bedfordshire rail commutes, as estimated according to our Phase 1 and Phase 2 approaches. 
+
+The left panel shows all commutes that could potentially be made by rail according to the Phase 1 methods. For some of these journeys, we can see that the ..... routes trips to the station that provides the shortest rail journey time. This can include stations outside Bedfordshire, and the approach also models trips to Bedfordshire stations that originate outside the county. In Phase 2 trips are routed to the nearest Bedfordshire mainline station. We only include trips that originate within Bedfordshire and can be routed to one of the ten mainline Bedfordshire stations.
 
 A further difference is that in Phase 2, we only consider journeys where the distance to the station is <5km. While this will capture the majority of cycleable trips, it would also be possible to increase this maximum distance to include longer journeys.
 
