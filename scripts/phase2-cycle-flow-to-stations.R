@@ -147,6 +147,8 @@ saveRDS(r_all_selected, "../stars-data/data/routing/phaseII-route-segments-neare
 # # busynance is simply distance times busyness
 # plot(r_all_selected$distances * r_all_selected$busyness, r_all_selected$busynance)
 
+
+
 #######Route networks and grouping by segment
 
 # rnet = overline2(r_all_selected, "rail")
@@ -174,7 +176,7 @@ dev.off()
 
 #Map total number of journeys to stations on each route segment
 png(filename = "./figures/bedford-rnet-all-phase2.png", height = 1000, width = 700)
-tmap_mode("plot")
+tmap_mode("view")
 tm_shape(r_grouped_by_segment) +
   tm_lines("rail", lwd = "rail", scale = 9, palette = "plasma", breaks = c(0, 10, 200, 500, 1000)) +
   tm_shape(region) + tm_borders() +
@@ -201,6 +203,49 @@ tm_shape(rnet_go_dutch) +
   tm_shape(region) + tm_borders() + tm_scale_bar() +
   tm_basemap(server = "https://npttile.vs.mythic-beasts.com/commute/v2/olc/{z}/{x}/{y}.png", )
 
+
+#########Counting the number of journeys to each station#######
+phase2flow = r_nearest_by_road %>% 
+  group_by(station_used) %>%
+  summarise(rail = sum(rail),
+            go_dutch = sum(go_dutch)) %>%
+  rename(station = station_used,Phase_2_Train_In = rail,Phase_2_Dutch_In = go_dutch)
+
+phase2flow = as.data.frame(phase2flow)
+phase2flow = phase2flow[,c(1,2,3)]
+phase2flow$Phase_2_Dutch_In = round(phase2flow$Phase_2_Dutch_In)
+phase2flow$station = as.character(phase2flow$station)
+
+phase2flow$station = gsub(pattern = "Bedford Midland", replacement = "Bedford", x = phase2flow$station)
+phase2flow$station = gsub("Luton Airport", "Luton Airport Parkway", phase2flow$station)
+
+write.csv(phase2flow[,c(1,2,3)],"./figures/phase2flow.csv")
+
+phase1flow = readRDS("../stars-data/data/station_flow_estimates.Rds")
+
+
+compare_phases = left_join(phase2flow, phase1flow, by = "station")
+
+compare_phases = compare_phases %>%
+  mutate(phase1coverage_all = Train_in/Phase_2_Train_In,
+         phase1coverage_Dutch_In = Dutch_in/Phase_2_Dutch_In,
+         phase2overshoot = Phase_2_Train_In/AllMethods_in) 
+
+compare_phases[is.na(compare_phases)] = 0
+compare_phases[,c(1:5,7,16,17,18)]
+
+phase1flow[is.na(phase1flow)] = 0
+
+sum(z$train_tube)
+
+sum(phase1flow$Train_in)/sum(z$train_tube)
+sum(compare_phases$Train_in)/sum(z$train_tube)
+sum(compare_phases$Phase_2_Train_In)/sum(z$train_tube)
+
+# sum(phase1flow$Train_in)/sum(compare_phases$Phase_2_Train_In)
+# sum(compare_phases$Train_in)/sum(compare_phases$Phase_2_Train_In)
+sum(compare_phases$Dutch_in)/sum(compare_phases$Phase_2_Dutch_In)
+sum(compare_phases$Phase_2_Train_In)/sum(compare_phases$AllMethods_in)
 
 ####Is this section needed?###########
 

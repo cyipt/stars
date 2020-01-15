@@ -130,22 +130,35 @@ The left panel shows all commutes that could potentially be made by rail accordi
 
 The right panel shows all commutes made by rail according to the Phase 2 methods. All trips are routed to the nearest Bedfordshire mainline station. We only include trips that were recorded as being made by rail in 2011 and that originate within Bedfordshire, within 5 km of one of the ten mainline Bedfordshire stations.
 
-Which method produces more rail journeys? Add table. If Phase 2, is it because many people are (driving to the station and) doing commutes for which there no is possible way to complete the journey by 9:00 AM by public transport?
-
 ```{r combi6, out.width="50%", fig.show='hold', fig.cap = "Phase 1 and 2 estimates of cycle to rail potential"}
 knitr::include_graphics(c("./figures/bedford-rnet-all-phase1.png","./figures/phase-2-all.png"))
 ```
 
+TX shows the number of rail journeys for each of the ten mainline stations under this scenario. 
+Include table of total phase 1 (10 stations), total phase 1 (all stations), total phase 2, total census.
+
+From table X, we can see that in the Phase 1 analysis, some rail journeys are being missed. Including all rail stations, only 80% of rail journeys are accounted for, while looking solely at journeys from the ten mainline Bedfordshire stations, only 70% of Bedfordshire rail journeys are accounted for, based on 2011 Census returns. Given that under the Phase 1 method, all journeys that can be undertaken by public transport are considered, this suggests that for many current rail commutes in Bedfordshire, it is impossible to reach the station by public transport. It is likely that in the majority of cases these commuters are driving to the station.
+
+In Phase 2, only journeys starting within 5 km of a mainline rail station are included. This means that x% of rail journeys are missed, although these are the longer journeys which may be less likely to be cycled.
+
+We can also see some notable differences in terms of which stations are being used. In particular, Phase 2 shows many more departures from Leagrave station. Most of these were routed to Luton station in the Phase 1 method. If we were focusing on travel to the station by car, bus or other modes, then it may be the case that most of these journeys should be routed to Luton station. However, our aim is to model potential cycle flows. Since both stations are on the same line, and both have a good quality rail service to London, with trains running at least every 15 minutes, it seems reasonable to assume that commuters who cycle to the station would simply cycle to their nearest station, and therefore would be likely to use Leagrave as long as it is their nearest station. 
+
+In Phase 2 there are more cyclists at Arlesey and Sandy. In reality, these are probably people who live close to the county boundary and who actually use stations outside Bedfordshire, such as Hitchin and St Neots. 
+
 ## Go Dutch cycle to rail stations (Phase 1 and 2 estimates)
 
-We can now estimate how many commuters would cycle to the station, if cycling levels in Bedfordshire were equivalent to those in the Netherlands. To do this we use the Go Dutch scenario developed as part of the Propensity to Cycle Tool (ref). 
-
-We can see some notable differences between the modelled distributions of cycling to stations under Phase 1 and Phase 2. In particular, Phase 2 shows many more cycle trips to Leagrave station. Most of these were routed to Luton station in the Phase 1 method, but since Leagrave has a good quality rail service to London, with trains running every 15 minutes, it may be reasonable to assume that commuters who cycle to the station would be more likely to use Leagrave if it is their nearest station. 
-
+We can now estimate how many commuters would cycle to the station, if cycling levels in Bedfordshire were equivalent to those in the Netherlands. To do this we use the Go Dutch scenario developed as part of the Propensity to Cycle Tool (Lovelace et al. 2017). The Phase 1 results are on the left and Phase 2 on the right.  
 
 ```{r combi7, out.width="50%", fig.show='hold', fig.cap="Cycle commuting to rail stations under the Phase 1 and Phase 2 approaches"}
 knitr::include_graphics(c("./figures/bedford-rnet-go-dutch-phase1.png","./figures/phase-2-go-dutch.png"))
 ```
+
+Table X shows the number of cyclists entering each of the ten mainline stations under this scenario. 
+Include table of total phase 1 (10 stations), total phase 1 (all stations), total phase 2.
+
+There is a major difference between these two approaches in terms of the total number of cyclists. In Phase 1, there are x, while in Phase 2 there are three times that with x.
+
+Again, there are differences in terms of which station cyclists are using. Leagrave....etc. 
 
 # Applications for infrastructure planning
 
