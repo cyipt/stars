@@ -242,6 +242,15 @@ sum(phase1flow$Train_in)/sum(z$train_tube)
 sum(compare_phases$Train_in)/sum(z$train_tube)
 sum(compare_phases$Phase_2_Train_In)/sum(z$train_tube)
 
+Phase_1_all_stations = sum(phase1flow$Train_in)
+Phase_1_ten_stations = sum(compare_phases$Train_in)
+Phase_2_ten_stations = sum(compare_phases$Phase_2_Train_In)
+Census_2011 = sum(z$train_tube)
+
+totals = data.frame(Phase_1_all_stations,Phase_1_ten_stations,Phase_2_ten_stations,Census_2011, row.names = )
+write.csv(totals, "../stars-data/data/flow/totals.csv")
+
+
 # sum(phase1flow$Train_in)/sum(compare_phases$Phase_2_Train_In)
 # sum(compare_phases$Train_in)/sum(compare_phases$Phase_2_Train_In)
 sum(compare_phases$Dutch_in)/sum(compare_phases$Phase_2_Dutch_In)

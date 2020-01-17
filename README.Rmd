@@ -134,10 +134,16 @@ The right panel shows all commutes made by rail according to the Phase 2 methods
 knitr::include_graphics(c("./figures/bedford-rnet-all-phase1.png","./figures/phase-2-all.png"))
 ```
 
+
+```{r table1}
+totals = read.csv("../stars-data/data/flow/totals.csv")
+knitr::kable(totals,caption = "Rail commuter journeys by Bedfordshire residents")
+```
+
 TX shows the number of rail journeys for each of the ten mainline stations under this scenario. 
 Include table of total phase 1 (10 stations), total phase 1 (all stations), total phase 2, total census.
 
-From table X, we can see that in the Phase 1 analysis, some rail journeys are being missed. Including all rail stations, only 80% of rail journeys are accounted for, while looking solely at journeys from the ten mainline Bedfordshire stations, only 70% of Bedfordshire rail journeys are accounted for, based on 2011 Census returns. Given that under the Phase 1 method, all journeys that can be undertaken by public transport are considered, this suggests that for many current rail commutes in Bedfordshire, it is impossible to reach the station by public transport. It is likely that in the majority of cases these commuters are driving to the station.
+From table X, we can see that in the Phase 1 analysis, fewer rail journeys are modelled than the actual number of rail commutes according to 2011 Census data. Including all rail stations, only 80% of rail journeys are accounted for, while looking solely at journeys from the ten mainline Bedfordshire stations, only 70% of Bedfordshire rail journeys are accounted for, based on 2011 Census returns. Given that under the Phase 1 method, all journeys that can be undertaken by public transport are considered, this suggests that for many current rail commutes in Bedfordshire, it is impossible to reach the station by public transport. It is likely that in the majority of cases these commuters are driving to the station.
 
 In Phase 2, only journeys starting within 5 km of a mainline rail station are included. This means that x% of rail journeys are missed, although these are the longer journeys which may be less likely to be cycled.
 
