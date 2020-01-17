@@ -88,9 +88,9 @@ In our models, we do not use the commuter's actual home and workplace as the jou
 
 ## Our Phase 1 method:
 
-1) Using 2011 Census data, identify all journeys to work that either start or end in Bedfordshire. 
+1) Using 2011 Census data, identify all journeys to work made by rail, that either start or end in Bedfordshire. 
 
-2) Model these journeys using the public transport routefinder TransportAPI, to find the three fastest suggested journey options that allow the commuter to arrive at their destination by 9:00 AM. Exclude all journeys where none of these options uses the rail network, or where the journey start and end points are so close together that using the rail network would result in an unnecessarily circuitous journey. 
+2) Model these journeys using the public transport routefinder TransportAPI, to find the three fastest suggested journey options (involving travel by public transport and/or walking) that allow the commuter to arrive at their destination by 9:00 AM. Exclude all journeys where none of these options uses the rail network. 
 
 3) For the remaining journeys, pick the option for which the rail component of the journey is fastest. This option determines which rail entry and exit stations we assume will be used. This method does not simply route commuters to their nearest station, but takes account of their final destination to pick an appropriate station. 
 
@@ -110,23 +110,21 @@ In our models, we do not use the commuter's actual home and workplace as the jou
 
 ## Differences between the Phase 1 and Phase 2 approaches
 
-There are several differences between the Phase 1 and Phase 2 approaches. The most important difference is in how we determine which rail stations are used. In Phase 1, the aim is to minimise the rail journey time, taking into account the final destination. In Phase 2 the aim is to minimise the distance from the home to the station, with no consideration given to the destination.
+There are several differences between the Phase 1 and Phase 2 approaches. The most important difference is in how we determine which rail stations are used. In Phase 1, the aim is to minimise the rail journey time, taking into account the final destination. In Phase 2 the aim is to simply minimise the distance from the home to the station.
 
 In Phase 1, all UK rail stations can be selected as arrival or departure stations, including stations outside Bedfordshire. In Phase 2 we only use mainline Bedfordshire stations. These all have frequent direct services to and from London and are all well-used stations, with seven of the ten stations having over 1 million entries and exits in 2016-17. This gives us the ten most-used rail stations in Bedfordshire, as listed in Table 3 below. These comprise six stations on the Midland Mainline, three stations on the East Coast Mainline, and one station on the West Coast Mainline. Since the presence of frequent direct services to the main commuter destination of London is a feature of all of these stations, routing via the nearest station seems appropriate when modelling potential cycle journeys. 
 
-A further difference is that the Phase 2 approach focuses strictly on journeys that were made by rail in 2011. The Phase 1 approach models all commuter journeys that could potentially be made by rail. It does this by identifying whether the journey can be made by public transport (including rail, bus and walking) to allow arrival by 9:00 AM. Then we explore how to replace the non-rail portions of the journey with cycling.
-
-In Phase 1, journeys with either an origin or destination in Bedfordshire are modelled, but in Phase 2 only journeys with an origin in Bedfordshire (i.e. Bedfordshire residents) are modelled. 
+Furthermore, in Phase 1, journeys with either an origin or destination in Bedfordshire are modelled, but in Phase 2 only journeys with an origin in Bedfordshire (i.e. Bedfordshire residents) are modelled. 
 
 Finally, in Phase 2 we exclude journeys where the distance from the origin to the nearest station is greater than 5km as the crow flies. While this will capture the majority of cycleable trips, it would also be possible in future to increase this maximum distance to include longer journeys.
 
-When deciding whether to use the Phase 1 or Phase 2 approach to model cycle-to-station potential, a key question is whether, for the area in question, commuters are likely to choose to cycle to a more distant station in order to shave some time off their rail journey. If a study focuses solely on relatively large stations with frequent services to the key destinations of interest, the Phase 2 approach is likely to provide the most realistic cycle routings. However, if the aim is to also investigate travel to minor stations which may not have direct services to some important destinations (such as the stations on the Marston Vale line), the Phase 1 approach is likely to be best.
+When deciding whether to use the Phase 1 or Phase 2 approach to model cycle-to-station potential, a key question is whether, for the area in question, commuters are likely to choose to cycle to a more distant station in order to shave some time off their rail journey. If a study focuses solely on stations which have frequent services to the key destinations of interest, the Phase 2 approach is likely to provide the most realistic cycle routings. However, if the aim is to also investigate travel to minor stations with limited service frequency, or stations on lines which may not have direct rail services to some important destinations (such as the stations on the Marston Vale line), the Phase 1 approach is likely to be best.
 
 ## Modelling all rail commutes
 
 Before estimating cycle-to-station uptake, we must first identify which commuter journeys could be made by rail. @ref/combi6 shows the routes between the journey origin/destination and the relevant rail station for all Bedfordshire rail commutes, as estimated according to our Phase 1 and Phase 2 approaches. 
 
-The left panel shows all commutes that could potentially be made by rail according to the Phase 1 methods. This includes trips to stations outside Bedfordshire. We can see that these journeys are not always routed to the nearest rail station. For example, there are journeys along the A6 between Clophill and Luton, although Luton is not the nearest rail station. This is likely to be because the journey option for these commutes that has the shortest rail journey time involves taking a bus to Luton, followed by a train from Luton to the destination.
+The left panel shows all commutes made by rail according to the Phase 1 methods. This includes trips to stations outside Bedfordshire. We can see that these journeys are not always routed to the nearest rail station. For example, there are journeys along the A6 between Clophill and Luton, although Luton is not the nearest rail station. This is likely to be because the journey option for these commutes that has the shortest rail journey time involves taking a bus to Luton, followed by a train from Luton to the destination.
 
 The right panel shows all commutes made by rail according to the Phase 2 methods. All trips are routed to the nearest Bedfordshire mainline station. We only include trips that were recorded as being made by rail in 2011 and that originate within Bedfordshire, within 5 km of one of the ten mainline Bedfordshire stations.
 
@@ -137,19 +135,23 @@ knitr::include_graphics(c("./figures/bedford-rnet-all-phase1.png","./figures/pha
 
 ```{r table1}
 totals = read.csv("../stars-data/data/flow/totals.csv")
-knitr::kable(totals,caption = "Rail commuter journeys by Bedfordshire residents")
+knitr::kable(totals,caption = "Total rail commuter journeys by Bedfordshire residents")
 ```
 
-TX shows the number of rail journeys for each of the ten mainline stations under this scenario. 
-Include table of total phase 1 (10 stations), total phase 1 (all stations), total phase 2, total census.
+From @ref/table1 , we can see that in the Phase 1 analysis, fewer rail journeys are modelled than the actual number of rail commutes according to 2011 Census data. Including all rail stations, only 80% of rail journeys are accounted for, based on 2011 Census returns. This suggests that for many current rail commutes in Bedfordshire, it is either impossible to reach the station by public transport or the three fastest journey options according to TransportAPI do not involve travel by rail. It is likely that in the majority of cases these commuters are driving to the station.
 
-From table X, we can see that in the Phase 1 analysis, fewer rail journeys are modelled than the actual number of rail commutes according to 2011 Census data. Including all rail stations, only 80% of rail journeys are accounted for, while looking solely at journeys from the ten mainline Bedfordshire stations, only 70% of Bedfordshire rail journeys are accounted for, based on 2011 Census returns. Given that under the Phase 1 method, all journeys that can be undertaken by public transport are considered, this suggests that for many current rail commutes in Bedfordshire, it is impossible to reach the station by public transport. It is likely that in the majority of cases these commuters are driving to the station.
+In Phase 2, only journeys starting within 5 km of a mainline rail station are included. This means that 11% of rail journeys are missed, although these are the longer journeys which would probably be less likely to be cycled.
 
-In Phase 2, only journeys starting within 5 km of a mainline rail station are included. This means that x% of rail journeys are missed, although these are the longer journeys which may be less likely to be cycled.
+```{r table2}
+s_counts_all = read.csv("../stars-data/data/flow/s_counts_all.csv")
+knitr::kable(s_counts_all,caption = "Total rail commuter journeys from each mainline station")
+```
 
-We can also see some notable differences in terms of which stations are being used. In particular, Phase 2 shows many more departures from Leagrave station. Most of these were routed to Luton station in the Phase 1 method. If we were focusing on travel to the station by car, bus or other modes, then it may be the case that most of these journeys should be routed to Luton station. However, our aim is to model potential cycle flows. Since both stations are on the same line, and both have a good quality rail service to London, with trains running at least every 15 minutes, it seems reasonable to assume that commuters who cycle to the station would simply cycle to their nearest station, and therefore would be likely to use Leagrave as long as it is their nearest station. 
+@ref/table2 shows the number of rail journeys for each of the ten mainline stations according to the Phase 1 and Phase 2 methods, and the proportional differences between the two methods. For several stations, the results are very similar between Phase 1 and Phase 2. For the remainder, there are two notable patterns we can pick out. Firstly, Phase 2 shows many more departures from Leagrave and Luton Airport Parkway stations, and fewer departures from Luton station. It appears that many journeys that are routed to Luton station in the Phase 1 method are routed to Leagrave or Luton Airport Parkway in Phase 2. This is probably because the preponderance of local bus services to Luton town centre makes Luton station the better choice when travelling by public transport, so it is chosen more often by the TransportAPI algorithm used in Phase 1, even for journeys originating closer to Leagrave or Luton Airport Parkway. 
 
-In Phase 2 there are more cyclists at Arlesey and Sandy. In reality, these are probably people who live close to the county boundary and who actually use stations outside Bedfordshire, such as Hitchin and St Neots. 
+If we were focusing on travel to the station by car, bus or other modes, then it may be the case that most of these journeys should be routed to Luton station. However, our aim is to model potential cycle flows. Since all of these stations are on the same line and have a good quality rail service to London, with trains running at least every 15 minutes, it seems reasonable to assume that commuters who cycle to the station would simply cycle to their nearest station, as modelled in Phase 2. 
+
+The other difference is that in Phase 2 more journeys are routed to Arlesey and Sandy. In reality, many of these are likely to be people who live close to the county boundary and who actually use stations outside Bedfordshire, such as Letchworth, Hitchin and St Neots. 
 
 ## Go Dutch cycle to rail stations (Phase 1 and 2 estimates)
 
@@ -159,10 +161,20 @@ We can now estimate how many commuters would cycle to the station, if cycling le
 knitr::include_graphics(c("./figures/bedford-rnet-go-dutch-phase1.png","./figures/phase-2-go-dutch.png"))
 ```
 
+```{r table3}
+totals_dutch = read.csv("../stars-data/data/flow/totals_dutch.csv")
+knitr::kable(totals_dutch,caption = "Go Dutch cycle-to-station potential for Bedfordshire residents")
+```
+
 Table X shows the number of cyclists entering each of the ten mainline stations under this scenario. 
 Include table of total phase 1 (10 stations), total phase 1 (all stations), total phase 2.
 
 There is a major difference between these two approaches in terms of the total number of cyclists. In Phase 1, there are x, while in Phase 2 there are three times that with x.
+
+```{r table4}
+s_counts_dutch = read.csv("../stars-data/data/flow/s_counts_dutch.csv")
+knitr::kable(s_counts_dutch,caption = "Go Dutch cycle-to-station potential from each mainline station")
+```
 
 Again, there are differences in terms of which station cyclists are using. Leagrave....etc. 
 

@@ -209,11 +209,11 @@ phase2flow = r_nearest_by_road %>%
   group_by(station_used) %>%
   summarise(rail = sum(rail),
             go_dutch = sum(go_dutch)) %>%
-  rename(station = station_used,Phase_2_Train_In = rail,Phase_2_Dutch_In = go_dutch)
+  rename(station = station_used,phase_2_all_rail = rail,phase_2_go_dutch = go_dutch)
 
 phase2flow = as.data.frame(phase2flow)
 phase2flow = phase2flow[,c(1,2,3)]
-phase2flow$Phase_2_Dutch_In = round(phase2flow$Phase_2_Dutch_In)
+phase2flow$phase_2_go_dutch = round(phase2flow$phase_2_go_dutch)
 phase2flow$station = as.character(phase2flow$station)
 
 phase2flow$station = gsub(pattern = "Bedford Midland", replacement = "Bedford", x = phase2flow$station)
@@ -221,40 +221,79 @@ phase2flow$station = gsub("Luton Airport", "Luton Airport Parkway", phase2flow$s
 
 write.csv(phase2flow[,c(1,2,3)],"./figures/phase2flow.csv")
 
-phase1flow = readRDS("../stars-data/data/station_flow_estimates.Rds")
+phase1flow = readRDS("../stars-data/data/station_flow_estimates.Rds") %>%
+  rename(phase_1_all_rail = Train_in, phase_1_go_dutch = Dutch_in)
 
 
 compare_phases = left_join(phase2flow, phase1flow, by = "station")
 
 compare_phases = compare_phases %>%
-  mutate(phase1coverage_all = Train_in/Phase_2_Train_In,
-         phase1coverage_Dutch_In = Dutch_in/Phase_2_Dutch_In,
-         phase2overshoot = Phase_2_Train_In/AllMethods_in) 
+  mutate(diff_all_rail = round(phase_1_all_rail/phase_2_all_rail,2),
+         diff_go_dutch = round(phase_1_go_dutch/phase_2_go_dutch,2),
+         takeup_phase_1 = round(phase_1_go_dutch/phase_1_all_rail,2),
+         takeup_phase_2 = round(phase_2_go_dutch/phase_2_all_rail,2),)
 
 compare_phases[is.na(compare_phases)] = 0
-compare_phases[,c(1:5,7,16,17,18)]
-
 phase1flow[is.na(phase1flow)] = 0
+
+
+s_counts_all = compare_phases[,c(1,2,5,16)] %>%
+  select(1,3,2,4)
+s_counts_all 
+
+write.csv(s_counts_all, "../stars-data/data/flow/s_counts_all.csv")
+
+
+s_counts_dutch = compare_phases[,c(1,3,7,18:19)] %>%
+  select(1,3,2,4,5)
+s_counts_dutch 
+
+write.csv(s_counts_dutch, "../stars-data/data/flow/s_counts_dutch.csv")
+
+
+
+
+########COunting total rail journeys#######
 
 sum(z$train_tube)
 
-sum(phase1flow$Train_in)/sum(z$train_tube)
-sum(compare_phases$Train_in)/sum(z$train_tube)
-sum(compare_phases$Phase_2_Train_In)/sum(z$train_tube)
+p1_pc = round(sum(phase1flow$phase_1_go_dutch)/sum(z$train_tube)*100)
+p1_10_pc = round(sum(compare_phases$phase_1_all_rail)/sum(z$train_tube)*100)
+p2_pc = round(sum(compare_phases$phase_2_all_rail)/sum(z$train_tube)*100)
 
-Phase_1_all_stations = sum(phase1flow$Train_in)
-Phase_1_ten_stations = sum(compare_phases$Train_in)
-Phase_2_ten_stations = sum(compare_phases$Phase_2_Train_In)
-Census_2011 = sum(z$train_tube)
+p1 = c(sum(phase1flow$phase_1_all_rail),p1_pc)
+p1_10 = c(sum(compare_phases$phase_1_all_rail),p1_10_pc)
+p2 = c(sum(compare_phases$phase_2_all_rail),p2_pc)
+c_2011 = c(sum(z$train_tube),100)
 
-totals = data.frame(Phase_1_all_stations,Phase_1_ten_stations,Phase_2_ten_stations,Census_2011, row.names = )
+totals = data.frame(p1,p1_10,p2,c_2011, row.names = c("Total journeys","% accounted for"))
+colnames(totals) = c("Phase1(all_stations)","Phase1(ten_stations)","Phase2(ten_stations)","Census2011")
+totals
+
 write.csv(totals, "../stars-data/data/flow/totals.csv")
 
 
-# sum(phase1flow$Train_in)/sum(compare_phases$Phase_2_Train_In)
-# sum(compare_phases$Train_in)/sum(compare_phases$Phase_2_Train_In)
-sum(compare_phases$Dutch_in)/sum(compare_phases$Phase_2_Dutch_In)
-sum(compare_phases$Phase_2_Train_In)/sum(compare_phases$AllMethods_in)
+p1dt = round(sum(phase1flow$phase_1_go_dutch)/sum(phase1flow$phase_1_all_rail)*100)
+p1dt_10 = round(sum(compare_phases$phase_1_go_dutch)/sum(compare_phases$phase_1_all_rail)*100)
+p2dt = round(sum(compare_phases$phase_2_go_dutch)/sum(compare_phases$phase_2_all_rail)*100)
+
+p1d = c(round(sum(phase1flow$phase_1_go_dutch)),p1dt)
+p1d_10 = c(sum(compare_phases$phase_1_go_dutch),p1dt_10)
+p2d = c(sum(compare_phases$phase_2_go_dutch),p2dt)
+
+totals_dutch = data.frame(p1d,p1d_10,p2d, row.names = c("Go Dutch journeys cycled","% takeup"))
+colnames(totals_dutch) = c("Phase1(all_stations)","Phase1(ten_stations)","Phase2(ten_stations)")
+totals_dutch
+
+write.csv(totals_dutch, "../stars-data/data/flow/totals_dutch.csv")
+
+# sum(phase1flow$phase_1_all_rail)/sum(compare_phases$phase_2_all_rail)
+# sum(compare_phases$phase_1_all_rail)/sum(compare_phases$phase_2_all_rail)
+sum(compare_phases$phase_1_go_dutch)/sum(compare_phases$phase_2_go_dutch)
+sum(compare_phases$phase_2_all_rail)/sum(compare_phases$AllMethods_in)
+
+
+
 
 ####Is this section needed?###########
 
