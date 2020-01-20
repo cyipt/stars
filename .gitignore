@@ -7,3 +7,5 @@ slides/*.html
 *.Rds
 slides/dft-oct-2019_files/figure-html/cars-1.svg
 slides/dft-oct-2019_files/figure-html/cars-1.svg
+region-overview-stations.html
+test.R

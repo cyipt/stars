@@ -21,13 +21,27 @@ library(tidyverse)
 
 # Introduction
 
+- Incorporating school journeys into the Propensity to Cycle Tool (PCT)
+
+- STARS - sustainable transport access to rail stations
+
+- ACTON - Active transport options for new developments
+
+
+---
+
+# Schools
+
+
+---
+
+# Vector and raster representations at a regional scale
+
 .pull-left[
 
-- Updating the Propensity to Cycle Tool (PCT)
-
-- The Cycling Infrastructure Prioritisation Toolkit (CyIPT)
-
-- Why travel to stations
+```{r}
+knitr::include_graphics("~/pct-commute-schools-overlay/combined_rnet_leeds_centre.png")
+```
 
 ]
 
@@ -35,7 +49,51 @@ library(tidyverse)
 
 .pull-right[
 
-Aims: 
+```{r}
+knitr::include_graphics("~/pct-commute-schools-overlay/rnet_commute.png")
+```
+
+]
+
+---
+
+# Vector and raster representations of Leeds city centre
+
+```{r combi2, out.width="33%", fig.show='hold', fig.cap="The vector route network, 100m and 200m resolution raster images for the centre of Leeds, showing the combined commute/school travel networks."}
+# i = magick::image_read("200m_clxm_leeds_centre.png")
+# i_border = magick::image_border(image = i, color = "white", geometry = "10x10")
+# i_border
+# magick::image_write(i_border, "200m_clxm_leeds_centre.png")
+knitr::include_graphics(c("~/pct-commute-schools-overlay/combined_rnet_leeds_centre.png", "~/pct-commute-schools-overlay/100m_clxm_leeds_centre.png", "200m_clxm_leeds_centre.png"))
+```
+
+---
+
+# Schools and residential zones
+
+```{r combi3, out.height="6.5cm", fig.show='hold', fig.cap="The location of schools, residential areas, and heavily used routes to schools in the Leeds and Bradford area. "}
+knitr::include_graphics(c("~/pct-commute-schools-overlay/schools_and_lsoa.png","~/pct-commute-schools-overlay/routes-schools-res.png"))
+```
+
+---
+
+# Connected networks of routes to schools
+
+```{r rnet-membership, out.width="50%", fig.show='hold', fig.cap="Route networks with high cycle to school potential (100+ trips per day under Go Dutch) grouped by connectivity, with the largest 4 groups in terms of number of segments highlighted by colour (left). A zoomed-in view of the second largest group."}
+knitr::include_graphics(c("~/pct-commute-schools-overlay/Plots/rnet-membership-4-groups.png","~/pct-commute-schools-overlay/Plots/rnet-group2.png"))
+```
+
+---
+
+# Combining schools and commute networks
+
+``` {r faceted, out.width="100%", fig.show="hold", fig.cap="Route networks of commute, school, combined and weighted cycle propensity in the 5km zone surrounding Leeds Railway Station. In the weighted panel trips to school are given a weighting of 2."}
+knitr::include_graphics("~/pct-commute-schools-overlay/faceted_to_scale.png")
+```
+
+---
+
+# Aims of STARS: 
 
 - Establish the potential for cycling to stations in the STARS study area
 
@@ -43,11 +101,7 @@ Aims:
 
 - Feed into monitoring and evaluation of cycling levels
 
-]
-
 ???
-
-Robin to do this bit
 
 Around 2/3rd of trips are within 5 miles.
 Many of these are cyclable, especially when considering Ebikes.
@@ -57,7 +111,6 @@ Modal shift to cycling under future scenarios
 Identify roads which may benefit from improved cycle infrastructure
 Estimate the number of cycle parking spaces required at stations
 Can identify potential monitoring sites and provide a baseline against which to assess cycling uptake 
-
 
 ---
 
@@ -318,52 +371,6 @@ knitr::include_graphics("../figures/bedford-busyness.png")
 ```
 
 
-
----
-
-# Survey data
-
-To add: summary stats: 
-- modal share at each station in bedfordshire. Do we include the Luton stations?
-- station usage over time
-
-```{r}
-knitr::include_graphics("../figures/survey_and_orr.png")
-```
-
----
-
-# Survey data analysis
-
-Luton Airport Parkway is less dominated by commuter journeys than other stations
-
-.pull-left[
-
-```{r}
-knitr::include_graphics("../figures/bedford-entries.png")
-
-knitr::include_graphics("../figures/luton-airpt-pkwy-entries.png")
-```
-
-]
-
-.pull-right[
-
-```{r}
-knitr::include_graphics("../figures/bedford-exits.png")
-
-knitr::include_graphics("../figures/luton-airpt-pkwy-exits.png")
-```
-
-]
-
-
-???
-
-The ORR data is from the Estimates of Station Usage for 2017-18 (the most recent year available)
-The survey data is from 27-29th Nov 2018, collected on a single day between the hours of 05:30-10:30am at each station. 
-Luton Airport Parkway is not used much for commuting, so we can expect the survey data (collected during the morning peak) to show lower usage than ORR data (representing total annual usage)
-
 ---
 
 # Route network analysis
@@ -406,6 +413,36 @@ knitr::include_graphics("https://user-images.githubusercontent.com/1825120/66382
 - Training / workshop
 - National deployment of cycling-transport layer
 - calculate with route network distance minimised
+
+---
+
+# ACTON
+
+```{r}
+library(tmap)
+zones_leeds = sf::read_sf("https://github.com/cyipt/acton/releases/download/0.0.1/zones_leeds_pct_jts_2017_lsoa.geojson")
+qtm(zones_leeds, "Empl_pop")
+```
+
+---
+
+# Distance from a centre of employment with >=5000 jobs
+
+```{r}
+library(tmap)
+tmap_mode("plot")
+qtm(zones_leeds, c("Jobs5000EmpPTt", "Jobs5000EmpCyct", "Jobs5000EmpCart")) +
+  tm_facets(nrow = 1)
+```
+
+
+---
+
+# Weighted distance from centres of employment
+
+```{r}
+knitr::include_graphics("~/acton/figures/weighted-access.png")
+```
 
 
 ---
