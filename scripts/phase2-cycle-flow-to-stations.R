@@ -204,6 +204,8 @@ tm_shape(rnet_go_dutch) +
   tm_basemap(server = "https://npttile.vs.mythic-beasts.com/commute/v2/olc/{z}/{x}/{y}.png", )
 
 
+
+
 #########Counting the number of journeys to each station#######
 phase2flow = r_nearest_by_road %>% 
   group_by(station_used) %>%
@@ -252,8 +254,31 @@ write.csv(s_counts_dutch, "../stars-data/data/flow/s_counts_dutch.csv")
 
 
 
+######Grouped bar charts
 
-########COunting total rail journeys#######
+takeup = gather(compare_phases[,c(1,2,3,5,7)], `phase_1_go_dutch`, `phase_2_go_dutch`,`phase_1_all_rail`, `phase_2_all_rail`, key = "phase", value = "trips")
+
+takeup$type = substr(takeup$phase, 9,str_length(takeup$phase))
+takeup$phase = substr(takeup$phase, 1,7)
+
+library(RColorBrewer)
+
+# ggplot(takeup, aes(fill=type, y=trips, x=station)) +
+#   geom_bar(position="stack", stat="identity") +
+#   theme_minimal() 
+
+
+ggplot(data=takeup, aes(x=phase, y=trips, fill=type)) + 
+  geom_bar(stat="identity",position = "dodge") + 
+  facet_grid(~station) +
+  theme_gray() + 
+  theme(axis.title.x=element_blank(),
+        axis.title.y=element_blank()) +
+  scale_fill_brewer(palette = "Dark2")
+
+
+
+########Counting total rail journeys#######
 
 sum(z$train_tube)
 

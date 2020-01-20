@@ -1,9 +1,9 @@
 ---
-title: "Widening the scope of the Propensity to Cycle Tool"
-subtitle: "`r emojifont::emoji('bike')` `r emojifont::emoji('train')` <br/>Travel to schools and rail stations"
+title: "Widening the scope of cycle infrastructure planning"
+subtitle: "`r emojifont::emoji('bike')` `r emojifont::emoji('train')` `r emojifont::emoji('house')` `r emojifont::emoji('school')`<br/>Schools, railway stations and new housing developments"
 author: "Joey Talbot and Robin Lovelace"
 institute: "Institute for Transport Studies, University of Leeds"
-date: "2016/12/12 (updated: `r Sys.Date()`)"
+date: "21/01/2020"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -22,8 +22,6 @@ library(tidyverse)
 # Introduction
 
 .pull-left[
-
-- About us
 
 - Updating the Propensity to Cycle Tool (PCT)
 
@@ -264,7 +262,7 @@ knitr::include_graphics("../figures/bedford-rnet-all-phase1.png")
 ### Phase II estimates
 
 ```{r}
-knitr::include_graphics("../figures/bedford-rnet-nearest.png")
+knitr::include_graphics("../figures/bedford-all-phase2.png")
 ```
 
 ]
@@ -294,11 +292,20 @@ knitr::include_graphics("../figures/bedford-rnet-go-dutch-phase1.png")
 ### Phase II estimates
 
 ```{r}
-knitr::include_graphics("../figures/bedford-rnet-go-dutch-phase2.png")
+knitr::include_graphics("../figures/bedford-go-dutch-phase2.png")
 ```
 
 ]
 
+
+---
+
+# Cycling takeup rates
+
+
+```{r}
+knitr::include_graphics("../figures/takeup-by-phase.png")
+```
 
 ---
 
