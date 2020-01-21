@@ -25,10 +25,28 @@ tmap_mode("plot")
 
 - Incorporating school journeys into the Propensity to Cycle Tool (PCT)
 
+
+
 - STARS - Sustainable transport access to rail stations
+
+
 
 - ACTON - Active transport options for new developments
 
+
+---
+
+# Travel to schools
+
+- The PCT started off with commute data only, although this only represents around a third of cycle trips
+
+- School travel data was added in 2019
+
+- There are striking contrasts in terms of where people are cycling, with school trips better at representing local and suburban journeys 
+
+- 3.3% of commutes are cycled in England, but only 1.3% of trips for education/escort education and <1% for personal business and shopping (Aldred 2019)
+
+- In Netherlands, women cycle more than men
 
 ---
 
@@ -37,7 +55,7 @@ tmap_mode("plot")
 .pull-left[
 
 ```{r}
-knitr::include_graphics("../figures/combined_rnet_leeds_centre.png")
+knitr::include_graphics("../figures/combined rnet.png")
 ```
 
 ]
@@ -47,14 +65,14 @@ knitr::include_graphics("../figures/combined_rnet_leeds_centre.png")
 .pull-right[
 
 ```{r}
-knitr::include_graphics("../figures/rnet_commute.png")
+knitr::include_graphics("../figures/combined rnet 1km raster.png")
 ```
 
 ]
 
 ---
 
-# Vector and raster representations of Leeds city centre
+# Scale and resolution: raster representations of Leeds city centre
 
 .pull-left[
 
@@ -64,7 +82,6 @@ knitr::include_graphics("../figures/100m_clxm_leeds_centre.png")
 
 ]
 
---
 
 .pull-right[
 
@@ -318,7 +335,7 @@ knitr::include_graphics("../figures/bedford-rnet-rail-geom-phase1.png")
 ## Phase II 
 
 - Start with commutes that are already made by rail
-- Use OpenTripPlanner to identify shortest overall journey time for cycle/rail combination
+- Use CycleStreets API to identify shortest overall journey time for cycle/rail combination
 - Based on home-rail trip, estimate potential for trip to be cycled
 
 
@@ -395,31 +412,6 @@ knitr::include_graphics("../figures/bedford-go-dutch-phase2.png")
 knitr::include_graphics("../figures/takeup-by-phase.png")
 ```
 
----
-
-# Other considerations
-
-Busyness. Interactive map [here](http://rpubs.com/RobinLovelace/536820)
-
-```{r}
-knitr::include_graphics("../figures/bedford-busyness.png")
-```
-
-
----
-
-# Route network analysis
-
-Compare potential with plans - interactive map [online](http://rpubs.com/RobinLovelace/536827)
-
-```{r, out.width="75%"}
-knitr::include_graphics("../figures/bedford-rnet-go-dutch-phase2-luton.png")
-```
-
-???
-
-This routes commutes to the major Bedfordshire stations only (as shown in previous slide) using the Cyclestreets routing API and the PCT 'Go Dutch' scenario
-Journeys are to the nearest station 'as the crow flies'
 
 ---
 
@@ -464,9 +456,9 @@ qtm(zones_leeds, "Empl_pop")
 # Distance from a centre of employment with >=5000 jobs
 
 ```{r}
-qtm(zones_leeds, c("Jobs5000EmpPTt", "Jobs5000EmpCyct", "Jobs5000EmpCart")) +
-  tm_facets(nrow = 1)
+knitr::include_graphics("../figures/jobs5000emp.png")
 ```
+
 
 
 ---
@@ -491,5 +483,7 @@ Joey Talbot: J.D.Talbot@leeds.ac.uk
 For more on the PCT, see www.pct.bike
 
 www.cyipt.bike for the Cycling Infrastructure Prioritisation Toolkit (CyIPT)
+
+ACTON website: https://cyipt.github.io/acton/
 
 
