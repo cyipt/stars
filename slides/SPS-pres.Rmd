@@ -16,6 +16,8 @@ output:
 ```{r, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
+library(tmap)
+tmap_mode("plot")
 ```
 
 
@@ -23,14 +25,9 @@ library(tidyverse)
 
 - Incorporating school journeys into the Propensity to Cycle Tool (PCT)
 
-- STARS - sustainable transport access to rail stations
+- STARS - Sustainable transport access to rail stations
 
 - ACTON - Active transport options for new developments
-
-
----
-
-# Schools
 
 
 ---
@@ -40,7 +37,7 @@ library(tidyverse)
 .pull-left[
 
 ```{r}
-knitr::include_graphics("~/pct-commute-schools-overlay/combined_rnet_leeds_centre.png")
+knitr::include_graphics("../figures/combined_rnet_leeds_centre.png")
 ```
 
 ]
@@ -50,7 +47,7 @@ knitr::include_graphics("~/pct-commute-schools-overlay/combined_rnet_leeds_centr
 .pull-right[
 
 ```{r}
-knitr::include_graphics("~/pct-commute-schools-overlay/rnet_commute.png")
+knitr::include_graphics("../figures/rnet_commute.png")
 ```
 
 ]
@@ -59,36 +56,74 @@ knitr::include_graphics("~/pct-commute-schools-overlay/rnet_commute.png")
 
 # Vector and raster representations of Leeds city centre
 
-```{r combi2, out.width="33%", fig.show='hold', fig.cap="The vector route network, 100m and 200m resolution raster images for the centre of Leeds, showing the combined commute/school travel networks."}
-# i = magick::image_read("200m_clxm_leeds_centre.png")
-# i_border = magick::image_border(image = i, color = "white", geometry = "10x10")
-# i_border
-# magick::image_write(i_border, "200m_clxm_leeds_centre.png")
-knitr::include_graphics(c("~/pct-commute-schools-overlay/combined_rnet_leeds_centre.png", "~/pct-commute-schools-overlay/100m_clxm_leeds_centre.png", "200m_clxm_leeds_centre.png"))
+.pull-left[
+
+```{r}
+knitr::include_graphics("../figures/100m_clxm_leeds_centre.png")
 ```
+
+]
+
+--
+
+.pull-right[
+
+```{r}
+knitr::include_graphics("../figures/200m_clxm_leeds_centre.png")
+```
+
+]
 
 ---
 
 # Schools and residential zones
 
-```{r combi3, out.height="6.5cm", fig.show='hold', fig.cap="The location of schools, residential areas, and heavily used routes to schools in the Leeds and Bradford area. "}
-knitr::include_graphics(c("~/pct-commute-schools-overlay/schools_and_lsoa.png","~/pct-commute-schools-overlay/routes-schools-res.png"))
+.pull-left[
+
+```{r}
+knitr::include_graphics("../figures/schools_and_lsoa.png")
 ```
+
+]
+
+--
+
+.pull-right[
+
+```{r}
+knitr::include_graphics("../figures/routes-schools-res.png")
+```
+
+]
 
 ---
 
 # Connected networks of routes to schools
 
-```{r rnet-membership, out.width="50%", fig.show='hold', fig.cap="Route networks with high cycle to school potential (100+ trips per day under Go Dutch) grouped by connectivity, with the largest 4 groups in terms of number of segments highlighted by colour (left). A zoomed-in view of the second largest group."}
-knitr::include_graphics(c("~/pct-commute-schools-overlay/Plots/rnet-membership-4-groups.png","~/pct-commute-schools-overlay/Plots/rnet-group2.png"))
+.pull-left[
+
+```{r}
+knitr::include_graphics("../figures/rnet-membership-4-groups.png")
 ```
+
+]
+
+--
+
+.pull-right[
+
+```{r}
+knitr::include_graphics("../figures/rnet-group2.png")
+```
+
+]
 
 ---
 
 # Combining schools and commute networks
 
-``` {r faceted, out.width="100%", fig.show="hold", fig.cap="Route networks of commute, school, combined and weighted cycle propensity in the 5km zone surrounding Leeds Railway Station. In the weighted panel trips to school are given a weighting of 2."}
-knitr::include_graphics("~/pct-commute-schools-overlay/faceted_to_scale.png")
+``` {r}
+knitr::include_graphics("../figures/faceted_to_scale.png")
 ```
 
 ---
@@ -429,8 +464,6 @@ qtm(zones_leeds, "Empl_pop")
 # Distance from a centre of employment with >=5000 jobs
 
 ```{r}
-library(tmap)
-tmap_mode("plot")
 qtm(zones_leeds, c("Jobs5000EmpPTt", "Jobs5000EmpCyct", "Jobs5000EmpCart")) +
   tm_facets(nrow = 1)
 ```
@@ -441,7 +474,7 @@ qtm(zones_leeds, c("Jobs5000EmpPTt", "Jobs5000EmpCyct", "Jobs5000EmpCart")) +
 # Weighted distance from centres of employment
 
 ```{r}
-knitr::include_graphics("~/acton/figures/weighted-access.png")
+knitr::include_graphics("../figures/weighted-access.png")
 ```
 
 

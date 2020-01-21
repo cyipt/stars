@@ -273,7 +273,8 @@ ggplot(data=takeup, aes(x=phase, y=trips, fill=type)) +
   facet_grid(~station) +
   theme_gray() + 
   theme(axis.title.x=element_blank(),
-        axis.title.y=element_blank()) +
+        axis.title.y=element_blank(),
+        axis.text.y.left = element_text(size = 11)) +
   scale_fill_brewer(palette = "Dark2")
 
 
