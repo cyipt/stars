@@ -469,6 +469,7 @@ knitr::include_graphics("../figures/jobs5000emp.png")
 knitr::include_graphics("../figures/weighted-access.png")
 ```
 
+[see here](http://rpubs.com/joeytalbot/access_jobs)
 
 ---
 
