@@ -202,7 +202,7 @@ However, there is a strong overlap between the roads we find high to have cycle 
 
 - a route north from Leagrave station along Toddington Road, linking the station to the Luton to Dunstable and Sewell Greenway; 
 
-- and a route north from Luton station that is broadly parallel to High Town Road.
+- a route north from Luton station along High Town Road.
 
 
 Other routes that are appear to be candidates for cycle improvements according to the Phase 2 analysis include: 
@@ -211,19 +211,27 @@ Other routes that are appear to be candidates for cycle improvements according t
 
 - Bramingham Road east of Leagrave station; 
 
-- and connections from Luton station southwards to Farley Hill.
+- connections from Luton station southwards to Farley Hill.
+
+```{r combi9, out.width="100%", fig.cap="Go Dutch cycle-to-station potential: Luton closeup"}
+knitr::include_graphics("./figures/go-dutch-luton.png")
+```
 
 ### Phase 2 suggestions - Bedford
 
 In Bedford the cycle provision is more heavily developed, as we can see if Fig x. However, there is a lack of cycle infrastructure in the immediate vicinity of Bedford Midland station. Add in maps?
 
+```{r combi10, out.width="100%", fig.cap="Go Dutch cycle-to-station potential: Bedford closeup"}
+knitr::include_graphics("./figures/go-dutch-bedford.png")
+```
+
 Our analyses call for cycle improvements in three main directions from Bedford station:
 
 - southwards along the A5141 to allow cyclists to cross the River Great Ouse on Prebend Street. This allows access to the station from Bedford's southern suburbs;
 
-- northwards on the A5141 (including a link across the railway line on Bromham Road) to link into the existing cycle provision on Bromham Road and Clapham Road. This allows connections to the villages of Bromham, Biddenham and Clapham;
+- northwards on the A5141 (including a link across the railway line on Bromham Road) to link into the existing cycle provision on Bromham Road and Clapham Road. This allows connections to the villages of Bromham, Biddenham and Clapham, and to Bedford's northern suburbs via Manton Lane;
 
-- and eastwards to reach the station from the eastern and northern suburbs of Bedford. The two key routes that emerge here are the A4280 across Bedford town centre, and a more northerly route that follows Union Street, Roff Avenue and Park Avenue.
+- eastwards to reach the station from the town centre and eastern suburbs of Bedford. The two key routes that emerge here are the A4280 across Bedford town centre, and a more northerly route that follows Union Street, Roff Avenue and Park Avenue.
 
 ### Phase 2 suggestions - Central Bedfordshire
 
@@ -233,9 +241,11 @@ Within Central Bedfordshire, routes that appear to be candidates for cycle impro
 
 - Flitwick Road / Ampthill Road between Ampthill and Flitwick;
 
-- and routes from Arlesey station to nearby towns and villages such as Stotfold and Henlow.
+- routes from Arlesey station to nearby towns and villages such as Stotfold and Henlow.
 
-Add in detailed PCT and cyipt maps?
+```{r combi11, out.width="33%", fig.show='hold', fig.cap="Go Dutch cycle-to-station potential: Central Bedfordshire towns. (a) Leighton Buzzard; (b) Flitwick and Harlington; (c) Arlesey, Biggleswade and Sandy."}
+knitr::include_graphics(c("./figures/go-dutch-lbuzz.png","./figures/go-dutch-flitwick.png","./figures/go-dutch-abs.png"))
+```
 
 ## Cycle provision at rail stations
 
@@ -261,7 +271,7 @@ We have presented two methods for investigating the routes used by commuters to 
 
 ## Limitations and scope for further research
 
-There are some ways in which these models could be changed or improved. In this report, each Bedfordshire station is represented by a single point, located at the main station entrance. However, many stations have multiple entrances giving access from two or more different streets. If these additional entrances are also accessible by bicycle, this opens up potential for cycle routes to the station that are not currently being modelled. We expect the impact of this on suburban routings to be relatively limited, but it could have greater impact on our modelling of the cycle usage of some town centre streets. For example, Luton station has a second entrance on Midland Road. If this entrance was included, we could expect that many of the cycle journeys which our Phase 2 analysis shows as passing along North Street and Old Bedford Road would be rerouted to instead follow High Town Road. 
+There are some ways in which these models could be changed or improved. In this report, each Bedfordshire station is represented by a single point, located at the main station entrance. However, many stations have multiple entrances giving access from two or more different streets. If these additional entrances are also accessible by bicycle, this opens up potential for cycle routes to the station that are not currently being modelled. We expect the impact of this on suburban routings to be relatively limited, but it could have greater impact on our modelling of the cycle usage of some town centre streets. For example, Luton station has a second entrance on Midland Road. If this entrance was included, we could expect some rerouting of cycle journeys in the town centre. 
 
 Additionally, our assessment of hilliness currently uses the average gradient across the full journey distance. Use of maximum gradient may be more appropriate, since this better reflects the limiting factor for many cyclists.
 
