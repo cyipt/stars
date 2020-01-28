@@ -1,8 +1,8 @@
 ---
 title: "STARS Phase 2 Report: Estimating cycle potential to Bedfordshire rail stations"
-author: Robin Lovelace and Joey Talbot
+author: Joey Talbot, Robin Lovelace and Malcolm Morgan
 institute: "Institute for Transport Studies, University of Leeds"
-date: "5th November 2019"
+date: "29th January 2020"
 output: bookdown::pdf_document2
 # output: html_document
 header-includes: 
@@ -21,11 +21,21 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-In 2018, transport was responsible for more CO~2~ emissions than any other UK sector (BEIS 2019). To reduce carbon emissions and air pollution we need to move away from private vehicle use and increase uptake of sustainable travel modes such as walking, cycling and public transport. Combining rail travel with cycling is one of the most flexible ways to get around, opening up destinations that might not otherwise be reachable without using a private motor vehicle. Rail stations represent a major destination for cycle journeys, and travel by rail has almost doubled in the last 20 years (ORR 2019). As such, it is vital to understand the dynamics of cycle-rail integration. We investigate this for commuter journeys originating in Bedfordshire.
+In 2018, transport was responsible for more CO~2~ emissions than any other UK sector (BEIS 2019). To reduce carbon emissions and air pollution we need to move away from private vehicle use and increase uptake of sustainable travel modes such as walking, cycling and public transport. Increasing cycling uptake will have major health benefits, not only due to its impact on air pollution but also because maintaining sufficient levels of physical activity can help to prevent or manage a wide range of physical and mental health conditions (BMA 2019). 
 
-The Propensity to Cycle Tool (Lovelace et al. 2017) uses 2011 Census data to investigate the proportion of commuters that currently cycle to work, alongside a range of scenarios investigating how cycling levels could increase. These scenarios include two different approaches to meeting the Government target of doubling cycle commutes. Additionally, the 'Gender Equality' scenario models what would happen if women cycled as much as men currently do, since this is the norm in high-cycling countries. The 'Go Dutch' scenario models what would happen if cycling in the UK was at the same levels as found in the Netherlands, while accounting for the impact of hilliness and journey distance.  The 'Ebikes' scenario expands this by assuming widespread adoption of ebikes for longer distance commutes. 
+Combining rail travel with cycling is one of the most flexible ways to get around, opening up destinations that might not otherwise be reachable without using a private motor vehicle. Rail stations represent a major destination for cycle journeys, and travel by rail has almost doubled in the last 20 years (ORR 2019). As such, it is vital to promote cycling to rail stations and to do this we need to understand the dynamics of cycle-rail integration. We investigate this for commuter journeys originating in Bedfordshire.
 
-However, the treatment of commuter journeys in all of these scenarios suffers from a vital limitation. The 2011 Census provides a comprehensive dataset of journey origins and destinations, but the Census questions relating to commuter travel only record the main mode of transport to work, defined as the mode used for the longest portion of the journey according to distance. Therefore, multimodal journeys are not represented. This is particularly problematic when it comes to journeys involving public transport. 
+## The local context
+
+Rail commuting is especially important in Bedfordshire due to its location in the London commuter belt. Across the county 5-7% of people travel to work by rail, with London being the most important destination. Almost 90% of Bedfordshire residents who commute by rail live within 5 km of a mainline rail station, suggesting that if the right conditions were in place many of these people could reach the station by bicycle.
+
+In Luton, the compact urban form of the town centre means there is a particular need to reduce emissions. In a recent study investigating air pollution in the 146 largest British settlements (MacKenzie et al. 2019), Luton had a middling rank in terms of NO~x~ emissions per capita, but came at the very bottom of the table in terms of the difference in rankings between the amount of emissions produced and their airborne concentrations. This means any reduction in emissions here will have an unusually large impact in reducing air pollution.
+
+## Modelling cycle journeys
+
+The Propensity to Cycle Tool (Lovelace et al. 2017) uses 2011 Census data to investigate the proportion of commuters that currently cycle to work, alongside a range of scenarios investigating how cycling levels could increase. These scenarios include two different approaches to meeting the Government target of doubling cycle commutes. Additionally, the 'Gender Equality' scenario models what would happen if women cycled as much as men currently do, since this is the norm in high-cycling countries. The 'Go Dutch' scenario models what would happen if cycling in the UK was at the same levels as found in the Netherlands, while accounting for the impact of hilliness and journey distance. Finally, the 'Ebikes' scenario expands this by assuming widespread adoption of ebikes for longer distance commutes. 
+
+However, the treatment of commuter journeys in all of these scenarios suffers from a vital limitation. The 2011 Census (ONS 2020) provides a comprehensive dataset of journey origins and destinations, but the Census questions relating to commuter travel only record the main mode of transport to work, defined as the mode used for the longest portion of the journey according to distance. Therefore, multimodal journeys are not represented. This is particularly relevant when it comes to journeys involving public transport. 
 
 In reality, almost all journeys involving public transport will necessarily be multimodal journeys (Figure 1). The passenger must first reach the train station, bus or tram stop, perhaps doing so on foot, on cycle, or by car or taxi. Following a journey on one or more forms of public transport, they will again require a further trip stage to reach their final destination. 
 
@@ -55,7 +65,7 @@ The aims of this project are to:
 
 ## Modal split of commuting
 
-A high proportion of Bedfordshire commuters currently drive to work. Yet we can see that there is significant potential for cycle commuting to increase. Table 1 shows that the percentage who cycle to work in Bedfordshire currently stands at between 1-4%. If residents were to reach Dutch levels of cycling, this would jump to 14-25%. However, this still ignores the possibility of combined cycle and rail commuting. If we also consider the cycle-to-rail potential, the proportion of cyclists could rise even higher. 
+A high proportion of Bedfordshire commuters currently drive to work. Yet we can see that there is significant potential for cycle commuting to increase. Table 1 shows that the percentage who cycle to work in Bedfordshire currently stands at between 1-4%. If residents were to reach Dutch levels of cycling, this would jump to 14-25%. However, this still only counts journeys that are made entirely by bicycle, and ignores the possibility of combined cycle and rail commuting. If we also consider the cycle-to-rail potential, the proportion of cyclists could rise even higher. 
 
 ```{r combi3, message = FALSE}
 library(dplyr)
@@ -63,7 +73,7 @@ readr::read_csv("./output-data/mode-data-local-authority.csv") %>%
   knitr::kable()
 ```
 
-When we look at individual station catchments, the picture is similar. Again, even when we ignore the potential for combining rail and cycle, the cycle mode share in each catchment could rise substantially, from a 10% rise at Flitwick to a 21% rise at Bedford Midland.
+When we look at individual station catchments, the picture is similar. Again, even when we ignore the potential for combining rail and cycle, the cycle mode share in each catchment could rise substantially if we were to reach Dutch levels of cycling, from a 10% rise at Flitwick to a 21% rise at Bedford Midland.
 
 ```{r combi4, message = FALSE}
 readr::read_csv("./output-data/mode-data-nearest-catchments.csv") %>% 
@@ -74,13 +84,13 @@ readr::read_csv("./output-data/mode-data-nearest-catchments.csv") %>%
 
 Around half of all commutes in Bedfordshire take place entirely within the county. When looking at these journeys, we can see that the majority of them are to the nearest town centre, although there is also some inter-town travel. A high proportion of the shorter journeys are made by active travel. These journeys are likely to be similar in distance to many journeys to rail stations. This suggests that many journeys to rail stations could also be made by bicycle if the right infrastructure and facilities supporting cycling are in place. 
 
-```{r combi5, out.width="50%", fig.cap="The proportion of commuter journeys within Bedfordshire that are made using active travel"}
+```{r combi5, out.width="50%", fig.cap="The proportion of commuter journeys within Bedfordshire that are made using active travel, according to 2011 Census data"}
 knitr::include_graphics("./figures/bedford-intra-region-commutes.png")
 ```
 
 # Methodology
 
-We have developed two different methods for estimating cycle to rail stations. Both methods are based on travel-to-work data from the 2011 Census. This means we are only considering the cycle-to-station potential for commuter journeys. People also travel by rail for various other purposes, such as leisure, business trips, education, and other personal business. (add in some stats from the ORR) Therefore our estimates do not capture the full potential for cycle to rail stations.
+We have developed two different methods for estimating cycle to rail stations. Both methods are based on travel-to-work data from the 2011 Census. This means we are only considering the cycle-to-station potential for commuter journeys. People also travel by rail for various other purposes, such as leisure, business trips, education, and other personal business. According to the National Travel Survey 2018, 54% of of rail journeys are for commuting to work and school, while 26% are for leisure and 5% are for shopping (DfT 2019). Therefore our estimates do not capture the full potential for cycle to rail stations.
 
 In the 2011 census, the main journey mode of commuter trips is recorded - defined as the mode of travel used for the single longest journey leg by distance - but secondary modes are not. This means we do not know which mode of transport rail commuters use to travel to the station. In addition to this, we do not have any information identifying which stations these commuters use.
 
@@ -116,7 +126,7 @@ In Phase 1, all UK rail stations can be selected as arrival or departure station
 
 Furthermore, in Phase 1, journeys with either an origin or destination in Bedfordshire are modelled, but in Phase 2 only journeys with an origin in Bedfordshire (i.e. Bedfordshire residents) are modelled. 
 
-Finally, in Phase 2 we exclude journeys where the distance from the origin to the nearest station is greater than 5km as the crow flies. While this will capture the majority of cycleable trips, it would also be possible in future to increase this maximum distance to include longer journeys.
+Finally, in Phase 2 we exclude journeys where the distance from the origin to the nearest station is greater than 5km as the crow flies. While this captures the great majority of cycleable trips, it would also be possible in future to increase this maximum distance to include longer journeys.
 
 When deciding whether to use the Phase 1 or Phase 2 approach to model cycle-to-station potential, a key question is whether, for the area in question, commuters are likely to choose to cycle to a more distant station in order to shave some time off their rail journey. If a study focuses solely on stations which have frequent services to the key destinations of interest, the Phase 2 approach is likely to provide the most realistic cycle routings. However, if the aim is to also investigate travel to minor stations with limited service frequency, or stations on lines which may not have direct rail services to some important destinations (such as the stations on the Marston Vale line), the Phase 1 approach is likely to be best.
 
@@ -128,7 +138,7 @@ The left panel shows all commutes made by rail according to the Phase 1 methods.
 
 The right panel shows all commutes made by rail according to the Phase 2 methods. All trips are routed to the nearest Bedfordshire mainline station. We only include trips that were recorded as being made by rail in 2011 and that originate within Bedfordshire, within 5 km of one of the ten mainline Bedfordshire stations.
 
-```{r combi6, out.width="50%", fig.show='hold', fig.cap = "Phase 1 and 2 estimates of cycle to rail potential"}
+```{r combi6, out.width="50%", fig.show='hold', fig.cap = "Route networks of travel to the station for all rail commuter journeys under the Phase 1 and Phase 2 approaches"}
 knitr::include_graphics(c("./figures/bedford-rnet-all-phase1.png","./figures/phase-2-all.png"))
 ```
 
@@ -138,16 +148,18 @@ totals = read.csv("../stars-data/data/flow/totals.csv")
 knitr::kable(totals,caption = "Total rail commuter journeys by Bedfordshire residents")
 ```
 
-From @ref/table1 , we can see that in the Phase 1 analysis, fewer rail journeys are modelled than the actual number of rail commutes according to 2011 Census data. Including all rail stations, only 80% of rail journeys are accounted for, based on 2011 Census returns. This suggests that for many current rail commutes in Bedfordshire, it is either impossible to reach the station by public transport or the three fastest journey options according to TransportAPI do not involve travel by rail. It is likely that in the majority of cases these commuters are driving to the station.
+The total number of rail commuter journeys by Bedfordshire residents are shown in @ref/table1, showing only journeys that originate in Bedfordshire to allow comparability between the Phase 1 and Phase 2 methods. We can see that in the Phase 1 analysis, fewer rail journeys are modelled than the actual number of rail commutes according to 2011 Census data. Including all rail stations, only 80% of rail journeys are accounted for, based on 2011 Census returns. This suggests that for many current rail commutes in Bedfordshire, it is either impossible to reach the station by public transport or the three fastest journey options according to TransportAPI do not involve travel by rail. It is likely that in the majority of cases these commuters are driving to the station.
 
-In Phase 2, only journeys starting within 5 km of a mainline rail station are included. This means that 11% of rail journeys are missed, although these are the longer journeys which would probably be less likely to be cycled.
+In Phase 2, only journeys starting within 5 km of a mainline rail station are included. We can see that 11% of rail journeys are missed, which means that almost 90% of Bedfordshire rail commuters live within 5 km of a mainline rail station. The journeys that are missed are of course the longer journeys which would probably be less likely to be cycleable.
 
 ```{r table2}
 s_counts_all = read.csv("../stars-data/data/flow/s_counts_all.csv")
-knitr::kable(s_counts_all,caption = "Total rail commuter journeys from each mainline station")
+knitr::kable(s_counts_all,caption = "Total rail commuter journeys departing from each mainline station")
 ```
 
-@ref/table2 shows the number of rail journeys for each of the ten mainline stations according to the Phase 1 and Phase 2 methods, and the proportional differences between the two methods. For several stations, the results are very similar between Phase 1 and Phase 2. For the remainder, there are two notable patterns we can pick out. Firstly, Phase 2 shows many more departures from Leagrave and Luton Airport Parkway stations, and fewer departures from Luton station. It appears that many journeys that are routed to Luton station in the Phase 1 method are routed to Leagrave or Luton Airport Parkway in Phase 2. This is probably because the preponderance of local bus services to Luton town centre makes Luton station the better choice when travelling by public transport, so it is chosen more often by the TransportAPI algorithm used in Phase 1, even for journeys originating closer to Leagrave or Luton Airport Parkway. 
+@ref/table2 shows the number of rail journeys for each of the ten mainline stations according to the Phase 1 and Phase 2 methods (again for journeys originating in Bedfordshire only). The final column shows the Phase 1 estimate as a proportion of the Phase 2 estimate. For several stations, the results are very similar between Phase 1 and Phase 2. For the remainder, there are two notable patterns we can pick out. 
+
+Firstly, Phase 2 shows many more departures from Leagrave and Luton Airport Parkway stations, and fewer departures from Luton station. It appears that many journeys that are routed to Luton station in the Phase 1 method are routed to Leagrave or Luton Airport Parkway in Phase 2. This is probably because the preponderance of local bus services to Luton town centre makes Luton station the better choice when travelling by public transport, so it is chosen more often by the TransportAPI algorithm used in Phase 1, even for journeys originating closer to Leagrave or Luton Airport Parkway. 
 
 If we were focusing on travel to the station by car, bus or other modes, then it may be the case that most of these journeys should be routed to Luton station. However, our aim is to model potential cycle flows. Since all of these stations are on the same line and have a good quality rail service to London, with trains running at least every 15 minutes, it seems reasonable to assume that commuters who cycle to the station would simply cycle to their nearest station, as modelled in Phase 2. 
 
@@ -157,7 +169,7 @@ The other difference is that in Phase 2 more journeys are routed to Arlesey and 
 
 We can now estimate how many commuters would cycle to the station, if cycling levels in Bedfordshire were equivalent to those in the Netherlands. To do this we use the Go Dutch scenario developed as part of the Propensity to Cycle Tool (Lovelace et al. 2017). The Phase 1 results are on the left and Phase 2 on the right.  
 
-```{r combi7, out.width="50%", fig.show='hold', fig.cap="Cycle commuting to rail stations under the Phase 1 and Phase 2 approaches"}
+```{r combi7, out.width="50%", fig.show='hold', fig.cap="Cycle commuting to rail stations under the Go Dutch scenario, for Phase 1 and Phase 2 approaches"}
 knitr::include_graphics(c("./figures/bedford-rnet-go-dutch-phase1.png","./figures/phase-2-go-dutch.png"))
 ```
 
@@ -166,17 +178,21 @@ totals_dutch = read.csv("../stars-data/data/flow/totals_dutch.csv")
 knitr::kable(totals_dutch,caption = "Go Dutch cycle-to-station potential for Bedfordshire residents")
 ```
 
-Table X shows the number of cyclists entering each of the ten mainline stations under this scenario. 
-Include table of total phase 1 (10 stations), total phase 1 (all stations), total phase 2.
-
-There is a major difference between these two approaches in terms of the total number of cyclists. In Phase 1, there are x, while in Phase 2 there are three times that with x.
+There is a significant difference between these two approaches in terms of cycling takeup under the Go Dutch scenario. In Phase 1, only 16% of rail commuters are modelled as cycling to the station if cycle propensity for Bedfordshire residents was to reach Dutch levels. However, in Phase 2, the same scenario sees 42% of Bedfordshire rail commuters cycling to the station.
 
 ```{r table4}
 s_counts_dutch = read.csv("../stars-data/data/flow/s_counts_dutch.csv")
-knitr::kable(s_counts_dutch,caption = "Go Dutch cycle-to-station potential from each mainline station")
+knitr::kable(s_counts_dutch,caption = "Go Dutch cycle-to-station potential for rail journeys departing from each mainline station")
 ```
 
-Again, there are differences in terms of which station cyclists are using. Leagrave....etc. 
+When we look at each station individually, we again find a similar disparity between the Phase 1 and Phase 2 approaches. In Phase 1, takeup reaches a maximum of 23% at Flitwick and a minimum of 11% at Luton Airport Parkway (excluding Harlington which was missed from the analysis), while in Phase 2 takeup ranges from 38% to 43% (Table 4). The low yet varying takeup of cycling under Phase 1 is due to the greater distances commuters are modelled as travelling to reach the station. Conversely, in Phase 2 all journeys to the station are relatively short, with the greatest on-road distance of x km corresponding with a maximum as-the-crow-flies distance of 5 km. This results in a high and relatively consistent rate of cycling takeup.
+
+These results are visualised in @ref/combi8. Here we can see total rail commutes departing from each mainline station as estimated in Phase 1 and Phase 2, alongside the associated Go Dutch cycle-to-station potentials.
+
+```{r combi8, out.width="100%", fig.cap="Journeys to the ten mainline Bedfordshire rail stations under the Phase 1 and Phase 2 approaches"}
+knitr::include_graphics("./figures/takeup-by-phase.png")
+```
+
 
 # Applications for infrastructure planning
 
@@ -186,13 +202,13 @@ This analysis can help to identify places where it would be particularly useful 
 
 Our analyses map cycle journeys onto the road network based on the route distance and hilliness. The routes we depict may not necessarily be the ones that are most used by local cyclists. For example, we may route cycle journeys along a major trunk road that in reality is not used by cyclists due to safety fears. Therefore, these results must be interpreted together with knowledge of the local context. There may be alternative routes that local knowledge suggests are more appropriate ways to reach the same destination. However, there are also direct benefits of using this approach. We can reveal roads that are rarely cycled today but could be heavily used by cyclists in future, once improvements are put in place to make cycling there safer or more attractive.
 
-Suggestions based on our Phase 1 analysis have already been discussed in the Phase 1 report. There is a considerable overlap between the routes selected in the Phase 1 and Phase 2 analyses. However, two routes stand out which are identified as having high cycle potential in the phase 1 analysis, but do not emerge as major routes in the Phase 2 analysis. These are New Bedford Road north of Luton station, and the cycle path alongside the Luton-Dunstable Busway. These routes do not emerge in the Phase 2 route network map because the journeys in these areas are routed to Leagrave station rather than Luton station. However, even if residents here do tend to use Leagrave station, cycle access into Luton town centre will still be important for accessing all of the other services the town centre provides, such as employment, retail, leisure and entertainment. As we can see in @ref/combi8, both of these routes both already benefit from some cycle provision, but improvements such as increasing the number of access points onto the Luton-Dunstable Busway path would be welcome. At the moment, the limited number of access points is likely to restrict usage of this path.
+Suggestions based on our Phase 1 analysis have already been discussed in the Phase 1 report. There is a considerable overlap between the routes selected in the Phase 1 and Phase 2 analyses. However, two routes stand out which are identified as having high cycle potential in the phase 1 analysis, but do not emerge as major routes in the Phase 2 analysis. These are New Bedford Road north of Luton station, and the cycle path alongside the Luton-Dunstable Busway. These routes do not strongly emerge in the Phase 2 route network map because the journeys in these areas are routed to Leagrave station rather than Luton station. However, even if residents here do tend to use Leagrave station, cycle access into Luton town centre will still be important for accessing all of the other services the town centre provides, such as employment, retail, leisure and entertainment. As we can see in @ref/combi8, both of these routes both already benefit from some cycle provision, but improvements such as increasing the number of access points onto the Luton-Dunstable Busway path would be welcome. At the moment, the limited number of access points is likely to restrict usage of this path.
 
 ### Phase 2 suggestions - Luton
 
-In Luton, we can see that the existing cycle infrastructure is relatively limited, with cycle lanes or tracks only present on a small number of routes from Luton or Leagrave stations.  
+In Luton, we can see that the existing cycle infrastructure is relatively limited, with cycle lanes or tracks only present on a small number of routes from Luton or Leagrave stations (Leeds 2018).  
 
-```{r combi8, out.width="100%", fig.cap="Existing cycle infrastructure in central Luton, as recorded by CyIPT"}
+```{r combi9, out.width="100%", fig.cap="Existing cycle infrastructure in central Luton, as recorded by CyIPT"}
 knitr::include_graphics("./figures/existing-cyipt.png")
 ```
 
@@ -213,15 +229,15 @@ Other routes that are appear to be candidates for cycle improvements according t
 
 - connections from Luton station southwards to Farley Hill.
 
-```{r combi9, out.width="100%", fig.cap="Go Dutch cycle-to-station potential: Luton closeup"}
+```{r combi10, out.width="100%", fig.cap="Go Dutch cycle-to-station potential: Luton closeup"}
 knitr::include_graphics("./figures/go-dutch-luton.png")
 ```
 
 ### Phase 2 suggestions - Bedford
 
-In Bedford the cycle provision is more heavily developed, as we can see if Fig x. However, there is a lack of cycle infrastructure in the immediate vicinity of Bedford Midland station. Add in maps?
+In Bedford the cycle provision is more heavily developed, as we can see in @ref/combi11. However, there appears to be a lack of cycle infrastructure in the immediate vicinity of Bedford Midland station. 
 
-```{r combi10, out.width="100%", fig.cap="Go Dutch cycle-to-station potential: Bedford closeup"}
+```{r combi11, out.width="100%", fig.cap="Go Dutch cycle-to-station potential: Bedford closeup"}
 knitr::include_graphics("./figures/go-dutch-bedford.png")
 ```
 
@@ -243,7 +259,7 @@ Within Central Bedfordshire, routes that appear to be candidates for cycle impro
 
 - routes from Arlesey station to nearby towns and villages such as Stotfold and Henlow.
 
-```{r combi11, out.width="33%", fig.show='hold', fig.cap="Go Dutch cycle-to-station potential: Central Bedfordshire towns. (a) Leighton Buzzard; (b) Flitwick and Harlington; (c) Arlesey, Biggleswade and Sandy."}
+```{r combi12, out.width="33%", fig.show='hold', fig.cap="Go Dutch cycle-to-station potential: Central Bedfordshire towns. (a) Leighton Buzzard; (b) Flitwick and Harlington; (c) Arlesey, Biggleswade and Sandy."}
 knitr::include_graphics(c("./figures/go-dutch-lbuzz.png","./figures/go-dutch-flitwick.png","./figures/go-dutch-abs.png"))
 ```
 
@@ -251,7 +267,9 @@ knitr::include_graphics(c("./figures/go-dutch-lbuzz.png","./figures/go-dutch-fli
 
 In addition to the routes to stations, it is important to consider cycle provision at the stations themselves. The need for improvements such as additional cycle parking stands can be assessed using this tool. There may be an overall need for more cycle stands at a given station, or there may be a need for more stands at a specific station entrance to cater for journeys coming from a particular direction. 
 
-Table showing number of journeys to each station in Phase 1 and Phase 2, and the number of cycle racks at each station (National Rail data).
+In Table 5 we can see the existing number of cycle racks at each station (using data from www.nationalrail.co.uk) and the potential number of cycle journeys to the station under a Go Dutch scenario in Phase 1 and Phase 2.
+
+
 
 Our Phase 1 model shows xx journeys to Luton station, suggesting a need for more cycle stands as cycling uptake increases. Meanwhile, our Phase 2 model shows xx journeys to Leagrave, of which xx follow x Road to reach the station from the east. There may be a need for more cycle stands on this side of the station. 
 
@@ -289,7 +307,19 @@ We recommend the following:
 
 BEIS. “Provisional UK Greenhouse Gas Emissions National Statistics 2018.” Accessed October 28, 2019. https://www.gov.uk/government/statistics/provisional-uk-greenhouse-gas-emissions-national-statistics-2018.
 
+“BMA - Steps to Increase Physical Activity Levels in the UK.” Accessed January 28, 2020. https://www.bma.org.uk/collective-voice/policy-and-research/public-and-population-health/steps-to-increase-physical-activity-levels-in-the-uk.
+
+DfT. “National Travel Survey: 2018.” Accessed October 28, 2019. https://www.gov.uk/government/statistics/national-travel-survey-2018.
+
+Goodman, Anna, Ilan Fridman Rojas, James Woodcock, Rachel Aldred, Nikolai Berkoff, Malcolm Morgan, Ali Abbas, and Robin Lovelace. “Scenarios of Cycling to School in England, and Associated Health and Carbon Impacts: Application of the ‘Propensity to Cycle Tool.’” Journal of Transport & Health 12 (March 1, 2019): 263–78. https://doi.org/10.1016/j.jth.2019.01.008.
+
+Leeds, The CyIPT team, led by University of. The Cycling Infrastructure Prioritisation Toolkit. Accessed October 28, 2019. Last updated 9 April 2018. https://www.cyipt.bike/report1/.
+
 Lovelace, Robin, Anna Goodman, Rachel Aldred, Nikolai Berkoff, Ali Abbas, and James Woodcock. ‘The Propensity to Cycle Tool: An Open Source Online System for Sustainable Transport Planning’. Journal of Transport and Land Use 10, no. 1 (2017): 505–28.
 
-ORR (2019), '2019-20 Q1 Statistical Release – Passenger Rail Usage | ORR Data Portal’. Accessed 12 November 2019. https://dataportal.orr.gov.uk/statistics/usage/passenger-rail-usage/.
+MacKenzie, A. R., J. D. Whyatt, M. J. Barnes, G. Davies, and C. N. Hewitt. “Urban Form Strongly Mediates the Allometric Scaling of Airshed Pollution Concentrations.” Environmental Research Letters 14, no. 12 (December 2019): 124078. https://doi.org/10.1088/1748-9326/ab50e3.
+
+ONS. “2011 Census Data - Office for National Statistics.” Accessed January 28, 2020. https://www.ons.gov.uk/census/2011census/2011censusdata.
+
+ORR. '2019-20 Q1 Statistical Release – Passenger Rail Usage | ORR Data Portal’. Accessed 12 November 2019. https://dataportal.orr.gov.uk/statistics/usage/passenger-rail-usage/.
 
