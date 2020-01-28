@@ -267,11 +267,12 @@ knitr::include_graphics(c("./figures/go-dutch-lbuzz.png","./figures/go-dutch-fli
 
 In addition to the routes to stations, it is important to consider cycle provision at the stations themselves. The need for improvements such as additional cycle parking stands can be assessed using this tool. There may be an overall need for more cycle stands at a given station, or there may be a need for more stands at a specific station entrance to cater for journeys coming from a particular direction. 
 
-In Table 5 we can see the existing number of cycle racks at each station (using data from www.nationalrail.co.uk) and the potential number of cycle journeys to the station under a Go Dutch scenario in Phase 1 and Phase 2.
+In Table 5 we can see the existing number of cycle racks at each station (using data from www.nationalrail.co.uk) and the potential number of cycle journeys to the station under a Go Dutch scenario in Phase 1 and Phase 2. Luton station looks to have a particular need for more cycle stands as cycling numbers increase. We can also see large number of cycle journeys predicted to Leagrave and Bedford stations.
 
-
-
-Our Phase 1 model shows xx journeys to Luton station, suggesting a need for more cycle stands as cycling uptake increases. Meanwhile, our Phase 2 model shows xx journeys to Leagrave, of which xx follow x Road to reach the station from the east. There may be a need for more cycle stands on this side of the station. 
+```{r table5}
+racks = read.csv("./output-data/racks.csv")
+knitr::kable(racks,caption = "Existing cycle rack numbers and cycle-to-station potentials in Bedfordshire")
+```
 
 A range of other station improvements may also be considered. These could include more secure cycle parking facilities such as lockable bike bins, or staffed 'cycle hubs' that could also offer additional services such as repairs and sales. Cycle hire facilities would cater for those travelling to Bedfordshire stations from elsewhere. If feasible, working with Train Operating Companies to improve cycle carriage on board trains could enable many further journey options, with the flexibility gained by cycling at both ends of the rail journey. In relation to this, the installation of lifts to allow level access to platforms may also be considered.
 
