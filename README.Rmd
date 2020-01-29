@@ -14,6 +14,7 @@ header-includes:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   echo = FALSE,   
+  eval = FALSE,
   collapse = TRUE,
   comment = "#>"
   )
@@ -94,7 +95,7 @@ We have developed two different methods for estimating cycle to rail stations. B
 
 In the 2011 census, the main journey mode of commuter trips is recorded - defined as the mode of travel used for the single longest journey leg by distance - but secondary modes are not. This means we do not know which mode of transport rail commuters use to travel to the station. In addition to this, we do not have any information identifying which stations these commuters use.
 
-In our models, we do not use the commuter's actual home and workplace as the journey start and end points. Census data is anonymised and spatially aggregated at the LSOA (Lower Layer Super Output Area) level, a geographic unit with a population of around 1500. For each LSOA it is possible to calculate a 'centroid' marking the centre of gravity of the population of the LSOA. Thus, with the identities of the LSOAs each commuter lives and works in, we can use the LSOA centroids as the points of origin and destination for each journey.
+The models do not use the commuter's exact home and workplace as the journey start and end points. Census data is anonymised and spatially aggregated at the LSOA (Lower Layer Super Output Area) level, a geographic unit with a population of around 1500. For each LSOA it is possible to calculate a 'centroid' marking the centre of gravity of the population of the LSOA. Thus, with the identities of the LSOAs each commuter lives and works in, we can use the LSOA centroids as the points of origin and destination for each journey.
 
 ## Our Phase 1 method:
 
