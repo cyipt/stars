@@ -357,5 +357,6 @@ ORR. '2019-20 Q1 Statistical Release â€“ Passenger Rail Usage | ORR Data Portalâ
 ```{r, eval=FALSE, echo=FALSE}
 # rename report and release
 file.rename("README.pdf", "stars-modelling-phase2-report.pdf")
+piggyback::pb_upload("stars-modelling-phase2-report.pdf")
 ```
 
