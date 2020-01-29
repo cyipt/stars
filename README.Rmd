@@ -219,9 +219,13 @@ However, there is a strong overlap between the roads we find high to have cycle 
 
 - a route heading west from Leagrave station along Compton Avenue and Leagrave High Street;
 
-- a route north from Leagrave station along Toddington Road, linking the station to the Luton to Dunstable and Sewell Greenway; 
+- a route north from Leagrave station along Toddington Road, linking the station to the Luton to Dunstable and Sewell Greenway (see potential segments to improve connectivity pending ground survey in Figure \@ref(fig:leagrave-busyness)); 
 
 - a route north from Luton station along High Town Road.
+
+```{r leagrave-busyness, fig.cap="Busyness levels according to CycleStreets data in key segments North of Leagrave station. Segments of interest highlighted in red.", out.width="100%"}
+knitr::include_graphics("figures/leagreave-busyness-highlighted.png")
+```
 
 
 Other routes that are appear to be candidates for cycle improvements according to the Phase 2 analysis include: 
@@ -311,9 +315,14 @@ In Phase 2 we exclude the possibility that Bedfordshire residents could use rail
 
 It would also be possible in future to add in to the Phase 2 analysis journeys with a destination in Bedfordshire.
 
-# Recommendations
+# Recommendations and next steps
 
-We recommend the following:
+Overall our modelling work supports investment in new cycle infrastructure in and around the stations of the study region, especially in relation to Luton station, which has high cycling-to-rail potential, high levels of air polution and low current cycle usage and low current levels of provision.
+Leagrave also has high cycle-to-station potential and would likely greatly benefit from improved cycle infrastructure from surrounding residential areas.
+Bedford has relatively high levels of cycling to stations according to survey data and good provision for cycle parking; according to the latest OSM data lacks cycle infrastructure that leads directly to station entrances.
+Our results showed that smaller stations the potential to accomodate growth in cycle-to-rail as a mode of transport, with Leighton-Buzzard in particular having high potential relative to current provision of cycle infrastructure to the station and cycle parking opportunities.
+There are many options to improve the situation throughout the region and the routes proposed in the 'Luton Cycling Opportunities' report broadly coincide with the route network results from our models.
+In terms specific recommendations related to our work, we suggest the following:
 
 - Use knowledge of local conditions and cycling patterns to decide whether the Phase 1 or Phase 2 approach is preferred for a given situation. We would suggest that the Phase 2 approach is more appropriate for rail journeys in which travellers are likely to use their nearest mainline rail station, such as commuter journeys to London. The Phase 1 approach is appropriate when it is necessary to explicitly model the rail journey with respect to the final destination. This can be used for branch lines such as the Marston Vale line.  We could also develop a 'Phase III' approach which calculates the cycle-rail trips that are most likely given existing commuter patterns using new functionality in **opentripplanner** R package (Morgan et al., 2019).
 
