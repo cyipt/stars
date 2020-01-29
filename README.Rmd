@@ -315,7 +315,7 @@ It would also be possible in future to add in to the Phase 2 analysis journeys w
 
 We recommend the following:
 
-- Use knowledge of local conditions and cycling patterns to decide whether the Phase 1 or Phase 2 approach is preferred for a given situation. We would suggest that the Phase 2 approach is more appropriate for rail journeys in which travellers are likely to use their nearest mainline rail station, such as commuter journeys to London. The Phase 1 approach is appropriate when it is necessary to explicitly model the rail journey with respect to the final destination. This can be used for branch lines such as the Marston Vale line.  
+- Use knowledge of local conditions and cycling patterns to decide whether the Phase 1 or Phase 2 approach is preferred for a given situation. We would suggest that the Phase 2 approach is more appropriate for rail journeys in which travellers are likely to use their nearest mainline rail station, such as commuter journeys to London. The Phase 1 approach is appropriate when it is necessary to explicitly model the rail journey with respect to the final destination. This can be used for branch lines such as the Marston Vale line.  We could also develop a 'Phase III' approach which calculates the cycle-rail trips that are most likely given existing commuter patterns using new functionality in **opentripplanner** R package (Morgan et al., 2019).
 
 - Examine the results of monitoring programmes to further explore how cycling levels across the county compare with these scenarios. If monitoring shows that the number of cyclists in a given area is lower than would be expected, this may point to particular barriers preventing cycling in that area, such as road safety concerns. There may be opportunities to increase cycling levels by removing these barriers.
 
@@ -336,6 +336,8 @@ Goodman, Anna, Ilan Fridman Rojas, James Woodcock, Rachel Aldred, Nikolai Berkof
 Leeds, The CyIPT team, led by University of. The Cycling Infrastructure Prioritisation Toolkit. Accessed October 28, 2019. Last updated 9 April 2018. https://www.cyipt.bike/report1/.
 
 Lovelace, Robin, Anna Goodman, Rachel Aldred, Nikolai Berkoff, Ali Abbas, and James Woodcock. ‘The Propensity to Cycle Tool: An Open Source Online System for Sustainable Transport Planning’. Journal of Transport and Land Use 10, no. 1 (2017): 505–28.
+
+Morgan, Malcolm, et al. ‘OpenTripPlanner for R’. Journal of Open Source Software, vol. 4, no. 44, Dec. 2019, p. 1926. joss.theoj.org, doi:10.21105/joss.01926.
 
 MacKenzie, A. R., J. D. Whyatt, M. J. Barnes, G. Davies, and C. N. Hewitt. “Urban Form Strongly Mediates the Allometric Scaling of Airshed Pollution Concentrations.” Environmental Research Letters 14, no. 12 (December 2019): 124078. https://doi.org/10.1088/1748-9326/ab50e3.
 
