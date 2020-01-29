@@ -29,7 +29,7 @@ Combining rail travel with cycling is one of the most flexible ways to get aroun
 
 Rail commuting is especially important in Bedfordshire due to its location in the London commuter belt. Across the county 5-7% of people travel to work by rail, with London being the most important destination. Almost 90% of Bedfordshire residents who commute by rail live within 5 km of a mainline rail station, suggesting that if the right conditions were in place many of these people could reach the station by bicycle.
 
-In Luton, the compact urban form of the town centre means there is a particular need to reduce emissions. In a recent study investigating air pollution in the 146 largest British settlements (MacKenzie et al. 2019), Luton had a middling rank in terms of NO~x~ emissions per capita, but came at the very bottom of the table in terms of the difference in rankings between the amount of emissions produced and their airborne concentrations. This means any reduction in emissions here will have an unusually large impact in reducing air pollution.
+In Luton, the compact urban form of the town centre means there is a particular need to reduce emissions. In a recent study investigating air pollution in the 146 largest British settlements (MacKenzie et al. 2019), Luton had a middling rank in terms of NO~x~ emissions per capita, but came at the very bottom of the table in terms of the difference in rankings between the amount of emissions produced and their airborne concentrations. This provides a strong evidence base for measures to promote active travel in Luton, becuase it means any reduction in emissions here will have an unusually large impact in terms of reducing air pollution.
 
 ## Modelling cycle journeys
 
@@ -185,7 +185,7 @@ s_counts_dutch = read.csv("../stars-data/data/flow/s_counts_dutch.csv")
 knitr::kable(s_counts_dutch,caption = "Go Dutch cycle-to-station potential for rail journeys departing from each mainline station")
 ```
 
-When we look at each station individually, we again find a similar disparity between the Phase 1 and Phase 2 approaches. In Phase 1, takeup reaches a maximum of 23% at Flitwick and a minimum of 11% at Luton Airport Parkway (excluding Harlington which was missed from the analysis), while in Phase 2 takeup ranges from 38% to 43% (Table 4). The low yet varying takeup of cycling under Phase 1 is due to the greater distances commuters are modelled as travelling to reach the station. Conversely, in Phase 2 all journeys to the station are relatively short, with the greatest on-road distance of x km corresponding with a maximum as-the-crow-flies distance of 5 km. This results in a high and relatively consistent rate of cycling takeup.
+When we look at each station individually, we again find a similar disparity between the Phase 1 and Phase 2 approaches. In Phase 1, takeup reaches a maximum of 23% at Flitwick and a minimum of 11% at Luton Airport Parkway (excluding Harlington which was missed from the analysis), while in Phase 2 takeup ranges from 38% to 43% (Table 4). The low yet varying takeup of cycling under Phase 1 is due to the greater distances commuters are modelled as travelling to reach the station. Conversely, in Phase 2 all journeys to the station are relatively short, corresponding with a maximum as-the-crow-flies distance of 5 km. This results in a high and relatively consistent rate of cycling takeup.
 
 These results are visualised in @ref/combi8. Here we can see total rail commutes departing from each mainline station as estimated in Phase 1 and Phase 2, alongside the associated Go Dutch cycle-to-station potentials.
 
@@ -208,8 +208,8 @@ Suggestions based on our Phase 1 analysis have already been discussed in the Pha
 
 In Luton, we can see that the existing cycle infrastructure is relatively limited, with cycle lanes or tracks only present on a small number of routes from Luton or Leagrave stations (Leeds 2018).  
 
-```{r combi9, out.width="100%", fig.cap="Existing cycle infrastructure in central Luton, as recorded by CyIPT"}
-knitr::include_graphics("./figures/existing-cyipt.png")
+```{r combi9, out.width="100%", fig.cap="Existing cycle infrastructure in Luton, as recorded by CyIPT"}
+knitr::include_graphics("./figures/cyipt-existing-luton.png")
 ```
 
 However, there is a strong overlap between the roads we find high to have cycle potential under the Go Dutch Phase 2 scenario, and routes that have already been proposed as candidates for new cycle routes in Luton. These include:
@@ -237,8 +237,8 @@ knitr::include_graphics("./figures/go-dutch-luton.png")
 
 In Bedford the cycle provision is more heavily developed, as we can see in @ref/combi11. However, there appears to be a lack of cycle infrastructure in the immediate vicinity of Bedford Midland station. 
 
-```{r combi11, out.width="100%", fig.cap="Go Dutch cycle-to-station potential: Bedford closeup"}
-knitr::include_graphics("./figures/go-dutch-bedford.png")
+```{r combi11, out.width="100%", fig.cap="Existing cycle infrastructure in Bedford, as recorded by CyIPT"}
+knitr::include_graphics("./figures/cyipt-existing-bedford.png")
 ```
 
 Our analyses call for cycle improvements in three main directions from Bedford station:
@@ -249,17 +249,23 @@ Our analyses call for cycle improvements in three main directions from Bedford s
 
 - eastwards to reach the station from the town centre and eastern suburbs of Bedford. The two key routes that emerge here are the A4280 across Bedford town centre, and a more northerly route that follows Union Street, Roff Avenue and Park Avenue.
 
+```{r combi12, out.width="100%", fig.cap="Go Dutch cycle-to-station potential: Bedford closeup"}
+knitr::include_graphics("./figures/go-dutch-bedford.png")
+```
+
 ### Phase 2 suggestions - Central Bedfordshire
 
 Within Central Bedfordshire, routes that appear to be candidates for cycle improvements according to the Phase 2 analysis include: 
 
-- Leighton Road, crossing the River Ousel between Leighton Buzzard station and the town centre;
+- Old Road / Leighton Road / Bridge Street / High Street, crossing the River Ousel between Leighton Buzzard station and the town centre, with connections to suburban areas of the town;
 
 - Flitwick Road / Ampthill Road between Ampthill and Flitwick;
 
-- routes from Arlesey station to nearby towns and villages such as Stotfold and Henlow.
+- routes from Arlesey station to nearby towns and villages such as Stotfold, Henlow and Arlesey;
 
-```{r combi12, out.width="33%", fig.show='hold', fig.cap="Go Dutch cycle-to-station potential: Central Bedfordshire towns. (a) Leighton Buzzard; (b) Flitwick and Harlington; (c) Arlesey, Biggleswade and Sandy."}
+- the B1042 between Potton and Sandy.
+
+```{r combi13, out.width="33%", fig.show='hold', fig.cap="Go Dutch cycle-to-station potential: Central Bedfordshire towns. (a) Leighton Buzzard; (b) Flitwick and Harlington; (c) Arlesey, Biggleswade and Sandy."}
 knitr::include_graphics(c("./figures/go-dutch-lbuzz.png","./figures/go-dutch-flitwick.png","./figures/go-dutch-abs.png"))
 ```
 
@@ -274,15 +280,17 @@ racks = read.csv("./output-data/racks.csv")
 knitr::kable(racks,caption = "Existing cycle rack numbers and cycle-to-station potentials in Bedfordshire")
 ```
 
-A range of other station improvements may also be considered. These could include more secure cycle parking facilities such as lockable bike bins, or staffed 'cycle hubs' that could also offer additional services such as repairs and sales. Cycle hire facilities would cater for those travelling to Bedfordshire stations from elsewhere. If feasible, working with Train Operating Companies to improve cycle carriage on board trains could enable many further journey options, with the flexibility gained by cycling at both ends of the rail journey. In relation to this, the installation of lifts to allow level access to platforms may also be considered.
+A range of other station improvements may also be considered. These could include more secure cycle parking facilities such as lockable bike bins, or staffed 'cycle hubs' that could also offer additional services such as repairs and sales. Cycle hire facilities would cater for those travelling to Bedfordshire stations from elsewhere. If feasible, working with Train Operating Companies to improve cycle carriage on board trains could enable many further journey options, with the flexibility gained by cycling at both ends of the rail journey. In relation to this, the installation of lifts to allow level access to platforms may also be considered. This will also of course have wider accessibility benefits for non-cyclists.
 
 ## Monitoring and evaluation of cycling levels
 
 A programme of monitoring and evaluation of cycling levels is vital for the assessment of progress in raising cycle-to-station uptake. The goals of monitoring will include establishing a baseline estimate of cycling levels across the county, and assessing changes from this baseline. Monitoring can be used to evaluate the impact of interventions, to provide a before-and-after picture revealing how new cycle infrastructure changes travel behaviour. 
 
-The scenarios found in this report can assist a monitoring programme in terms of guiding the locations of monitoring sites (at stations or on-road), and guiding expectations for increased cycling uptake at these sites. Conversely, survey results can also be fed back to suggest whether our Phase 1 or Phase 2 approach appears to better model cycling patterns in a given area, or whether changes may be needed to these models.
+The scenarios found in this report can assist a monitoring programme in terms of guiding the locations of monitoring sites (at stations or on-road), and guiding expectations for increased cycling uptake at these sites. Appropriate monitoring sites could include routes that we have predicted to carry high numbers of cyclists under a Go Dutch scenario, and roads or off-road routes where improvements to cycle infrastructure are planned.
 
-Monitoring of how rail users access Bedfordshire stations is currently being carried out. We have not used these monitoring results in the current report, but we hope that in future we will be able to use them to assess how cycling levels are changing and how these changes relate to our models and to local improvements in cycle infrastructure.
+Conversely, survey results can also be fed back to suggest whether our Phase 1 or Phase 2 approach appears to better model cycling patterns in a given area, or whether changes may be needed to refine these models to better capture cycle movements.
+
+An ongoing study of how rail users access Bedfordshire stations is currently being carried out by TRACSIS. We have not used the results of this monitoring programme in the current report, but we hope that in future we will be able to use them to assess how cycling levels are changing and how these changes relate to our models and to local improvements in cycle infrastructure.
 
 # Conclusions
 
@@ -290,19 +298,27 @@ We have presented two methods for investigating the routes used by commuters to 
 
 ## Limitations and scope for further research
 
-There are some ways in which these models could be changed or improved. In this report, each Bedfordshire station is represented by a single point, located at the main station entrance. However, many stations have multiple entrances giving access from two or more different streets. If these additional entrances are also accessible by bicycle, this opens up potential for cycle routes to the station that are not currently being modelled. We expect the impact of this on suburban routings to be relatively limited, but it could have greater impact on our modelling of the cycle usage of some town centre streets. For example, Luton station has a second entrance on Midland Road. If this entrance was included, we could expect some rerouting of cycle journeys in the town centre. 
+There are various ways in which these models could be changed or improved. The most significant future improvement is to combine this cycle-to-stations analysis with an analysis of the potential for direct non-rail cycle commuting, and with the potential for cycling to schools, both of which have been developed as part of the Propensity to Cycle Tool (Lovelace et al. 2017; Goodman et al. 2019). This brings us much closer to an estimation of total, multipurpose cycle flows. In combination, this will provide greatly improved estimates of cycle propensity across Bedfordshire, producing the best possible evidence supporting cycle infrastructure improvements in the county. 
+
+There are several other improvements that could also be made. In this report, each Bedfordshire station is represented by a single point, located at the main station entrance. However, many stations have multiple entrances giving access from two or more different streets. If these additional entrances are also accessible by bicycle, this opens up potential for cycle routes to the station that are not currently being modelled. We expect the impact of this on suburban routings to be relatively limited, but it could have greater impact on our modelling of the cycle usage of some town centre streets. For example, Luton station has a second entrance on Midland Road. If this entrance was included, we could expect some rerouting of cycle journeys in the town centre. 
 
 Additionally, our assessment of hilliness currently uses the average gradient across the full journey distance. Use of maximum gradient may be more appropriate, since this better reflects the limiting factor for many cyclists.
 
-In Phase 2 we exclude the possibility that Bedfordshire residents could use rail stations outside Bedfordshire. Stations within a 5 km buffer zone of the county could be added in future, to better characterise journeys for residents living on the borders of the county. 
+In Phase 2 we exclude the possibility that Bedfordshire residents could use rail stations outside Bedfordshire. Stations within a 5 km buffer zone of the county could be added in future, to better characterise journeys for people living on the borders of the county. We expect that the main result of this would be a reduction in the estimated number of cycle journeys to Arlesey station. However, any overestimates due to the fact that we are currently routing all Bedfordshire residents to Bedfordshire stations may be somewhat mitigated by the fact that we are also ignoring the possibility that people living outside the county may be using Bedfordshire stations.
 
 It would also be possible in future to add in to the Phase 2 analysis journeys with a destination in Bedfordshire.
-
-The most significant future improvement is to combine this cycle-to-stations analysis with analysis of the potential for direct non-rail cycle commuting, and with the potential for cycling to schools, both of which have been developed as part of the Propensity to Cycle Tool (Lovelace et al. 2017; Goodman et al. 2019). This brings us much closer to an estimation of total, multipurpose cycle flows. In combination, this will provide greatly improved estimates of cycle propensity across Bedfordshire, producing the best possible evidence supporting cycle infrastructure improvements in the county. 
 
 # Recommendations
 
 We recommend the following:
+
+- Use knowledge of local conditions and cycling patterns to decide whether the Phase 1 or Phase 2 approach is preferred for a given situation. We would suggest that the Phase 2 approach is more appropriate for rail journeys in which travellers are likely to use their nearest mainline rail station, such as commuter journeys to London. The Phase 1 approach is appropriate when it is necessary to explicitly model the rail journey with respect to the final destination. This can be used for branch lines such as the Marston Vale line.  
+
+- Examine the results of monitoring programmes to further explore how cycling levels across the county compare with these scenarios. If monitoring shows that the number of cyclists in a given area is lower than would be expected, this may point to particular barriers preventing cycling in that area, such as road safety concerns. There may be opportunities to increase cycling levels by removing these barriers.
+
+- Consider investing in on- or off-road cycle infrastructure improvements to develop high-quality, direct, well-connected cycle routes to stations, which are convenient and safe to use for people of all ages. The maps presented in the report highlight the routes to stations which appear to have the greatest cycle potential. These should form part of a wider network of cycle routes encompassing other important destinations such as town centres, shopping districts and educational establishments.
+
+- Consider investing in improvements to cycle facilities at stations. As a guide, we envisage potential for >1000 cycle commuter journeys to Bedford, Leagrave and Luton stations, and around 100-800 journeys to all other Bedfordshire mainline stations. To contextualise this, it must be remembered that only 54% of rail journeys in Britain are for travel to work or school.
 
 # References
 
