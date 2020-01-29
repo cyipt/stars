@@ -91,13 +91,15 @@ knitr::include_graphics("./figures/bedford-intra-region-commutes.png")
 
 # Methodology
 
-We have developed two different methods for estimating cycle to rail stations. Both methods are based on travel-to-work data from the 2011 Census. This means we are only considering the cycle-to-station potential for commuter journeys. People also travel by rail for various other purposes, such as leisure, business trips, education, and other personal business. According to the National Travel Survey 2018, 54% of of rail journeys are for commuting to work and school, while 26% are for leisure and 5% are for shopping (DfT 2019). Therefore our estimates do not capture the full potential for cycle to rail stations.
+We developed two methods for estimating the potential for cycling to rail stations. Both are based on travel-to-work data from the 2011 Census, so consider only the cycle-to-station potential for commuter journeys. People also travel by rail for various other purposes, such as leisure, business trips, education, and other personal business. According to the National Travel Survey 2018, 54% of of rail journeys are for commuting to work and school, while 26% are for leisure and 5% are for shopping (DfT 2019). Therefore our estimates do not capture the full potential for cycle to rail stations.
 
-In the 2011 census, the main journey mode of commuter trips is recorded - defined as the mode of travel used for the single longest journey leg by distance - but secondary modes are not. This means we do not know which mode of transport rail commuters use to travel to the station. In addition to this, we do not have any information identifying which stations these commuters use.
+In the 2011 census, the main journey mode of commuter trips is recorded --- defined as the mode of travel used for the single longest journey leg by distance --- but secondary modes are not. This means we do not know which mode of transport rail commuters use to travel to the station. In addition to this, we do not have any information identifying which stations these commuters use.
 
 The models do not use the commuter's exact home and workplace as the journey start and end points. Census data is anonymised and spatially aggregated at the LSOA (Lower Layer Super Output Area) level, a geographic unit with a population of around 1500. For each LSOA it is possible to calculate a 'centroid' marking the centre of gravity of the population of the LSOA. Thus, with the identities of the LSOAs each commuter lives and works in, we can use the LSOA centroids as the points of origin and destination for each journey.
 
-## Phase 1 method:
+Two methods were used to estimate cycle-to-stations potential.
+
+## Phase 1 method
 
 1) Using 2011 Census data, identify all journeys to work made by rail, that either start or end in Bedfordshire. 
 
@@ -115,9 +117,9 @@ The models do not use the commuter's exact home and workplace as the journey sta
 
 2) Filter these, to select only the trips where the designated journey origin - defined as an LSOA centroid - lies within 5 km (as the crow flies) of one of the ten mainline Bedfordshire rail stations. 
 
-3) The next step is to identify the nearest rail station and find a route from the journey origin to this station. Using the CycleStreets API, we model the fastest cycleable route from the journey origin to all nearby rail stations. This generates on-road routes. To determine which rail station we expect the journey is likely to use, we select the cycle route which has the shortest distance by road. 
+3) Identify the nearest rail station and find a route from the journey origin to this station. Using the CycleStreets API, we model the fastest cycleable route from the journey origin to all nearby rail stations. This generates on-road routes. To determine which rail station we expect the journey is likely to use, we select the cycle route which has the shortest distance by road. 
 
-4) Having identified the expected routes from home to the station, again the final step is to estimate the potential for these journeys to be cycled, using the PCT Go Dutch scenario.
+4) Having identified the expected routes from home to the station, estimate the potential for these journeys to be cycled, using the PCT Go Dutch scenario.
 
 ## Differences between the Phase 1 and Phase 2 approaches
 
