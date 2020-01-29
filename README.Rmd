@@ -78,7 +78,7 @@ When we look at individual station catchments, the picture is similar. Again, ev
 
 ```{r combi4, message = FALSE}
 readr::read_csv("./output-data/mode-data-nearest-catchments.csv") %>% 
-  knitr::kable()
+  kableExtra::kable(booktabs = T)
 ```
 
 ## Intra-region travel
@@ -148,8 +148,7 @@ knitr::include_graphics(c("./figures/bedford-rnet-all-phase1.png","./figures/pha
 
 ```{r table1, eval=FALSE}
 totals = read.csv("../stars-data/data/flow/totals.csv")
-knitr::kable(totals,caption = "Total rail commuter journeys by Bedfordshire residents") %>% 
-  kableExtra::kable(booktabs = T)
+kableExtra::kable(totals,caption = "Total rail commuter journeys by Bedfordshire residents", booktabs = T)
 ```
 
 The total number of rail commuter journeys by Bedfordshire residents are shown in Table \@ref(tab:table1), showing only journeys that originate in Bedfordshire to allow comparability between the Phase 1 and Phase 2 methods. We can see that in the Phase 1 analysis, fewer rail journeys are modelled than the actual number of rail commutes according to 2011 Census data. Including all rail stations, only 80% of rail journeys are accounted for, based on 2011 Census returns. This suggests that for many current rail commutes in Bedfordshire, it is either impossible to reach the station by public transport or the three fastest journey options according to TransportAPI do not involve travel by rail. It is likely that in the majority of cases these commuters are driving to the station.
@@ -158,7 +157,7 @@ In Phase 2, only journeys starting within 5 km of a mainline rail station are in
 
 ```{r table2, eval=FALSE}
 s_counts_all = read.csv("../stars-data/data/flow/s_counts_all.csv")
-knitr::kable(s_counts_all,caption = "Total rail commuter journeys departing from each mainline station")
+kableExtra::kable(s_counts_all, caption = "Total rail commuter journeys departing from each mainline station", booktabs = T)
 ```
 
 Table \@ref(tab:table2) shows the number of rail journeys for each of the ten mainline stations according to the Phase 1 and Phase 2 methods (again for journeys originating in Bedfordshire only). The final column shows the Phase 1 estimate as a proportion of the Phase 2 estimate. For several stations, the results are very similar between Phase 1 and Phase 2. For the remainder, there are two notable patterns we can pick out. 
@@ -179,14 +178,14 @@ knitr::include_graphics(c("./figures/bedford-rnet-go-dutch-phase1.png","./figure
 
 ```{r table3, eval=FALSE}
 totals_dutch = read.csv("../stars-data/data/flow/totals_dutch.csv")
-knitr::kable(totals_dutch,caption = "Go Dutch cycle-to-station potential for Bedfordshire residents")
+kableExtra::kable(totals_dutch,caption = "Go Dutch cycle-to-station potential for Bedfordshire residents", booktabs = T)
 ```
 
 There is a significant difference between these two approaches in terms of cycling takeup under the Go Dutch scenario. In Phase 1, only 16% of rail commuters are modelled as cycling to the station if cycle propensity for Bedfordshire residents was to reach Dutch levels. However, in Phase 2, the same scenario sees 42% of Bedfordshire rail commuters cycling to the station.
 
 ```{r table4, eval=FALSE}
 s_counts_dutch = read.csv("../stars-data/data/flow/s_counts_dutch.csv")
-knitr::kable(s_counts_dutch,caption = "Go Dutch cycle-to-station potential for rail journeys departing from each mainline station")
+kableExtra::kable(s_counts_dutch,caption = "Go Dutch cycle-to-station potential for rail journeys departing from each mainline station", booktabs = T)
 ```
 
 When we look at each station individually, we again find a similar disparity between the Phase 1 and Phase 2 approaches. In Phase 1, takeup reaches a maximum of 23% at Flitwick and a minimum of 11% at Luton Airport Parkway (excluding Harlington which was missed from the analysis), while in Phase 2 takeup ranges from 38% to 43% (Table 4). The low yet varying takeup of cycling under Phase 1 is due to the greater distances commuters are modelled as travelling to reach the station. Conversely, in Phase 2 all journeys to the station are relatively short, with the greatest on-road distance of x km corresponding with a maximum as-the-crow-flies distance of 5 km. This results in a high and relatively consistent rate of cycling takeup.
@@ -275,7 +274,7 @@ In Table 5 we can see the existing number of cycle racks at each station (using 
 
 ```{r table5}
 racks = read.csv("./output-data/racks.csv")
-knitr::kable(racks,caption = "Existing cycle rack numbers and cycle-to-station potentials in Bedfordshire")
+kableExtra::kable(racks,caption = "Existing cycle rack numbers and cycle-to-station potentials in Bedfordshire", booktabs = T)
 ```
 
 A range of other station improvements may also be considered. These could include more secure cycle parking facilities such as lockable bike bins, or staffed 'cycle hubs' that could also offer additional services such as repairs and sales. Cycle hire facilities would cater for those travelling to Bedfordshire stations from elsewhere. If feasible, working with Train Operating Companies to improve cycle carriage on board trains could enable many further journey options, with the flexibility gained by cycling at both ends of the rail journey. In relation to this, the installation of lifts to allow level access to platforms may also be considered.
