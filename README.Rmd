@@ -90,7 +90,7 @@ knitr::include_graphics("./figures/bedford-intra-region-commutes.png")
 
 # Methodology
 
-We have developed two different methods for estimating cycle to rail stations. Both methods are based on travel-to-work data from the 2011 Census. This means we are only considering the cycle-to-station potential for commuter journeys. People also travel by rail for various other purposes, such as leisure, business trips, education, and other personal business. According to the National Travel Survey 2018, 54% of of rail journeys are for commuting to work and school, while 26% are for leisure and 5% are for shopping (DfT 2019). Therefore our estimates do not capture the full potential for cycle to rail stations.
+We have developed two different methods for estimating cycle to rail stations. Both methods are based on travel-to-work data from the 2011 Census. This means we are only considering the cycle-to-station potential for commuter journeys. People also travel by rail for various other purposes, such as leisure, business trips, education, and other personal business. According to the National Travel Survey 2018, 47% of rail journeys in England are for commuting, while 26% are for leisure, 8% for business, 7% for education and 5% are for shopping (DfT 2019). Therefore our estimates do not capture the full potential for cycle to rail stations.
 
 In the 2011 census, the main journey mode of commuter trips is recorded - defined as the mode of travel used for the single longest journey leg by distance - but secondary modes are not. This means we do not know which mode of transport rail commuters use to travel to the station. In addition to this, we do not have any information identifying which stations these commuters use.
 
@@ -318,7 +318,7 @@ We recommend the following:
 
 - Consider investing in on- or off-road cycle infrastructure improvements to develop high-quality, direct, well-connected cycle routes to stations, which are convenient and safe to use for people of all ages. The maps presented in the report highlight the routes to stations which appear to have the greatest cycle potential. These should form part of a wider network of cycle routes encompassing other important destinations such as town centres, shopping districts and educational establishments.
 
-- Consider investing in improvements to cycle facilities at stations. As a guide, we envisage potential for >1000 cycle commuter journeys to Bedford, Leagrave and Luton stations, and around 100-800 journeys to all other Bedfordshire mainline stations. To contextualise this, it must be remembered that only 54% of rail journeys in Britain are for travel to work or school.
+- Consider investing in improvements to cycle facilities at stations. As a guide, we envisage potential for >1000 cycle commuter journeys to Bedford, Leagrave and Luton stations, and around 100-800 journeys to all other Bedfordshire mainline stations. To contextualise this, it must be remembered that only 47% of rail journeys in England are for travel to work.
 
 # References
 
