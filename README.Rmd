@@ -165,7 +165,7 @@ If we were focusing on travel to the station by car, bus or other modes, then it
 
 The other difference is that in Phase 2 more journeys are routed to Arlesey and Sandy. In reality, many of these are likely to be people who live close to the county boundary and who actually use stations outside Bedfordshire, such as Letchworth, Hitchin and St Neots. 
 
-## Go Dutch cycle to rail stations (Phase 1 and 2 estimates)
+## Go Dutch cycle to rail stations
 
 We can now estimate how many commuters would cycle to the station, if cycling levels in Bedfordshire were equivalent to those in the Netherlands. To do this we use the Go Dutch scenario developed as part of the Propensity to Cycle Tool (Lovelace et al. 2017). The Phase 1 results are on the left and Phase 2 on the right.  
 
@@ -273,7 +273,7 @@ knitr::include_graphics(c("./figures/go-dutch-lbuzz.png","./figures/go-dutch-fli
 
 In addition to the routes to stations, it is important to consider cycle provision at the stations themselves. The need for improvements such as additional cycle parking stands can be assessed using this tool. There may be an overall need for more cycle stands at a given station, or there may be a need for more stands at a specific station entrance to cater for journeys coming from a particular direction. 
 
-In Table 5 we can see the existing number of cycle racks at each station (using data from www.nationalrail.co.uk) and the potential number of cycle journeys to the station under a Go Dutch scenario in Phase 1 and Phase 2. Luton station looks to have a particular need for more cycle stands as cycling numbers increase. We can also see large number of cycle journeys predicted to Leagrave and Bedford stations.
+In Table 5 we can see the existing number of cycle racks at each station (using data from www.nationalrail.co.uk) and the potential number of cycle commuter journeys to the station under a Go Dutch scenario in Phase 1 and Phase 2. We must remember that travel to work represents just under half of all rail journeys in England, although this proportion may be different for Bedfordshire. Luton station looks to have a particular need for more cycle stands as cycling numbers increase. We can also see large number of cycle journeys predicted to Leagrave and Bedford stations.
 
 ```{r table5}
 racks = read.csv("./output-data/racks.csv")
