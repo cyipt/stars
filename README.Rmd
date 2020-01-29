@@ -97,7 +97,7 @@ In the 2011 census, the main journey mode of commuter trips is recorded - define
 
 The models do not use the commuter's exact home and workplace as the journey start and end points. Census data is anonymised and spatially aggregated at the LSOA (Lower Layer Super Output Area) level, a geographic unit with a population of around 1500. For each LSOA it is possible to calculate a 'centroid' marking the centre of gravity of the population of the LSOA. Thus, with the identities of the LSOAs each commuter lives and works in, we can use the LSOA centroids as the points of origin and destination for each journey.
 
-## Our Phase 1 method:
+## Phase 1 method:
 
 1) Using 2011 Census data, identify all journeys to work made by rail, that either start or end in Bedfordshire. 
 
@@ -109,7 +109,7 @@ The models do not use the commuter's exact home and workplace as the journey sta
 
 5) Having identified the expected routes to and from the station, the final step is to estimate the potential for these journeys to be cycled. For this, we use the Go Dutch scenario developed as part of the Propensity to Cycle Tool (Lovelace et al. 2017). This estimates what the cycle uptake would be if people in the UK cycled as much as they do in the Netherlands, taking into account hilliness and journey distance. 
 
-## Our Phase 2 method:
+## Phase 2 method:
 
 1) Identify all journeys to work that are made by rail by Bedfordshire residents, according to the 2011 Census. 
 
@@ -133,7 +133,7 @@ When deciding whether to use the Phase 1 or Phase 2 approach to model cycle-to-s
 
 ## Modelling all rail commutes
 
-Before estimating cycle-to-station uptake, we must first identify which commuter journeys could be made by rail. Figure\@ref(figcombi6) shows the routes between the journey origin/destination and the relevant rail station for all Bedfordshire rail commutes, as estimated according to our Phase 1 and Phase 2 approaches. 
+Before estimating cycle-to-station uptake, we must first identify which commuter journeys could be made by rail. Figure\@ref(fig:combi6) shows the routes between the journey origin/destination and the relevant rail station for all Bedfordshire rail commutes, as estimated according to our Phase 1 and Phase 2 approaches. 
 
 The left panel shows all commutes made by rail according to the Phase 1 methods. This includes trips to stations outside Bedfordshire. We can see that these journeys are not always routed to the nearest rail station. For example, there are journeys along the A6 between Clophill and Luton, although Luton is not the nearest rail station. This is likely to be because the journey option for these commutes that has the shortest rail journey time involves taking a bus to Luton, followed by a train from Luton to the destination.
 
