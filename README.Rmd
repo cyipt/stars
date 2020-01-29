@@ -324,7 +324,7 @@ Our results showed that smaller stations the potential to accomodate growth in c
 There are many options to improve the situation throughout the region and the routes proposed in the 'Luton Cycling Opportunities' report broadly coincide with the route network results from our models.
 In terms specific recommendations related to our work, we suggest the following:
 
-- Use knowledge of local conditions and cycling patterns to decide whether the Phase 1 or Phase 2 approach is preferred for a given situation. We would suggest that the Phase 2 approach is more appropriate for rail journeys in which travellers are likely to use their nearest mainline rail station, such as commuter journeys to London. The Phase 1 approach is appropriate when it is necessary to explicitly model the rail journey with respect to the final destination. This can be used for branch lines such as the Marston Vale line.  We could also develop a 'Phase III' approach which calculates the cycle-rail trips that are most likely given existing commuter patterns using new functionality in **opentripplanner** R package (Morgan et al., 2019).
+- Use knowledge of local conditions and cycling patterns to decide whether the Phase 1 or Phase 2 approach is preferred for a given situation. We would suggest that the Phase 2 approach is more appropriate for rail journeys in which travellers are likely to use their nearest mainline rail station, such as commuter journeys to London. The Phase 1 approach is appropriate when it is necessary to explicitly model the rail journey with respect to the final destination. This can be used for branch lines such as the Marston Vale line.  We could also develop a 'Phase 3' approach which calculates the cycle-rail trips that are most likely given existing commuter patterns using new functionality in **opentripplanner** R package (Morgan et al., 2019).
 
 - Examine the results of monitoring programmes to further explore how cycling levels across the county compare with these scenarios. If monitoring shows that the number of cyclists in a given area is lower than would be expected, this may point to particular barriers preventing cycling in that area, such as road safety concerns. There may be opportunities to increase cycling levels by removing these barriers.
 
@@ -353,4 +353,9 @@ MacKenzie, A. R., J. D. Whyatt, M. J. Barnes, G. Davies, and C. N. Hewitt. “Ur
 ONS. “2011 Census Data - Office for National Statistics.” Accessed January 28, 2020. https://www.ons.gov.uk/census/2011census/2011censusdata.
 
 ORR. '2019-20 Q1 Statistical Release – Passenger Rail Usage | ORR Data Portal’. Accessed 12 November 2019. https://dataportal.orr.gov.uk/statistics/usage/passenger-rail-usage/.
+
+```{r, eval=FALSE, echo=FALSE}
+# rename report and release
+file.rename("README.pdf", "stars-modelling-phase2-report.pdf")
+```
 
