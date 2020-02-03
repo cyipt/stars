@@ -20,4 +20,4 @@ racks = racks[,2:5]
 write_csv(racks,"./output-data/racks.csv")
 racks = readr::read_csv("./output-data/racks.csv")
 racks
-colnames(racks) = c("Station", "Cycle racks", "Phase 1 Go Dutch", "Phase 2 Go Dutch")
+colnames(racks) = c("Station", "Cycle spaces", "Phase 1 Go Dutch", "Phase 2 Go Dutch")
