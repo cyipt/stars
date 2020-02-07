@@ -221,7 +221,7 @@ phase2flow$station = as.character(phase2flow$station)
 phase2flow$station = gsub(pattern = "Bedford Midland", replacement = "Bedford", x = phase2flow$station)
 phase2flow$station = gsub("Luton Airport", "Luton Airport Parkway", phase2flow$station)
 
-write.csv(phase2flow[,c(1,2,3)],"./figures/phase2flow.csv")
+write_csv(phase2flow[,c(1,2,3)],"./figures/phase2flow.csv")
 
 phase1flow = readRDS("../stars-data/data/station_flow_estimates.Rds") %>%
   rename(phase_1_all_rail = Train_in, phase_1_go_dutch = Dutch_in)
@@ -243,14 +243,14 @@ s_counts_all = compare_phases[,c(1,2,5,16)] %>%
   select(1,3,2,4)
 s_counts_all 
 
-write.csv(s_counts_all, "../stars-data/data/flow/s_counts_all.csv")
+write_csv(s_counts_all, "../stars-data/data/flow/s_counts_all.csv")
 
 
 s_counts_dutch = compare_phases[,c(1,3,7,18:19)] %>%
   select(1,3,2,4,5)
 s_counts_dutch 
 
-write.csv(s_counts_dutch, "../stars-data/data/flow/s_counts_dutch.csv")
+write_csv(s_counts_dutch, "../stars-data/data/flow/s_counts_dutch.csv")
 
 
 
@@ -296,7 +296,7 @@ totals = data.frame(p1,p1_10,p2,c_2011, row.names = c("Total journeys","% accoun
 colnames(totals) = c("Phase1(all_stations)","Phase1(ten_stations)","Phase2(ten_stations)","Census2011")
 totals
 
-write.csv(totals, "../stars-data/data/flow/totals.csv")
+write_csv(totals, "../stars-data/data/flow/totals.csv")
 
 
 p1dt = round(sum(phase1flow$phase_1_go_dutch)/sum(phase1flow$phase_1_all_rail)*100)
@@ -311,7 +311,7 @@ totals_dutch = data.frame(p1d,p1d_10,p2d, row.names = c("Go Dutch journeys cycle
 colnames(totals_dutch) = c("Phase1(all_stations)","Phase1(ten_stations)","Phase2(ten_stations)")
 totals_dutch
 
-write.csv(totals_dutch, "../stars-data/data/flow/totals_dutch.csv")
+write_csv(totals_dutch, "../stars-data/data/flow/totals_dutch.csv")
 
 # sum(phase1flow$phase_1_all_rail)/sum(compare_phases$phase_2_all_rail)
 # sum(compare_phases$phase_1_all_rail)/sum(compare_phases$phase_2_all_rail)
@@ -320,14 +320,29 @@ sum(compare_phases$phase_2_all_rail)/sum(compare_phases$AllMethods_in)
 
 ####Cycle racks per station
 
-existing = read.csv("../stars-data/data/orr/cycle-spaces.csv") %>%
+existing = read_csv("../stars-data/data/orr/cycle-spaces.csv") %>%
   rename(station = Station)
 
 racks = inner_join(s_counts_dutch,existing)
 racks = racks %>% select(station, Cycle_racks, phase_1_go_dutch, phase_2_go_dutch)
 racks
 
-write.csv(racks,"./output-data/racks.csv")
+write_csv(racks,"./output-data/racks.csv")
+
+racks = read_csv("./output-data/racks.csv")
+
+spaces = gather(racks, `Cycle spaces`, `Phase 1 Go Dutch`,`Phase 2 Go Dutch`, key = "phase", value = "spaces")
+# spaces = gsub("Cycle spaces", "Current cycle spaces",spaces)
+
+ggplot(data=spaces, aes(x=Station, y=spaces, fill=phase)) + 
+  geom_bar(stat="identity",position = "dodge") + 
+  theme_gray() + 
+  theme(axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        axis.text.y.left = element_text(size = 11)) +
+  scale_fill_brewer(palette = "Dark2")
+
+
 
 ####Is this section needed?###########
 

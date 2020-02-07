@@ -1,0 +1,398 @@
+---
+title: "Cycle potential to Bedfordshire rail stations"
+subtitle: "`r emojifont::emoji('bike')` `r emojifont::emoji('train')`  <br/>STARS Phase 2"
+author: "Joey Talbot, Robin Lovelace and Malcolm Margan"
+institute: "Institute for Transport Studies, University of Leeds"
+date: "07/02/2020"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(tmap)
+tmap_mode("plot")
+```
+
+
+# Aims of STARS: 
+
+- Establish the potential for cycling to stations in the STARS study area
+
+- Inform investment decisions regarding cycle infrastructure and cycle parking at stations
+
+- Feed into monitoring and evaluation of cycling levels
+
+???
+
+Around 2/3rd of trips are within 5 miles.
+Many of these are cyclable, especially when considering Ebikes.
+But how to get people cycling who commute longer distances, e.g. those living in the commuter belts outside London?
+
+Modal shift to cycling under future scenarios
+Identify roads which may benefit from improved cycle infrastructure
+Estimate the number of cycle parking spaces required at stations
+Can identify potential monitoring sites and provide a baseline against which to assess cycling uptake 
+
+---
+
+# Case study area - zone analysis
+
+.pull-left[
+
+```{r}
+knitr::include_url("../figures/beford-overview-with mainline.png")
+```
+
+]
+
+--
+
+.pull-right[
+
+664,000 people in 1,200 km2
+
+Moderate population density (~500 ppl/km2 vs ~400 in England)
+
+Relatively even distribution of stations
+
+For interactive map see [here](http://rpubs.com/RobinLovelace/536607)
+
+Cyclable distances (~3.5 km population-weighted mean to stations)
+
+"train is the only practical method for getting to work for many people" (Phase I report)
+
+]
+
+---
+
+# Mode split for commuting - LA
+
+```{r, message=FALSE}
+library(dplyr)
+readr::read_csv("../output-data/mode-data-local-authority.csv") %>% 
+  knitr::kable(format = "html")
+```
+
+---
+
+# Mode split by station catchment
+
+```{r, message=FALSE}
+readr::read_csv("../output-data/mode-data-nearest-catchments.csv") %>% 
+  knitr::kable(format = "html")
+```
+
+---
+
+# Intra-region travel - OD data analysis
+
+.pull-left[
+
+```{r}
+knitr::include_graphics("../figures/bedford-intra-region-commutes.png")
+```
+
+
+]
+
+--
+
+.pull-right[
+
+See [here](http://rpubs.com/RobinLovelace/536634) for interactive map
+
+Around half of all commutes are within Bedfordshire
+
+The majority of these are to the nearest town centre, but there is some inter-town travel
+
+]
+
+---
+
+# Existing infrasture
+
+```{r}
+knitr::include_graphics("../figures/existing-cyipt.png")
+```
+
+See https://www.cyipt.bike/ for full map
+
+
+???
+
+Worth chatting to Keith/Caroline about
+
+---
+
+# Data sources
+
+- 2011 census data
+
+- 2017-18 ORR Estimates of Station Usage 
+
+- 2018 travel survey of Bedfordshire Midland Main Line stations
+
+- Cyclestreets routing API
+
+- PCT travel to work scenarios
+
+- CyIPT street level cycle infrastructure data
+
+---
+
+.pull-left[
+
+# Methodology
+
+
+- Identify trips that could be made by cycle/PT combination
+
+- Estimate travel to stations, currently (and potential?)
+
+- Estimate the potential for those trips to be cycled
+
+- Combine with cycling potential for other trip purposes
+
+- Visualise results to inform decision-making process
+
+- Assess specific interventions
+
+]
+
+--
+
+.pull-right[
+
+```{r}
+knitr::include_graphics("../figures/multi-stage-rail-schematic.png")
+```
+
+
+```{r}
+knitr::include_graphics("../figures/rail_desire_lines.png")
+```
+
+]
+
+???
+
+These desire lines show MSOA commute data for all journeys starting in Bedfordshire where at least 20 people travel by rail
+
+
+---
+
+# Identification of public transport trips
+
+.pull-left[
+
+## Phase I
+
+- Start with Census OD data
+- Transport API used to find if trip could arrive by 9:00 AM
+- Fastest train journey used (see [here](http://rpubs.com/RobinLovelace/536826))
+- Not simply routing cyclists to the nearest station, but takes account of their final destination 
+
+```{r}
+knitr::include_graphics("../figures/bedford-rnet-rail-geom-phase1.png")
+```
+
+
+]
+
+.pull-right[
+
+## Phase II 
+
+- Start with commutes that are already made by rail
+- Use CycleStreets API to identify shortest overall journey time for cycle/rail combination
+- Based on home-rail trip, estimate potential for trip to be cycled
+
+
+Next steps
+
+- Estimate travel-to-station levels for non commute trips based on local survey data
+- Use knowledge of capacity to estimate growth
+
+]
+
+---
+
+# Current trips to stations
+
+.pull-left[
+
+### Phase I estimates
+
+```{r}
+knitr::include_graphics("../figures/bedford-rnet-all-phase1.png")
+```
+
+
+]
+
+
+.pull-right[
+
+### Phase II estimates
+
+```{r}
+knitr::include_graphics("../figures/bedford-all-phase2.png")
+```
+
+]
+
+
+???
+
+Add figure showing modal share and distance travelled of Bedfordshire commuters.
+
+---
+
+## Cycling potential estimates - Go Dutch
+
+.pull-left[
+
+### Phase I estimates
+
+```{r}
+knitr::include_graphics("../figures/bedford-rnet-go-dutch-phase1.png")
+```
+
+]
+
+
+.pull-right[
+
+### Phase II estimates
+
+```{r}
+knitr::include_graphics("../figures/bedford-go-dutch-phase2.png")
+```
+
+]
+
+
+---
+
+# Cycling takeup rates
+
+
+```{r}
+knitr::include_graphics("../figures/takeup-by-phase.png")
+```
+
+
+---
+
+# Infrastructure options
+
+```{r}
+knitr::include_graphics("../figures/recommended-cyipt.png")
+```
+
+---
+
+# Phase 2 suggestions: Luton
+
+```{r}
+knitr::include_graphics("../figures/go-dutch-luton.png")
+```
+
+---
+
+# Route busyness
+
+```{r}
+knitr::include_graphics("../figures/leagrave-busyness-highlighted.png")
+```
+
+---
+
+# Phase 2 suggestions: Bedford
+
+```{r}
+knitr::include_graphics("../figures/go-dutch-bedford.png")
+```
+
+---
+# Phase 2 suggestions: Central Bedfordshire
+
+.pull-left[
+
+### Leighton Buzzard
+
+```{r}
+knitr::include_graphics("../figures/go-dutch-lbuzz.png")
+```
+
+]
+
+.pull-right[
+
+### Flitwick and Harlington
+
+```{r}
+knitr::include_graphics("../figures/go-dutch-flitwick.png")
+```
+
+
+]
+
+---
+# Phase 2 suggestions: Central Bedfordshire
+
+.pull-left[
+
+### Arlesey, Biggleswade and Sandy
+
+```{r}
+knitr::include_graphics("../figures/go-dutch-abs.png")
+```
+
+]
+
+.pull-right[
+
+### Central Bedfordshire suggestions
+
+- route between Leighton Buzzard station and the town centre 
+
+- route between Ampthill and Flitwick
+
+- routes from Arlesey station to nearby towns and villages 
+
+- the B1042 between Potton and Sandy
+
+]
+
+---
+
+# Cycle facilities at stations
+
+
+
+---
+
+# Next steps
+
+```{r}
+knitr::include_graphics("https://user-images.githubusercontent.com/1825120/66382281-de079480-e9b2-11e9-89b4-159a7022306f.png")
+```
+
+--
+
+- Feasibility assessment of route options 
+- Explore other interventions
+- [Overlay](http://rpubs.com/RobinLovelace/536834) with commuter and educational trip potential
+- Create integrated layer of cycling potential
+- Extend Phase I cycle parking analysis
+- Training / workshop
+- National deployment of cycling-transport layer
+- calculate with route network distance minimised
