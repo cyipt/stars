@@ -1,7 +1,7 @@
 ---
 title: "Cycle potential to Bedfordshire rail stations"
 subtitle: "`r emojifont::emoji('bike')` `r emojifont::emoji('train')`  <br/>STARS Phase 2"
-author: "Joey Talbot, Robin Lovelace and Malcolm Margan"
+author: "Joey Talbot, Robin Lovelace and Malcolm Morgan"
 institute: "Institute for Transport Studies, University of Leeds"
 date: "07/02/2020"
 output:
@@ -374,9 +374,11 @@ knitr::include_graphics("../figures/go-dutch-abs.png")
 
 ---
 
-# Cycle facilities at stations
+# How many cycle spaces do we need?
 
-
+```{r}
+knitr::include_graphics("../figures/cycle-spaces.png")
+```
 
 ---
 

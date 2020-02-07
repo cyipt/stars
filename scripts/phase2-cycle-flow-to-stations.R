@@ -332,14 +332,15 @@ write_csv(racks,"./output-data/racks.csv")
 racks = read_csv("./output-data/racks.csv")
 
 spaces = gather(racks, `Cycle spaces`, `Phase 1 Go Dutch`,`Phase 2 Go Dutch`, key = "phase", value = "spaces")
-# spaces = gsub("Cycle spaces", "Current cycle spaces",spaces)
+# spaces = gsub("Cycle spaces", "Current provision",spaces)
 
 ggplot(data=spaces, aes(x=Station, y=spaces, fill=phase)) + 
   geom_bar(stat="identity",position = "dodge") + 
   theme_gray() + 
   theme(axis.title.x=element_blank(),
         axis.title.y=element_blank(),
-        axis.text.y.left = element_text(size = 11)) +
+        axis.text.y.left = element_text(size = 11),
+        axis.text.x = element_text(angle = 90)) +
   scale_fill_brewer(palette = "Dark2")
 
 
