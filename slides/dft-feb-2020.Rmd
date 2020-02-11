@@ -291,8 +291,11 @@ knitr::include_graphics("../figures/takeup-by-phase.png")
 ```
 
 - Our Phase 2 results pick up 89% of current rail commutes
+
 - Phase 2 sees more journeys from most mainline stations, except Luton
-- Potential cycle takeup is much higher under Phase 2: ~ 38-42%
+
+- Potential cycle takeup is 11-23% under Phase 1; 38-42% under Phase 2
+
 - Some stations could have >1200 cycle commuter journeys
 
 
@@ -305,6 +308,7 @@ knitr::include_graphics("../figures/cyipt-existing-luton.png")
 ```
 
 - Existing cycle infrastructure around Luton and Leagrave is relatively limited; our results support route development here
+
 - Close agreement with several of the cycle routes proposed in the 'Luton Cycling Opportunities' report
 
 ---
@@ -403,7 +407,6 @@ knitr::include_graphics("../figures/go-dutch-abs.png")
 ```{r}
 knitr::include_graphics("../figures/cycle-spaces.png")
 ```
-
 - Remember that only 47% of rail journeys in England are for commuting
 - Must also consider the need for cycle spaces at specific station entrances
 - Consider improvements such as secure cycle hubs, cycle hire, and improved cycle carriage on trains
@@ -412,20 +415,17 @@ knitr::include_graphics("../figures/cycle-spaces.png")
 
 # Potential future work
 
+```{r}
+knitr::include_graphics("./multipurpose-thin.png")
+```
+
 - Combine with cycling potential for other trip purposes, to create integrated cycle potential layer
-
 - [Overlay](http://rpubs.com/RobinLovelace/536834) with commuter and educational trip potential
-
-- Account for multiple station entrances
-
-- Use local survey data
-
 - Estimate travel-to-station levels for non commute trips 
-
+- Account for multiple station entrances
+- Use local survey data
 - Assess specific interventions
-
 - Training / workshop
-
 - Either improve the existing methods to better represent certain journey types (E.g. travel to Bedfordshire), or develop a Phase 3 method that directly models cycle-rail journeys. 
 
 
@@ -433,7 +433,7 @@ knitr::include_graphics("../figures/cycle-spaces.png")
 
 # Our Recommendations
 
-- All mainline Bedfordshire stations could see substantial increases in cycle commuting; Luton, Leagrave and Bedford stations could all see >1200 cycle commuters
+- All mainline Bedfordshire stations could see substantial increases in cycle commuting; Luton, Leagrave and Bedford stations could all see >1200 cycle commuters per day
 
 - Luton station is especially under-used by cyclists at present, and there is also a particular need to reduce air pollution here
 
