@@ -2,7 +2,7 @@
 title: "STARS Phase 2 Report: Estimating cycle potential to Bedfordshire rail stations"
 author: Joey Talbot, Robin Lovelace and Malcolm Morgan
 institute: "Institute for Transport Studies, University of Leeds"
-date: "29th January 2020"
+date: "3rd February 2020"
 output: bookdown::pdf_document2
 # output: html_document
 header-includes: 

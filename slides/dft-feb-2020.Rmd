@@ -29,10 +29,8 @@ tmap_mode("plot")
 
 - Feed into monitoring and evaluation of cycling levels
 
---
-
 ```{r}
-# knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/slides/air-pollution-paper.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/slides/air-pollution-paper.png")
 ```
 
 ???
@@ -53,7 +51,7 @@ Can identify potential monitoring sites and provide a baseline against which to 
 .pull-left[
 
 ```{r}
-knitr::include_url("https://raw.githubusercontent.com/cyipt/stars/master/figures/beford-overview-with mainline.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/beford-overview-with mainline.png")
 ```
 
 ]
@@ -352,17 +350,13 @@ knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/fi
 
 # Phase 2 suggestions: Central Bedfordshire
 
-.pull-left[
-
 ### Leighton Buzzard
 
-```{r}
+```{r, out.width="60%"}
 knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/go-dutch-lbuzz.png")
 ```
 
-]
-
-.pull-right[
+---
 
 ### Flitwick and Harlington
 
@@ -370,10 +364,8 @@ knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/fi
 knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/go-dutch-flitwick.png")
 ```
 
-
-]
-
 ---
+
 # Phase 2 suggestions: Central Bedfordshire
 
 .pull-left[
@@ -416,7 +408,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/fi
 # Potential future work
 
 ```{r}
-knitr::include_graphics("./multipurpose-thin.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/slides/multipurpose-thin.png")
 ```
 
 - Combine with cycling potential for other trip purposes, to create integrated cycle potential layer
