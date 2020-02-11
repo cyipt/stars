@@ -29,7 +29,7 @@ tmap_mode("plot")
 
 - Feed into monitoring and evaluation of cycling levels
 
-```{r}
+```{r, out.width="70%"}
 knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/slides/air-pollution-paper.png")
 ```
 
@@ -348,21 +348,20 @@ knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/fi
 
 ---
 
-# Phase 2 suggestions: Central Bedfordshire
-
-### Leighton Buzzard
-
-```{r, out.width="60%"}
+```{r, out.width="55%"}
 knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/go-dutch-lbuzz.png")
 ```
 
+#### Phase 2 suggestions: Leighton Buzzard
+
 ---
 
-### Flitwick and Harlington
 
-```{r}
+```{r, out.width="55%"}
 knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/go-dutch-flitwick.png")
 ```
+
+#### Flitwick and Harlington
 
 ---
 
@@ -372,7 +371,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/fi
 
 ### Arlesey, Biggleswade and Sandy
 
-```{r}
+```{r, out.width="80%"}
 knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/go-dutch-abs.png")
 ```
 
