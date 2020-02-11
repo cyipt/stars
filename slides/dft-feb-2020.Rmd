@@ -32,7 +32,7 @@ tmap_mode("plot")
 --
 
 ```{r}
-knitr::include_graphics("./air-pollution-paper.png")
+# knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/slides/air-pollution-paper.png")
 ```
 
 ???
@@ -53,7 +53,7 @@ Can identify potential monitoring sites and provide a baseline against which to 
 .pull-left[
 
 ```{r}
-knitr::include_url("../figures/beford-overview-with mainline.png")
+knitr::include_url("https://raw.githubusercontent.com/cyipt/stars/master/figures/beford-overview-with mainline.png")
 ```
 
 ]
@@ -104,7 +104,7 @@ readr::read_csv("../output-data/mode-data-nearest-catchments.csv") %>%
 .pull-left[
 
 ```{r}
-knitr::include_graphics("../figures/bedford-intra-region-commutes.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/bedford-intra-region-commutes.png")
 ```
 
 
@@ -127,7 +127,7 @@ The majority of these are to the nearest town centre, but there is some inter-to
 # Existing infrasture
 
 ```{r}
-knitr::include_graphics("../figures/existing-cyipt.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/existing-cyipt.png")
 ```
 
 See https://www.cyipt.bike/ for full map
@@ -178,12 +178,12 @@ Worth chatting to Keith/Caroline about
 .pull-right[
 
 ```{r}
-knitr::include_graphics("../figures/multi-stage-rail-schematic.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/multi-stage-rail-schematic.png")
 ```
 
 
 ```{r}
-knitr::include_graphics("../figures/rail_desire_lines.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/rail_desire_lines.png")
 ```
 
 ]
@@ -233,7 +233,7 @@ These desire lines show MSOA commute data for all journeys starting in Bedfordsh
 ### Phase I estimates
 
 ```{r}
-knitr::include_graphics("../figures/bedford-rnet-all-phase1.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/bedford-rnet-all-phase1.png")
 ```
 
 
@@ -245,7 +245,7 @@ knitr::include_graphics("../figures/bedford-rnet-all-phase1.png")
 ### Phase II estimates
 
 ```{r}
-knitr::include_graphics("../figures/bedford-all-phase2.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/bedford-all-phase2.png")
 ```
 
 ]
@@ -264,7 +264,7 @@ Add figure showing modal share and distance travelled of Bedfordshire commuters.
 ### Phase I estimates
 
 ```{r}
-knitr::include_graphics("../figures/bedford-rnet-go-dutch-phase1.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/bedford-rnet-go-dutch-phase1.png")
 ```
 
 ]
@@ -275,7 +275,7 @@ knitr::include_graphics("../figures/bedford-rnet-go-dutch-phase1.png")
 ### Phase II estimates
 
 ```{r}
-knitr::include_graphics("../figures/bedford-go-dutch-phase2.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/bedford-go-dutch-phase2.png")
 ```
 
 ]
@@ -287,7 +287,7 @@ knitr::include_graphics("../figures/bedford-go-dutch-phase2.png")
 
 
 ```{r}
-knitr::include_graphics("../figures/takeup-by-phase.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/takeup-by-phase.png")
 ```
 
 - Our Phase 2 results pick up 89% of current rail commutes
@@ -304,7 +304,7 @@ knitr::include_graphics("../figures/takeup-by-phase.png")
 # Phase 2 suggestions: Luton
 
 ```{r}
-knitr::include_graphics("../figures/cyipt-existing-luton.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/cyipt-existing-luton.png")
 ```
 
 - Existing cycle infrastructure around Luton and Leagrave is relatively limited; our results support route development here
@@ -316,7 +316,7 @@ knitr::include_graphics("../figures/cyipt-existing-luton.png")
 # Phase 2 suggestions: Luton
 
 ```{r}
-knitr::include_graphics("../figures/go-dutch-luton.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/go-dutch-luton.png")
 ```
 
 ---
@@ -324,7 +324,7 @@ knitr::include_graphics("../figures/go-dutch-luton.png")
 # Route busyness
 
 ```{r}
-knitr::include_graphics("../figures/leagreave-busyness-highlighted.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/leagreave-busyness-highlighted.png")
 ```
 
 - There may be particular route segments or dangerous junctions that act as barriers preventing cycling
@@ -334,7 +334,7 @@ knitr::include_graphics("../figures/leagreave-busyness-highlighted.png")
 # Phase 2 suggestions: Bedford
 
 ```{r}
-knitr::include_graphics("../figures/cyipt-existing-bedford.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/cyipt-existing-bedford.png")
 ```
 
 - Bedford appears to have fairly extensive cycle infrastructure, but not in the immediate station vicinity 
@@ -345,7 +345,7 @@ knitr::include_graphics("../figures/cyipt-existing-bedford.png")
 # Phase 2 suggestions: Bedford
 
 ```{r}
-knitr::include_graphics("../figures/go-dutch-bedford.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/go-dutch-bedford.png")
 ```
 
 ---
@@ -357,7 +357,7 @@ knitr::include_graphics("../figures/go-dutch-bedford.png")
 ### Leighton Buzzard
 
 ```{r}
-knitr::include_graphics("../figures/go-dutch-lbuzz.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/go-dutch-lbuzz.png")
 ```
 
 ]
@@ -367,7 +367,7 @@ knitr::include_graphics("../figures/go-dutch-lbuzz.png")
 ### Flitwick and Harlington
 
 ```{r}
-knitr::include_graphics("../figures/go-dutch-flitwick.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/go-dutch-flitwick.png")
 ```
 
 
@@ -381,7 +381,7 @@ knitr::include_graphics("../figures/go-dutch-flitwick.png")
 ### Arlesey, Biggleswade and Sandy
 
 ```{r}
-knitr::include_graphics("../figures/go-dutch-abs.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/go-dutch-abs.png")
 ```
 
 ]
@@ -405,7 +405,7 @@ knitr::include_graphics("../figures/go-dutch-abs.png")
 # How many cycle spaces do we need?
 
 ```{r}
-knitr::include_graphics("../figures/cycle-spaces.png")
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/cycle-spaces.png")
 ```
 - Remember that only 47% of rail journeys in England are for commuting
 - Must also consider the need for cycle spaces at specific station entrances
