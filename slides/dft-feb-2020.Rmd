@@ -3,7 +3,7 @@ title: "Cycle potential to Bedfordshire rail stations"
 subtitle: "`r emojifont::emoji('bike')` `r emojifont::emoji('train')`  <br/>STARS Phase 2"
 author: "Joey Talbot, Robin Lovelace and Malcolm Morgan"
 institute: "Institute for Transport Studies, University of Leeds"
-date: "07/02/2020"
+date: "Department for Transport, 2020-02-12"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -32,6 +32,8 @@ tmap_mode("plot")
 ```{r, out.width="70%"}
 knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/slides/air-pollution-paper.png")
 ```
+
+Further info: https://iopscience.iop.org/1748-9326/14/12/124078/media/ERL_14_12_124078_suppdata.pdf
 
 ???
 
