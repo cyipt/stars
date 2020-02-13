@@ -2,7 +2,7 @@
 title: "STARS Phase 2 Report: Estimating cycle potential to Bedfordshire rail stations"
 author: Joey Talbot, Robin Lovelace and Malcolm Morgan
 institute: "Institute for Transport Studies, University of Leeds"
-date: "3rd February 2020"
+date: "13th February 2020"
 output: bookdown::pdf_document2
 # output: html_document
 header-includes: 
@@ -282,7 +282,7 @@ knitr::include_graphics(c("./figures/go-dutch-lbuzz.png","./figures/go-dutch-fli
 
 In addition to the routes to stations, it is important to consider cycle provision at the stations themselves. The need for improvements such as additional cycle parking stands can be assessed using this tool. There may be an overall need for more cycle stands at a given station, or there may be a need for more stands at a specific station entrance to cater for journeys coming from a particular direction. 
 
-In Table 7 we can see the existing number of cycle spaces at each station (using data from www.nationalrail.co.uk) and the potential number of cycle commuter journeys to the station under a Go Dutch scenario in Phase 1 and Phase 2. We must remember that travel to work represents just under half of all rail journeys in England, although this proportion may be different for Bedfordshire. Luton station looks to have a particular need for more cycle stands as cycling numbers increase. We can also see large number of cycle journeys predicted to Leagrave and Bedford stations.
+In Table 7 we can see the existing number of cycle spaces at each station (using data from www.nationalrail.co.uk and personal communications from Luton Borough Council for the Luton stations) together with the potential number of cycle commuter journeys to the station under a Go Dutch scenario in Phase 1 and Phase 2. We must remember that travel to work represents just under half of all rail journeys in England, although this proportion may be different for Bedfordshire. Leagrave and Luton stations look to have a particular need for more cycle stands as cycling numbers increase. We can also see large number of cycle journeys predicted to Bedford, Leighton Buzzard and Flitwick stations.
 
 ```{r table7, message = FALSE}
 readr::read_csv("./output-data/racks.csv") %>%
@@ -319,7 +319,7 @@ It would also be possible in future to add in to the Phase 2 analysis journeys w
 
 # Recommendations and next steps
 
-Overall our modelling work supports investment in new cycle infrastructure in and around the stations of the study region, especially in relation to Luton station, which has high cycling-to-rail potential, high levels of air polution, low current cycle usage and low current levels of provision. Leagrave also has high cycle-to-station potential and would likely greatly benefit from improved cycle infrastructure from surrounding residential areas.
+Overall our modelling work supports investment in new cycle infrastructure in and around the stations of the study region, especially in relation to Luton station, which has high cycling-to-rail potential, high levels of air polution, low current cycle usage and low current levels of provision. Leagrave also has high cycle-to-station potential and would likely greatly benefit from expanded cycle parking facilities and improved cycle infrastructure from surrounding residential areas.
 
 Bedford already has relatively high levels of cycling to stations according to survey data and good provision for cycle parking; according to the latest OSM data it lacks cycle infrastructure that leads directly to Bedford Midland station entrance. Our results showed that other Bedfordshire stations also have the potential to accomodate growth in cycle-to-rail as a mode of transport, with Leighton Buzzard in particular having high potential relative to current provision of cycle infrastructure to the station and cycle parking opportunities. There are many options to improve the situation throughout the region and the routes proposed in the 'Luton Cycling Opportunities' report broadly coincide with the route network results from our models.
 
