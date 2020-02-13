@@ -320,11 +320,11 @@ sum(compare_phases$phase_2_all_rail)/sum(compare_phases$AllMethods_in)
 
 ####Cycle racks per station
 
-existing = read_csv("../stars-data/data/orr/cycle-spaces.csv") %>%
+existing = read_csv("../stars-data/data/orr/cycle-spaces-updated.csv") %>%
   rename(station = Station)
 
 racks = inner_join(s_counts_dutch,existing)
-racks = racks %>% select(station, Cycle_racks, phase_1_go_dutch, phase_2_go_dutch)
+racks = racks %>% select(station, Cycle_spaces, phase_1_go_dutch, phase_2_go_dutch)
 racks
 
 write_csv(racks,"./output-data/racks.csv")
