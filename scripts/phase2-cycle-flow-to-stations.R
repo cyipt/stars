@@ -193,6 +193,13 @@ saveRDS(r_nearest_by_road, "../stars-data/data/routing/phaseII-routes-nearest-st
 r_grouped_lines = r_nearest_by_road %>% st_cast("LINESTRING") # Is this the best approach or should we be using `r_all_selected` with inner_join instead?
 rnet_go_dutch = overline2(r_grouped_lines, "go_dutch")
 
+# ###Testing
+# rnet_all_rail = overline2(r_grouped_lines, "rail")
+# tm_shape(rnet_all_rail) +
+#   tm_lines("rail", lwd = "rail", scale = 9, palette = "plasma", breaks = c(0, 10, 200, 500, 1000)) +
+#   tm_shape(region) + tm_borders() + tm_scale_bar()
+# ###
+
 #Map modelled Go Dutch cycle journeys to stations
 tm_shape(rnet_go_dutch) +
   tm_lines("go_dutch", lwd = "go_dutch", scale = 9, palette = "plasma", breaks = c(0, 10, 200, 500, 1000)) +
