@@ -325,7 +325,7 @@ write_csv(totals_dutch, "../stars-data/data/flow/totals_dutch.csv")
 sum(compare_phases$phase_1_go_dutch)/sum(compare_phases$phase_2_go_dutch)
 sum(compare_phases$phase_2_all_rail)/sum(compare_phases$AllMethods_in)
 
-####Cycle racks per station
+####Cycle spaces per station
 
 existing = read_csv("../stars-data/data/orr/cycle-spaces-updated.csv") %>%
   rename(station = Station)
@@ -347,7 +347,8 @@ ggplot(data=spaces, aes(x=Station, y=spaces, fill=phase)) +
   theme(axis.title.x=element_blank(),
         axis.title.y=element_blank(),
         axis.text.y.left = element_text(size = 11),
-        axis.text.x = element_text(angle = 90)) +
+        axis.text.x = element_text(angle = 90),
+        legend.title = element_blank()) +
   scale_fill_brewer(palette = "Dark2")
 
 

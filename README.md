@@ -80,8 +80,7 @@ necessarily be multimodal journeys (Figure 1). The passenger must first
 reach the train station, bus or tram stop, perhaps doing so on foot, on
 cycle, or by car or taxi. Following a journey on one or more forms of
 public transport, they will again require a further trip stage to reach
-their final
-destination.
+their final destination.
 
 <div class="figure" style="text-align: center">
 
@@ -100,8 +99,7 @@ the great majority of these commuters travelling to work in London
 (Figure 2). There are therefore a large number of people travelling to
 and from local rail stations, who could potentially by accessing these
 stations by bicycle. These cycle journeys are currently being missed
-from our estimates of cycle
-propensity.
+from our estimates of cycle propensity.
 
 <div class="figure" style="text-align: center">
 
@@ -887,8 +885,7 @@ although there is also some inter-town travel, as shown in Figure
 active travel. These journeys are likely to be similar in distance to
 many journeys to rail stations. This suggests that many journeys to rail
 stations could also be made by bicycle if the right infrastructure and
-facilities supporting cycling are in
-place.
+facilities supporting cycling are in place.
 
 <div class="figure" style="text-align: center">
 
@@ -1050,8 +1047,7 @@ The right panel shows all commutes made by rail according to the Phase 2
 methods. All trips are routed to the nearest Bedfordshire mainline
 station. We only include trips that were recorded as being made by rail
 in 2011 and that originate within Bedfordshire, within 5 km of one of
-the ten mainline Bedfordshire
-stations.
+the ten mainline Bedfordshire stations.
 
 <div class="figure">
 
@@ -1568,8 +1564,7 @@ We can now estimate how many commuters would cycle to the station, if
 cycling levels in Bedfordshire were equivalent to those in the
 Netherlands. To do this we use the Go Dutch scenario developed as part
 of the Propensity to Cycle Tool (Lovelace et al. 2017). The Phase 1
-results are on the left and Phase 2 on the
-right.
+results are on the left and Phase 2 on the right.
 
 <div class="figure">
 
@@ -2157,18 +2152,19 @@ number of access points is likely to restrict usage of this path.
 
 ### Phase 2 suggestions - Luton
 
-In Luton, we can see that the existing cycle infrastructure is
-relatively limited, with cycle lanes or tracks only present on a small
-number of routes from Luton or Leagrave stations (Leeds
-2018).
+In the Luton and Dunstable area, we can see that while the cycle network
+has expanded in recent years, there remain gaps in the network that may
+limit the ability of residents to reach the area’s railway stations by
+bicycle.
 
 <div class="figure">
 
-<img src="./figures/cyipt-existing-luton.png" alt="Existing cycle infrastructure in Luton, as recorded by CyIPT" width="100%" />
+<img src="https://user-images.githubusercontent.com/52210872/80478407-62b50280-8945-11ea-9630-259ebffb4858.png" alt="Existing cycle infrastructure in the Luton-Dunstable area (data from Luton Borough Council)" width="100%" />
 
 <p class="caption">
 
-Existing cycle infrastructure in Luton, as recorded by CyIPT
+Existing cycle infrastructure in the Luton-Dunstable area (data from
+Luton Borough Council)
 
 </p>
 
@@ -2187,8 +2183,7 @@ Luton. These include:
     potential segments to improve connectivity pending ground survey in
     Figure @ref(fig:leagrave-busyness));
 
-  - a route north from Luton station along High Town
-Road.
+  - a route north from Luton station along High Town Road.
 
 <div class="figure">
 
@@ -2210,8 +2205,13 @@ Phase 2 analysis include:
 
   - Bramingham Road east of Leagrave station;
 
-  - connections from Luton station southwards to Farley
-Hill.
+  - connections from Luton station southwards to Farley Hill.
+
+There is already cycle infrastructure in some sections of these routes,
+for example on a portion of Old Bedford Road, but they may benefit from
+more continuous provision connecting from residential areas directly to
+Luton and/or Leagrave station entrances and other key destinations such
+as the town centre.
 
 <div class="figure">
 
@@ -2228,9 +2228,9 @@ Go Dutch cycle-to-station potential: Luton closeup
 ### Phase 2 suggestions - Bedford
 
 In Bedford the cycle provision is more heavily developed, as we can see
-in@ref(fig:combi11). However, there appears to be a lack of cycle
-infrastructure in the immediate vicinity of Bedford Midland
-station.
+in Figure @ref(fig:combi11). However, there appears to be a lack of
+cycle infrastructure in the immediate vicinity of Bedford Midland
+station (Leeds 2018).
 
 <div class="figure">
 
@@ -2260,8 +2260,7 @@ Bedford station:
   - eastwards to reach the station from the town centre and eastern
     suburbs of Bedford. The two key routes that emerge here are the
     A4280 across Bedford town centre, and a more northerly route that
-    follows Union Street, Roff Avenue and Park
-Avenue.
+    follows Union Street, Roff Avenue and Park Avenue.
 
 <div class="figure">
 
@@ -2289,8 +2288,7 @@ cycle improvements according to the Phase 2 analysis include:
   - routes from Arlesey station to nearby towns and villages such as
     Stotfold, Henlow and Arlesey;
 
-  - the B1042 between Potton and
-Sandy.
+  - the B1042 between Potton and Sandy.
 
 <div class="figure">
 
@@ -2314,18 +2312,6 @@ additional cycle parking stands can be assessed using this tool. There
 may be an overall need for more cycle stands at a given station, or
 there may be a need for more stands at a specific station entrance to
 cater for journeys coming from a particular direction.
-
-In Table 7 we can see the existing number of cycle spaces at each
-station (using data from www.nationalrail.co.uk and personal
-communications from Luton Borough Council for the Luton stations)
-together with the potential number of cycle commuter journeys to the
-station under a Go Dutch scenario in Phase 1 and Phase 2. We must
-remember that travel to work represents just under half of all rail
-journeys in England, although this proportion may be different for
-Bedfordshire. Leagrave and Luton stations look to have a particular need
-for more cycle stands as cycling numbers increase. We can also see large
-number of cycle journeys predicted to Bedford, Leighton Buzzard and
-Flitwick stations.
 
 <table>
 
@@ -2654,6 +2640,31 @@ Sandy
 
 </table>
 
+In Table 7 and Figure @ref(fig:combi14) we can see the existing number
+of cycle spaces at each station (using data from www.nationalrail.co.uk
+and personal communications from Luton Borough Council for the Luton
+stations) together with the potential number of cycle commuter journeys
+to the station under a Go Dutch scenario in Phase 1 and Phase 2. We must
+remember that travel to work represents just under half of all rail
+journeys in England, although this proportion may be different for
+Bedfordshire. Leagrave and Luton stations look to have a particular need
+for more cycle stands as cycling numbers increase. We can also see large
+number of cycle journeys predicted to Bedford, Leighton Buzzard and
+Flitwick stations.
+
+<div class="figure">
+
+<img src="https://raw.githubusercontent.com/cyipt/stars/master/figures/cycle-spaces.png" alt="Existing cycle spaces at Bedfordshire mainline rail stations and potential commuter cycle-to-rail journeys under a Go Dutch scenario" width="100%" />
+
+<p class="caption">
+
+Existing cycle spaces at Bedfordshire mainline rail stations and
+potential commuter cycle-to-rail journeys under a Go Dutch scenario
+
+</p>
+
+</div>
+
 A range of other station improvements may also be considered. These
 could include more secure cycle parking facilities such as lockable bike
 bins, or staffed ‘cycle hubs’ that could also offer additional services
@@ -2841,7 +2852,7 @@ Abbas, and James Woodcock. ‘The Propensity to Cycle Tool: An Open Source
 Online System for Sustainable Transport Planning’. Journal of Transport
 and Land Use 10, no. 1 (2017): 505–28.
 
-Morgan, Malcolm, et al. ‘OpenTripPlanner for R’. Journal of Open Source
+Morgan, Malcolm, et al. ‘OpenTripPlanner for R’. Journal of Open Source
 Software, vol. 4, no. 44, Dec. 2019, p. 1926. joss.theoj.org,
 <doi:10.21105/joss.01926>.
 

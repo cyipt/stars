@@ -211,10 +211,10 @@ Suggestions based on our Phase 1 analysis have already been discussed in the Pha
 
 ### Phase 2 suggestions - Luton
 
-In Luton, we can see that the existing cycle infrastructure is relatively limited, with cycle lanes or tracks only present on a small number of routes from Luton or Leagrave stations (Leeds 2018).  
+In the Luton and Dunstable area, we can see that while the cycle network has expanded in recent years, there remain gaps in the network that may limit the ability of residents to reach the area's railway stations by bicycle.
 
-```{r combi9, out.width="100%", fig.cap="Existing cycle infrastructure in Luton, as recorded by CyIPT"}
-knitr::include_graphics("./figures/cyipt-existing-luton.png")
+```{r combi9, out.width="100%", fig.cap="Existing cycle infrastructure in the Luton-Dunstable area (data from Luton Borough Council)"}
+knitr::include_graphics("https://user-images.githubusercontent.com/52210872/80478407-62b50280-8945-11ea-9630-259ebffb4858.png")
 ```
 
 However, there is a strong overlap between the roads we find high to have cycle potential under the Go Dutch Phase 2 scenario, and routes that have already been proposed as candidates for new cycle routes in Luton. These include:
@@ -238,13 +238,15 @@ Other routes that are candidates for cycle improvements according to the Phase 2
 
 - connections from Luton station southwards to Farley Hill.
 
+There is already cycle infrastructure in some sections of these routes, for example on a portion of Old Bedford Road, but they may benefit from more continuous provision connecting from residential areas directly to Luton and/or Leagrave station entrances and other key destinations such as the town centre. 
+
 ```{r combi10, out.width="100%", fig.cap="Go Dutch cycle-to-station potential: Luton closeup"}
 knitr::include_graphics("./figures/go-dutch-luton.png")
 ```
 
 ### Phase 2 suggestions - Bedford
 
-In Bedford the cycle provision is more heavily developed, as we can see in\@ref(fig:combi11). However, there appears to be a lack of cycle infrastructure in the immediate vicinity of Bedford Midland station. 
+In Bedford the cycle provision is more heavily developed, as we can see in Figure \@ref(fig:combi11). However, there appears to be a lack of cycle infrastructure in the immediate vicinity of Bedford Midland station (Leeds 2018). 
 
 ```{r combi11, out.width="100%", fig.cap="Existing cycle infrastructure in Bedford, as recorded by CyIPT"}
 knitr::include_graphics("./figures/cyipt-existing-bedford.png")
@@ -280,13 +282,17 @@ knitr::include_graphics(c("./figures/go-dutch-lbuzz.png","./figures/go-dutch-fli
 
 ## Cycle provision at rail stations
 
-In addition to the routes to stations, it is important to consider cycle provision at the stations themselves. The need for improvements such as additional cycle parking stands can be assessed using this tool. There may be an overall need for more cycle stands at a given station, or there may be a need for more stands at a specific station entrance to cater for journeys coming from a particular direction. 
-
-In Table 7 we can see the existing number of cycle spaces at each station (using data from www.nationalrail.co.uk and personal communications from Luton Borough Council for the Luton stations) together with the potential number of cycle commuter journeys to the station under a Go Dutch scenario in Phase 1 and Phase 2. We must remember that travel to work represents just under half of all rail journeys in England, although this proportion may be different for Bedfordshire. Leagrave and Luton stations look to have a particular need for more cycle stands as cycling numbers increase. We can also see large number of cycle journeys predicted to Bedford, Leighton Buzzard and Flitwick stations.
+In addition to the routes to stations, it is important to consider cycle provision at the stations themselves. The need for improvements such as additional cycle parking stands can be assessed using this tool. There may be an overall need for more cycle stands at a given station, or there may be a need for more stands at a specific station entrance to cater for journeys coming from a particular direction.
 
 ```{r table7, message = FALSE}
 readr::read_csv("./output-data/racks.csv") %>%
   kableExtra::kable(caption = "Existing cycle space numbers and cycle-to-station potentials in Bedfordshire", booktabs = T)
+```
+
+In Table 7 and Figure \@ref(fig:combi14) we can see the existing number of cycle spaces at each station (using data from www.nationalrail.co.uk and personal communications from Luton Borough Council for the Luton stations) together with the potential number of cycle commuter journeys to the station under a Go Dutch scenario in Phase 1 and Phase 2. We must remember that travel to work represents just under half of all rail journeys in England, although this proportion may be different for Bedfordshire. Leagrave and Luton stations look to have a particular need for more cycle stands as cycling numbers increase. We can also see large number of cycle journeys predicted to Bedford, Leighton Buzzard and Flitwick stations.
+
+```{r combi14, out.width="100%", fig.cap="Existing cycle spaces at Bedfordshire mainline rail stations and potential commuter cycle-to-rail journeys under a Go Dutch scenario"}
+knitr::include_graphics("https://raw.githubusercontent.com/cyipt/stars/master/figures/cycle-spaces.png")
 ```
 
 A range of other station improvements may also be considered. These could include more secure cycle parking facilities such as lockable bike bins, or staffed 'cycle hubs' that could also offer additional services such as repairs and sales. Cycle hire facilities would cater for those travelling to Bedfordshire stations from elsewhere. If feasible, working with Train Operating Companies to improve cycle carriage on board trains could enable many further journey options, with the flexibility gained by cycling at both ends of the rail journey. In relation to this, the installation of lifts to allow level access to platforms may also be considered. This will also of course have wider accessibility benefits for non-cyclists.
