@@ -2,7 +2,7 @@ STARS Phase 2 Report: Estimating cycle potential to Bedfordshire rail
 stations
 ================
 Joey Talbot, Robin Lovelace and Malcolm Morgan
-13th February 2020
+30th April 2020
 
 
 
@@ -2159,7 +2159,7 @@ bicycle.
 
 <div class="figure">
 
-<img src="https://user-images.githubusercontent.com/52210872/80478407-62b50280-8945-11ea-9630-259ebffb4858.png" alt="Existing cycle infrastructure in the Luton-Dunstable area (data from Luton Borough Council)" width="100%" />
+<img src="./figures/luton-cycleways.png" alt="Existing cycle infrastructure in the Luton-Dunstable area (data from Luton Borough Council)" width="100%" />
 
 <p class="caption">
 
@@ -2187,7 +2187,7 @@ Luton. These include:
 
 <div class="figure">
 
-<img src="figures/leagreave-busyness-highlighted.png" alt="Busyness levels according to CycleStreets data in key segments North of Leagrave station. Segments of interest highlighted in red." width="100%" />
+<img src="./figures/leagreave-busyness-highlighted.png" alt="Busyness levels according to CycleStreets data in key segments North of Leagrave station. Segments of interest highlighted in red." width="100%" />
 
 <p class="caption">
 
@@ -2654,7 +2654,7 @@ Flitwick stations.
 
 <div class="figure">
 
-<img src="https://raw.githubusercontent.com/cyipt/stars/master/figures/cycle-spaces.png" alt="Existing cycle spaces at Bedfordshire mainline rail stations and potential commuter cycle-to-rail journeys under a Go Dutch scenario" width="100%" />
+<img src="./figures/cycle-spaces.png" alt="Existing cycle spaces at Bedfordshire mainline rail stations and potential commuter cycle-to-rail journeys under a Go Dutch scenario" width="100%" />
 
 <p class="caption">
 
