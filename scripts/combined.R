@@ -24,5 +24,21 @@ m1 = tm_shape(rnet_stations, bbox = bb) +
   tm_lines("go_dutch", palette = "viridis", lwd = 2, breaks = brks) 
 m2 = tm_shape(rnet_commute, bbox = bb) +
   tm_lines("dutch_slc", palette = "viridis", lwd = 2, breaks = brks, colorNA = NULL)
-tmap_arrange(m1, m2)
+m3 = tm_shape(rnet_school, bbox = bb) +
+  tm_lines("cambridge_slc", palette = "viridis", lwd = 2, breaks = brks, colorNA = NULL)
+tmap_arrange(m1, m2, m3)
+tmap_mode("plot")
+tmap_arrange(m1, m2, m3)
+sum(rnet_commute$dutch_slc, na.rm = TRUE)
+sum(rnet_school$cambridge_slc, na.rm = TRUE)
+sum(rnet_school$dutch_slc, na.rm = TRUE)
 
+rnet_all = rbind(
+  rnet_commute %>% select(dutch_slc) %>% mutate(layer = "commute"),
+  rnet_school %>% select(dutch_slc) %>% mutate(layer = "school"),
+  rnet_stations %>% select(dutch_slc = go_dutch) %>% mutate(layer = "stations")
+)
+plot(rnet_all)
+tm_shape(rnet_all, bbox = bb) +
+  tm_lines("dutch_slc", palette = "viridis", lwd = 2, breaks = brks, colorNA = NULL) +
+  tm_facets(by = "layer")
