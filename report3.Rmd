@@ -2,9 +2,9 @@
 title: "STARS Phase 3 Report: Evidence to support long-term network plans"
 author: Joey Talbot & Robin Lovelace
 institute: "Institute for Transport Studies, University of Leeds"
-date: "30th April 2020"
+date: "December 2020"
 # output: bookdown::pdf_document2
-output: github_document
+output: bookdown::github_document2
 header-includes: 
 - \usepackage{float} 
 - \floatplacement{figure}{H}
@@ -13,24 +13,48 @@ header-includes:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
+  cache = TRUE,
   echo = FALSE,   
   # eval = FALSE,
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  message = FALSE
   )
 ```
 
 <!-- # Introduction -->
 
-```{r}
-# r_stations = readRDS(url("https://github.com/cyipt/stars/releases/download/0.0.1/r_all_from_lsoa_to_stations.Rds"))
-# r_stations = readRDS("../stars-data/data/routing/phaseII-route-segments-nearest-station.Rds")
-r_stations = readRDS("../stars-data/data/routing/phaseII-routes-nearest-station.Rds")
-
-rnet_stations = stplanr::overline(r_stations, "go_dutch")
-names(r_stations)
-
+```{r, eval=TRUE, include=FALSE}
+source("scripts/combined.R")
 ```
 
 
+# Combined network data
+
+The combined layer is shown in Figure \@ref(fig:combined) (see [rpubs.com/RobinLovelace/695513](https://rpubs.com/RobinLovelace/695513) for interactive version of map).
+
+```{r combined, fig.cap="Cycling potential in Luton: combined commute, school and stations layers."}
+knitr::include_graphics("https://user-images.githubusercontent.com/1825120/100157908-40677100-2ea3-11eb-8de7-445adfc3ecef.png")
+```
+
+Summary statistics of the route network data, showing the relative importance of commute, school and travel to stations trips for potential (under the Go Dutch scenario) and current (for commute and school travel) is shown in Table \@ref(tab:sumtabthousands).
+
+```{r sumtabthousands}
+knitr::kable(sumtab_thousands, caption = "Relative importance if different trip purposes for cycling potential in local authorities in Bedfordshire. Cycling potential and current (2011 data, a proxy for current cycling levels) cycling levels is measured in thousand km cycled on the network for a typical work/school day (one way).")
+```
+
+The spatial distribution of each network is shown in Figure \@ref(fig:distribution).^[
+See [rpubs.com/RobinLovelace/695521](https://rpubs.com/RobinLovelace/695521) for interactive version.
+]
+
+```{r distribution, fig.cap="Interactive facetted map of cycling potential for different trip purposes in Luton under the Go Dutch scenario."}
+tmap_mode("plot")
+tm_shape(rnet_all, bbox = bb) +
+  tm_lines("dutch_slc", palette = "viridis", lwd = 2, breaks = brks, colorNA = NULL) +
+  tm_facets(by = "layer") +
+  tm_layout(legend.width = 0.1,
+    legend.outside.position = "bottom",
+    legend.stack = "horizontal"
+    )
+```
 

@@ -14,7 +14,21 @@ rnet_stations = stplanr::overline(r_stations_ls, "go_dutch")
 mapview::mapview(rnet_stations)
 
 rnet_commute = pct::get_pct_rnet(region = "bedfordshire")
+rnet_commutej = st_join(rnet_commute, zones %>% select(lad_name))
+rnet_commutej_by_la = rnet_commutej %>% 
+  sf::st_drop_geometry() %>% 
+  na.omit() %>% 
+  group_by(lad_name) %>% 
+  summarise(total_2011 = round(sum(bicycle) / 1000)) %>% 
+  pull(total_2011)
 rnet_school = pct::get_pct_rnet(region = "bedfordshire", purpose = "school")
+rnet_schoolj = st_join(rnet_school, zones %>% select(lad_name))
+rnet_schoolj_by_la = rnet_schoolj %>% 
+  sf::st_drop_geometry() %>% 
+  na.omit() %>% 
+  group_by(lad_name) %>% 
+  summarise(total_2011 = round(sum(bicycle) / 1000)) %>% 
+  pull(total_2011)
 library(tmap)
 tmap_mode("view")
 
@@ -38,7 +52,44 @@ rnet_all = rbind(
   rnet_school %>% select(dutch_slc) %>% mutate(layer = "school"),
   rnet_stations %>% select(dutch_slc = go_dutch) %>% mutate(layer = "stations")
 )
-plot(rnet_all)
+# plot(rnet_all)
 tm_shape(rnet_all, bbox = bb) +
   tm_lines("dutch_slc", palette = "viridis", lwd = 2, breaks = brks, colorNA = NULL) +
   tm_facets(by = "layer")
+
+rnet_allj = st_join(rnet_all, zones %>% select(lad_name))
+mapview::mapview(rnet_allj["lad_name"])
+table(rnet_allj$lad_name)
+rnet_all$km_cycled = as.numeric(sf::st_length(rnet_all)) * rnet_all$dutch_slc
+sumtab = rnet_allj %>% 
+  sf::st_drop_geometry() %>% 
+  na.omit() %>%
+  group_by(lad_name, layer) %>% 
+  summarise(
+    total_distance_cycled = sum(dutch_slc)
+    ) %>%
+  ungroup() %>% 
+  tidyr::pivot_wider(lad_name, names_from = layer, values_from = total_distance_cycled) 
+s_all = rowSums(sumtab %>% select(where(is.numeric)))
+sumtab_percent = sumtab %>% mutate_if(is.numeric, function(x) round(x / s_all * 100)) 
+sumtab$all = s_all
+sumtab_thousands = sumtab %>% mutate_if(is.numeric, function(x) round(x / 1000))
+sumtab_thousands$commute_2011 = rnet_commutej_by_la
+sumtab_thousands$school_2011 = rnet_schoolj_by_la
+
+rnet_combined = stplanr::overline(rnet_all, "dutch_slc")
+rnet_combined$dutch_slc = round(rnet_combined$dutch_slc)
+tm_shape(rnet_combined, bbox = bb) +
+  tm_lines("dutch_slc", palette = "viridis", lwd = 2, breaks = brks, colorNA = NULL) 
+tmap_mode("view")
+tm_shape(rnet_combined, bbox = bb) +
+  tm_lines("dutch_slc", palette = "viridis", lwd = 2, breaks = brks, colorNA = NULL) 
+# library(gtsummary)
+# rnet_allj %>% 
+#   sf::st_drop_geometry() %>% 
+#   na.omit() %>%
+#   gtsummary::tbl_summary(
+#     by = lad_name,
+#     type = list(dutch_slc ~ "continuous"),
+#     stat
+#   )

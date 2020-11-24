@@ -12,3 +12,4 @@ test.R
 README.pdf
 *.pdf
 figures/Thumbs.db
+*cache*
