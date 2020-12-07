@@ -33,13 +33,20 @@ library(tmap)
 tmap_mode("view")
 
 bb = sf::st_bbox(zones_luton)
+region_luton = zones_luton %>%
+  sf::st_union() %>% 
+  sf::st_buffer(dist = 0.001)
+plot(region_luton)
 brks = c(0, 10, 50, 100, 500, 1000, 3000)
 m1 = tm_shape(rnet_stations, bbox = bb) +
-  tm_lines("go_dutch", palette = "viridis", lwd = 2, breaks = brks) 
+  tm_lines("go_dutch", palette = "viridis", lwd = 2, breaks = brks) + 
+  tm_shape(region_luton) + tm_borders()
 m2 = tm_shape(rnet_commute, bbox = bb) +
-  tm_lines("dutch_slc", palette = "viridis", lwd = 2, breaks = brks, colorNA = NULL)
+  tm_lines("dutch_slc", palette = "viridis", lwd = 2, breaks = brks, colorNA = NULL) + 
+  tm_shape(region_luton) + tm_borders()
 m3 = tm_shape(rnet_school, bbox = bb) +
-  tm_lines("cambridge_slc", palette = "viridis", lwd = 2, breaks = brks, colorNA = NULL)
+  tm_lines("cambridge_slc", palette = "viridis", lwd = 2, breaks = brks, colorNA = NULL) + 
+  tm_shape(region_luton) + tm_borders()
 tmap_arrange(m1, m2, m3)
 tmap_mode("plot")
 tmap_arrange(m1, m2, m3)
@@ -54,8 +61,10 @@ rnet_all = rbind(
 )
 # plot(rnet_all)
 tm_shape(rnet_all, bbox = bb) +
-  tm_lines("dutch_slc", palette = "viridis", lwd = 2, breaks = brks, colorNA = NULL) +
-  tm_facets(by = "layer")
+  tm_lines("dutch_slc", palette = "viridis", lwd = 2, breaks = brks, colorNA = NULL) + 
+  tm_facets(by = "layer", nrow = 3) +
+  tm_shape(region_luton) + tm_borders() +
+  tm_layout(legend.outside.position = "right", legend.outside.size = 0.2)
 
 rnet_allj = st_join(rnet_all, zones %>% select(lad_name))
 mapview::mapview(rnet_allj["lad_name"])

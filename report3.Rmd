@@ -13,7 +13,7 @@ header-includes:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
-  cache = TRUE,
+  # cache = TRUE,
   echo = FALSE,   
   # eval = FALSE,
   collapse = TRUE,
@@ -26,7 +26,25 @@ knitr::opts_chunk$set(
 
 ```{r, eval=TRUE, include=FALSE}
 source("scripts/combined.R")
+source("scripts/counter-data.R")
 ```
+
+# Analysis of counter data
+
+We analysed DfT's manual traffic count data for the study region to trends in motor and cycling traffic.
+
+```{r}
+d_las %>% 
+  ggplot() +
+  geom_line(aes(year, relative_traffic, group = local_authority_name), colour = "grey") +
+  geom_line(aes(year, relative_traffic, colour = local_authority_name), data = d_las_of_interest, size = 1.2) +
+  theme(legend.position = "top")
+```
+
+```{r}
+knitr::kable(d_change, caption = "Network length and change in motor traffic between 2011 for Bedfordshire regions")
+```
+
 
 
 # Combined network data
@@ -57,4 +75,7 @@ tm_shape(rnet_all, bbox = bb) +
     legend.stack = "horizontal"
     )
 ```
+
+## Gap analysis on the network
+
 
