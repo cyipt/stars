@@ -13,7 +13,7 @@ header-includes:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
-  # cache = TRUE,
+  cache = TRUE,
   echo = FALSE,   
   # eval = FALSE,
   collapse = TRUE,
@@ -29,31 +29,13 @@ source("scripts/combined.R")
 source("scripts/counter-data.R")
 ```
 
-# Analysis of counter data
-
-We analysed DfT's manual traffic count data for the study region to trends in motor and cycling traffic.
-
-```{r}
-d_las %>% 
-  ggplot() +
-  geom_line(aes(year, relative_traffic, group = local_authority_name), colour = "grey") +
-  geom_line(aes(year, relative_traffic, colour = local_authority_name), data = d_las_of_interest, size = 1.2) +
-  theme(legend.position = "top")
-```
-
-```{r}
-knitr::kable(d_change, caption = "Network length and change in motor traffic between 2011 for Bedfordshire regions")
-```
-
-
-
 # Combined network data
 
-The combined layer is shown in Figure \@ref(fig:combined) (see [rpubs.com/RobinLovelace/695513](https://rpubs.com/RobinLovelace/695513) for interactive version of map).
+In Phase 2 of the project we developed a method to estimate cycling potential to stations based on commuting data.
+In this phase we have added two additional layers to this result: 
 
-```{r combined, fig.cap="Cycling potential in Luton: combined commute, school and stations layers."}
-knitr::include_graphics("https://user-images.githubusercontent.com/1825120/100157908-40677100-2ea3-11eb-8de7-445adfc3ecef.png")
-```
+- Cycling potential for single stage travel to school journeys
+- Cycling potential to work for single stage commutes
 
 Summary statistics of the route network data, showing the relative importance of commute, school and travel to stations trips for potential (under the Go Dutch scenario) and current (for commute and school travel) is shown in Table \@ref(tab:sumtabthousands).
 
@@ -61,7 +43,7 @@ Summary statistics of the route network data, showing the relative importance of
 knitr::kable(sumtab_thousands, caption = "Relative importance if different trip purposes for cycling potential in local authorities in Bedfordshire. Cycling potential and current (2011 data, a proxy for current cycling levels) cycling levels is measured in thousand km cycled on the network for a typical work/school day (one way).")
 ```
 
-The spatial distribution of each network is shown in Figure \@ref(fig:distribution).^[
+The distinctive spatial distribution of each network in Luton is shown in Figure \@ref(fig:distribution).^[
 See [rpubs.com/RobinLovelace/695521](https://rpubs.com/RobinLovelace/695521) for interactive version.
 ]
 
@@ -76,6 +58,83 @@ tm_shape(rnet_all, bbox = bb) +
     )
 ```
 
-## Gap analysis on the network
+By combining and aggregating these three separate layers we could create, for the first time, a cycle network representing the combined potential of cycling to school, cycling to work and cycling to stations under scenarios of change.
+The combined layer under the Go Dutch scenario is shown in Figure \@ref(fig:combined) (see [rpubs.com/RobinLovelace/695513](https://rpubs.com/RobinLovelace/695513) for interactive version of map).
 
+```{r combined, fig.cap="Cycling potential in Luton: combined commute, school and stations layers."}
+knitr::include_graphics("https://user-images.githubusercontent.com/1825120/100157908-40677100-2ea3-11eb-8de7-445adfc3ecef.png")
+```
+
+# Analysis of counter data
+
+We analysed DfT's manual traffic count data for the study region to trends in motor and cycling traffic.
+The locations of 118 DfT count points within Luton are shown in Figure \@ref(fig:counters-all).^[
+These count points can also be found at [roadtraffic.dft.gov.uk/](https://roadtraffic.dft.gov.uk/#15/51.8787/-0.4200/basemap-countpoints).
+]
+
+```{r counters-all, fig.cap="All count points in Luton, with size proportional to the number of counts recorded in the 10 years from 2010 to 2019 (with the largest dots representing 10 counts on every year)."}
+knitr::include_graphics("figures/counters-all.png")
+```
+
+Of those counters, only 32 had cycle counts within the years 2010:2014 and 2015:2019, allowing estimates of the trend in cycling in different parts of Luton to be calculated.
+The percentage change in cycling calculated from this analysis are presented for each count point for which there is data in Figure \@ref(fig:counters-cycle) (see [here](https://rpubs.com/RobinLovelace/701347) for interactive version).
+The results show a mixed picture, reflecting the low signal-to-noise ratio of DfT's manual counts which can be affected by many factors including the weather on the days sampled each year (not adjusted).
+
+
+```{r counters-cycle, fig.cap="Percentage change in cycling between the periods 2010:2014 and 2015:2019 at counter locations for which at least two readings are available in each period (reds represent decreased cycling, blues represent increased cycling). Size of dot is proportional to the total number of cycles counted at each sampling location."}
+knitr::include_graphics("figures/counter-points-change-15.png")
+```
+
+As shown in Figure \@ref(fig:pois), even points that have recorded substantial amounts of cycle traffic have not recorded data every year, as illustrated by a couple of individual counters.
+The counter on Old Bedford Road next to The Peoples Park (id 941693) has seen a slight decline in cycling over the last 10 years, and the counter on Kimpton Road near Luton Airport Parkway rail station (951632) has seen a slight increase in cycling.
+
+```{r pois, fig.cap="Results from two individual counters showing the sparsity of DfT manual count data."}
+count_points_of_interest = c("941693", "951632")
+d_roads_luton_all %>% 
+  filter(count_point_id %in% count_points_of_interest) %>% 
+  filter(estimation_method == "Counted") %>% 
+  ggplot() +
+  geom_line(aes(year, pedal_cycles)) +
+  geom_point(aes(year, pedal_cycles)) +
+  facet_grid(rows = vars(count_point_id)) +
+  scale_x_continuous(breaks = 2010:2019)
+```
+
+Individual count points cannot provide a reliable indication of trends but aggregated data, from all available count points in the area, provide an indication of trends.
+Results aggregated to the road on which readings were taken (with C and U representing unclassified roads) are shown in Figure \@ref(fig:roadcounts).
+This suggests a slight decline in cycling in Luton since around 2015, at least on the sparse DfT cycle count point network.
+
+```{r roadcounts, fig.cap="Mean cycle counts per year aggregated at the road level. The thick blue line represents the overall trend."}
+d_roadss %>% 
+  ggplot() +
+  geom_line(aes(year, pedal_cycles, group = road_name, colour = road_name)) +
+  geom_smooth(aes(year, pedal_cycles), size = 3, fill = NA) 
+```
+
+In contrast with the results shown in Figure \@ref(fig:roadcounts), there is evidence of consistent growth in motor traffic in Luton and indeed most local authorities, with relative levels of traffic per KM road in Bedfordshire local authorities shown alongside trendlines for all local authorities in Figure \@ref(fig:trafficgrowth).
+
+```{r trafficgrowth, fig.cap="Levels of motor traffic per km of road network per year for local authorities in Great Britain, with Bedfordshire local authorities highlighted."}
+d_las %>% 
+  ggplot() +
+  geom_line(aes(year, relative_traffic, group = local_authority_name), colour = "grey") +
+  geom_line(aes(year, relative_traffic, colour = local_authority_name), data = d_las_of_interest, size = 1.2) +
+  theme(legend.position = "top")
+```
+
+Changes in motor traffic levels between 2011 and 2019 in the region are summarised in Table \@ref(tab:netlen). 
+
+```{r netlen}
+knitr::kable(d_change, caption = "Network length and change in motor traffic between 2011 for Bedfordshire regions")
+```
+
+
+# Gap analysis
+
+
+
+
+
+<!-- Idea: could be a methods paper -->
+
+# References
 
