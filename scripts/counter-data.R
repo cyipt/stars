@@ -49,22 +49,44 @@ d_roads_luton = d_roads_sf[region_luton, ]
 d_roads_luton_all = d_roads %>%
   filter(count_point_id %in% d_roads_luton$count_point_id)
 
-d_roads_luton_summary = d_roads_luton_all %>% 
+d_roads_of_interest = c(
+  "81081"
+)
+
+d_roads_luton_all %>% 
+  ggplot() +
+  geom_line(aes(year, pedal_cycles, group = count_point_id), colour = "grey")
++
+  # geom_line(aes(year, all_motor_vehicles, colour = count_point_id), data = d_las_of_interest, size = 1.2)
+
+summary(d_roads_luton_all$pedal_cycles)
+
+s = 2010:2014
+e = 2015:2019
+
+d_roads_luton_summary = d_roads_luton_all %>%
+  filter(pedal_cycles > 0) %>% 
   group_by(count_point_id) %>% 
   summarise(
     road_name = first(road_name),
     road_type = first(road_type),
     mean_cycling = mean(pedal_cycles),
     mean_motor_vehicles = mean(all_motor_vehicles),
-    change_cycling = pedal_cycles[year == 2019] / pedal_cycles[year == 2011],
-    change_motor_vehicles = all_motor_vehicles[year == 2019] / all_motor_vehicles[year == 2011]
+    change_motor_vehicles = ((mean(all_motor_vehicles[year %in% s]) / (all_motor_vehicles[year %in% e])) - 1) * 100,
+    change_cycling = ((mean(pedal_cycles[year %in% s]) / (pedal_cycles[year %in% e])) - 1) * 100
   )
 
 d_roads_luton_summary
+summary(d_roads_luton_summary$change_cycling)
+summary(d_roads_luton_summary$change_motor_vehicles)
 d_roads_joined = left_join(d_roads_luton, d_roads_luton_summary)
+nrow(d_roads_joined)
 plot(d_roads_joined)
 
+qtm(d_roads_joined)
 
+tm_shape(d_roads_joined) +
+  tm_dots(size = "mean_cycling", col = "change_cycling", palette = "RdBu", midpoint = 0)
 
 # d_roads = dftTrafficCounts::dtc_import_roads()
 # names(d_roads)
