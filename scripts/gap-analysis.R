@@ -3,11 +3,16 @@
 remotes::install_github("itsleeds/osmextract")
 
 osm_luton = osmextract::oe_get(sf::st_centroid(region_luton))
+osm_luton_test = osm_luton %>% 
+  filter(name == "New Airport Way")
 
+mapview::mapview(osm_luton_test)
 q_basic = "select * from 'lines' where highway in ('cycleway')"
 q_basic = "select * from 'lines' where cycleway is not 'no'"
+q_basic = "select * from 'lines' where cycleway='lane'"
 
-cycleway_luton = osmextract::oe_get(sf::st_centroid(region_luton), query = q_basic)
+# failing, not sure why 
+cycleway_luton = osmextract::oe_get(sf::st_centroid(region_luton), query = q_basic, extra_tags = "cycleway")
 table(cycleway_luton$cycleway)
 mapview::mapview(cycleway_luton)
 
@@ -60,6 +65,7 @@ q = "select * from 'lines' where (sidewalk_left_bicycle='yes') or
 osm_cycle_infra = osmextract::oe_get(sf::st_centroid(region_luton), query = q, extra_tags = et) # requires extra tags
 # osm_cycle_infra = osmextract::oe_get("west yorkshire", query = q, extra_tags = et) # requires extra tags
 table(osm_cycle_infra$sidewalk_left_bicycle)
+table(osm_cycle_infra$cycleway)
 table(osm_cycle_infra$cycleway_left)
 table(osm_cycle_infra$cycleway_right)
 table(osm_cycle_infra$highway)
@@ -70,8 +76,16 @@ mapdeck() %>%
   mapdeck::add_line(osm_cycle_infra %>% sample_n(100))
 
 qb = "select * from 'lines' where cycleway is not null"# nothing!
-qb = "select * from 'lines' where cycleway='lane'"
+qb = "select * from 'lines' where cycleway_left='lane'"# works!
+qb = "select * from 'lines' where 
+(cycleway='lane') or 
+(cycleway_left='lane') or 
+(cycleway_right='lane') or 
+(cycleway_both='lane') 
+"# works!
 osm_cycle_lanes = osmextract::oe_get(sf::st_centroid(region_luton), query = qb, extra_tags = et) # requires extra tags
+
+
 mapview::mapview(osm_cycle_lanes)
 # get single relation - cycleway
 library(osmdata)
