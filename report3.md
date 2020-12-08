@@ -175,7 +175,7 @@ summarised in Table <a href="#tab:netlen">2.1</a>.
 Table 2.1: Network length and change in motor traffic between 2011 for
 Bedfordshire regions
 
-# 3 Gap analysis on the network
+# 3 Gap analysis
 
 <!-- Idea: could be a methods paper -->
 

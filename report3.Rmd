@@ -27,6 +27,7 @@ knitr::opts_chunk$set(
 ```{r, eval=TRUE, include=FALSE}
 source("scripts/combined.R")
 source("scripts/counter-data.R")
+source("scripts/gap-analysis.R")
 ```
 
 # Combined network data

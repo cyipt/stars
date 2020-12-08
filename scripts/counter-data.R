@@ -1,6 +1,7 @@
 # Run this after combined.R
-# source("scripts/combined.R")
-
+if(!exists("rnet_combined")){
+  source("scripts/combined.R")
+}
 remotes::install_github("itsleeds/dftTrafficCounts")
 library(dftTrafficCounts)
 
@@ -77,10 +78,6 @@ d_roadss %>%
   ggplot() +
   geom_line(aes(year, pedal_cycles, group = road_name, colour = road_name)) +
   geom_smooth(aes(year, pedal_cycles), size = 3, fill = NA) 
-+
-  geom_line(aes(year, pedal_cycles, group = road_name, colour = road_name), data = d_roadss %>% filter(road_name %in% roads_of_interest)) 
-
-
 
 summary(d_roads_luton_all$pedal_cycles)
 
@@ -120,12 +117,6 @@ qtm(d_roads_joined, dots.size = "n_counters")
 
 tm_shape(d_roads_joined %>% filter(nstart > 1, nend > 1)) +
   tm_dots(size = "total_cycling", col = "change_cycling", palette = "RdBu", midpoint = 0, breaks = c(-100, -50, 0, 50, 100))
-
-# manually save and then...
-file.copy(
-  "/home/robin/Pictures/Selection_236.png",
-  "figures/counter-points-change.png"
-)
 
 d_roads_averaged = d_roads_luton_all %>% 
   group_by(road_name) %>% 
