@@ -18,6 +18,7 @@ mapview::mapview(cycleway_luton)
 
 q_basic = "select * from 'lines' where highway = 'cycleway'" # works
 q_basic = "select * from 'lines' where maxspeed = '20 mph'" # works
+q_basic = "select * from 'lines' where cycleway = 'lane'" # works
 osm_cycle_infra = osmextract::oe_get(sf::st_centroid(region_luton), query = q_basic, extra_tags = "maxspeed") # requires extra tags
 
 osm_cycle_infra = osmextract::oe_get(sf::st_centroid(region_luton), extra_tags = "cycleway") 
@@ -71,6 +72,9 @@ table(osm_cycle_infra$cycleway_right)
 table(osm_cycle_infra$highway)
 
 mapview::mapview(osm_cycle_infra)
+saveRDS(osm_cycle_infra, "osm_cycle_infra_bedfordshire.Rds")
+piggyback::pb_upload("osm_cycle_infra_bedfordshire.Rds")
+
 library(mapdeck)
 mapdeck() %>% 
   mapdeck::add_line(osm_cycle_infra %>% sample_n(100))
@@ -93,3 +97,14 @@ ctrd = opq("leeds") %>%
   add_osm_feature(key = "name", value = "Chapeltown Road") %>% 
   osmdata_sf()
 mapview::mapview(ctrd$osm_lines)
+
+
+# unzipping shapefiles of network
+# piggyback::pb_list()
+# piggyback::pb_download("SHAPE_FILES_FOR_SUPPLY_TO_LUTON.zip")
+# unzip("SHAPE_FILES_FOR_SUPPLY_TO_LUTON.zip", exdir = "../stars-data/data/luton-shapefiles")
+# list.files("../stars-data/data/luton-shapefiles/SHAPE_FILES_FOR_SUPPLY_TO_LUTON/")
+all_cycleways = sf::read_sf("SHAPE_FILES_FOR_SUPPLY_TO_LUTON/UNDER_ROAD_off_Road.shp")
+nrow(all_cycleways)
+sum(sf::st_length(all_cycleways))
+mapview::mapview(all_cycleways)

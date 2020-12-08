@@ -4,7 +4,8 @@ author: Joey Talbot & Robin Lovelace
 institute: "Institute for Transport Studies, University of Leeds"
 date: "December 2020"
 # output: bookdown::pdf_document2
-output: bookdown::github_document2
+# output: bookdown::github_document2
+output: bookdown::word_document2
 header-includes: 
 - \usepackage{float} 
 - \floatplacement{figure}{H}
@@ -27,7 +28,7 @@ knitr::opts_chunk$set(
 ```{r, eval=TRUE, include=FALSE}
 source("scripts/combined.R")
 source("scripts/counter-data.R")
-source("scripts/gap-analysis.R")
+# source("scripts/gap-analysis.R") # don't run as slow and clunky
 ```
 
 # Combined network data
@@ -64,6 +65,45 @@ The combined layer under the Go Dutch scenario is shown in Figure \@ref(fig:comb
 
 ```{r combined, fig.cap="Cycling potential in Luton: combined commute, school and stations layers."}
 knitr::include_graphics("https://user-images.githubusercontent.com/1825120/100157908-40677100-2ea3-11eb-8de7-445adfc3ecef.png")
+```
+
+
+# Gap analysis
+
+The cycle network is illustrated in Figure \@ref(fig:luton-cycleways-2020) (see [here](https://rpubs.com/RobinLovelace/701619) for interactive version).
+Visual analysis of this data can identify potential gaps in provision.
+Four areas/corridors can be identified:
+
+1. Hightown Road and the surround area
+2. Just South and Southwest of the city centre (New Town and Farley Hill)
+3. Between Luton and Leagrave North of the busway route
+4. The hospital and surrounding area
+
+Improving provision in these areas, and other areas with limited cycling/walking access, may be necessary to increase active travel.
+Equally important is links *between* the zones, e.g. with the following links:
+
+- An arterial route up Hightown Road (in recent plans)
+- Improved to the hospital and East-West connections between Dunstable, Leagrave and surrounding areas
+- Connections to the busway route: while the route is high quality, it may not be well signposted and lacking clear cycle route onto it from some areas, improving connectivity through signposting to existing connections (perhaps with filtered permeability interventions) and creating new connections could add value to this existing route
+- Connections between all residential areas and trip attractors including Luton city centre, the airport and schools
+- Crossings to at major barriers including the ring road
+
+```{r}
+osm_cycle_infra = readRDS("osm_cycle_infra_bedfordshire.Rds")
+osm_cycle_luton = osm_cycle_infra[region_luton, , op = sf::st_within]
+all_cycleways = sf::read_sf("SHAPE_FILES_FOR_SUPPLY_TO_LUTON/UNDER_ROAD_off_Road.shp")
+# mapview::mapview(all_cycleways)
+# tmap_mode("view")
+# table(all_cycleways$CyclNm)
+# tm_shape(osm_cycle_luton) +
+#   tm_lines() +
+#   tm_shape(all_cycleways) +
+#   tm_lines("CyclNm", lwd = 5, palette = "Set1") +
+#   tm_scale_bar()
+```
+
+```{r luton-cycleways-2020, fig.cap="The cycle network in Luton (data from 2019). Coloured lines are the routes on the official network. Thin black lines represent data on OpenStreetMap."}
+knitr::include_graphics("figures/Selection_237.png")
 ```
 
 # Analysis of counter data
@@ -127,12 +167,6 @@ Changes in motor traffic levels between 2011 and 2019 in the region are summaris
 ```{r netlen}
 knitr::kable(d_change, caption = "Network length and change in motor traffic between 2011 for Bedfordshire regions")
 ```
-
-
-# Gap analysis
-
-
-
 
 
 <!-- Idea: could be a methods paper -->
