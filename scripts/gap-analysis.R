@@ -22,6 +22,7 @@ library(osmextract)
 
 keys = data.frame(k = oe_get_keys(osm_luton))
 keys_sidewalk = keys %>% filter(stringr::str_detect(k, "sidew|cycl")) %>% pull(k)
+keys_bike = keys %>% filter(stringr::str_detect(k, "bike")) %>% pull(k)
 
 et = c(
   "cycleway",
@@ -30,6 +31,7 @@ et = c(
   keys_sidewalk
 )
 
+# See http://k1z.blog.uni-heidelberg.de/2020/10/02/how-to-become-ohsome-part-8-complex-analysis-with-the-magical-filter-parameter/
 q = "select * from 'lines' where (sidewalk_left_bicycle='yes') or 
  (cycleway_left='shared_lane') or
  (cycleway_left='shared_busway') or 
@@ -53,9 +55,10 @@ q = "select * from 'lines' where (sidewalk_left_bicycle='yes') or
  (cycleway_right in ('lane', 'shared_busway')) or 
  (cycleway_both='lane') 
  "
+
 # no cyclestreet or motor_vehicle cols
 osm_cycle_infra = osmextract::oe_get(sf::st_centroid(region_luton), query = q, extra_tags = et) # requires extra tags
-osm_cycle_infra = osmextract::oe_get("west yorkshire", query = q, extra_tags = et) # requires extra tags
+# osm_cycle_infra = osmextract::oe_get("west yorkshire", query = q, extra_tags = et) # requires extra tags
 table(osm_cycle_infra$sidewalk_left_bicycle)
 table(osm_cycle_infra$cycleway_left)
 table(osm_cycle_infra$cycleway_right)
@@ -66,33 +69,13 @@ library(mapdeck)
 mapdeck() %>% 
   mapdeck::add_line(osm_cycle_infra %>% sample_n(100))
 
-q = "(
- (sidewalk:left:bicycle=yes) or 
- (cycleway:left=shared_lane) or 
- (cyclestreet=yes) or 
- (cycleway:left=shared_busway) or 
- (cycleway:right=shared_busway) or 
- (cycleway=shared_busway) or 
- (cycleway=opposite_lane) or 
- (highway=bridleway and bicycle=no) or 
- (highway=track and bicycle=designated and motor_vehicle=no) or 
- (bicycle=use_sidepath) or 
- (cycleway=opposite and oneway:bicycle=no) or 
- (sidewalk:right:bicycle=yes) or 
- (cycleway:right=shared_lane) or 
- (cycleway:left=track) or 
- (cycleway:right=track) or 
- (highway=track and bicycle=designated and motor_vehicle=no) or 
- (highway=path and bicycle=yes) or 
- (highway=path and (bicycle=designated or bicycle=official)) or 
- (highway=service and (bicycle=designated or motor_vehicle=no)) or 
- (highway=pedestrian and (bicycle=yes or bicycle=official)) or 
- (highway=footway and (bicycle=yes or bicycle=official)) or 
- (highway=cycleway) or 
- (cycleway in (lane, opposite_lane, shared_busway, track, opposite_track)) or 
- (cycleway:left in (lane, shared_busway)) or 
- (cycleway:right in (lane, shared_busway)) or 
- (cycleway:both=lane) or 
- (bicycle_road=yes and (motor_vehicle=no or bicycle=designated)) or 
- (cyclestreet=yes)
-) "
+qb = "select * from 'lines' where cycleway is not null"# nothing!
+qb = "select * from 'lines' where cycleway='lane'"
+osm_cycle_lanes = osmextract::oe_get(sf::st_centroid(region_luton), query = qb, extra_tags = et) # requires extra tags
+mapview::mapview(osm_cycle_lanes)
+# get single relation - cycleway
+library(osmdata)
+ctrd = opq("leeds") %>% 
+  add_osm_feature(key = "name", value = "Chapeltown Road") %>% 
+  osmdata_sf()
+mapview::mapview(ctrd$osm_lines)
