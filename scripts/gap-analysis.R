@@ -1,8 +1,9 @@
 # Aim: find gaps in the network
 
 remotes::install_github("itsleeds/osmextract")
+library(dplyr)
 
-osm_luton = osmextract::oe_get(sf::st_centroid(region_luton))
+osm_luton = osmextract::oe_get("Bedfordshire")
 osm_luton_test = osm_luton %>% 
   filter(name == "New Airport Way")
 
@@ -12,16 +13,16 @@ q_basic = "select * from 'lines' where cycleway is not 'no'"
 q_basic = "select * from 'lines' where cycleway='lane'"
 
 # failing, not sure why 
-cycleway_luton = osmextract::oe_get(sf::st_centroid(region_luton), query = q_basic, extra_tags = "cycleway")
+cycleway_luton = osmextract::oe_get("Bedfordshire", query = q_basic, extra_tags = "cycleway")
 table(cycleway_luton$cycleway)
 mapview::mapview(cycleway_luton)
 
 q_basic = "select * from 'lines' where highway = 'cycleway'" # works
 q_basic = "select * from 'lines' where maxspeed = '20 mph'" # works
 q_basic = "select * from 'lines' where cycleway = 'lane'" # works
-osm_cycle_infra = osmextract::oe_get(sf::st_centroid(region_luton), query = q_basic, extra_tags = "maxspeed") # requires extra tags
+osm_cycle_infra = osmextract::oe_get("Bedfordshire", query = q_basic, extra_tags = "maxspeed") # requires extra tags
 
-osm_cycle_infra = osmextract::oe_get(sf::st_centroid(region_luton), extra_tags = "cycleway") 
+osm_cycle_infra = osmextract::oe_get("Bedfordshire", extra_tags = "cycleway") 
 table(osm_cycle_infra$cycleway, osm_cycle_infra$highway) # it's important!
 
 library(osmextract)
@@ -31,10 +32,10 @@ keys_sidewalk = keys %>% filter(stringr::str_detect(k, "sidew|cycl")) %>% pull(k
 keys_bike = keys %>% filter(stringr::str_detect(k, "bike")) %>% pull(k)
 
 et = c(
-  "cycleway",
   "maxspeed",
   "ref",
-  keys_sidewalk
+  keys_sidewalk,
+  keys_bike
 )
 
 # See http://k1z.blog.uni-heidelberg.de/2020/10/02/how-to-become-ohsome-part-8-complex-analysis-with-the-magical-filter-parameter/
@@ -59,11 +60,12 @@ q = "select * from 'lines' where (sidewalk_left_bicycle='yes') or
  (cycleway in ('lane', 'opposite_lane', 'shared_busway', 'track', 'opposite_track')) or 
  (cycleway_left in ('lane', 'shared_busway')) or 
  (cycleway_right in ('lane', 'shared_busway')) or 
- (cycleway_both='lane') 
+ (cycleway_both='lane') or
+ (cycleway='lane')
  "
 
 # no cyclestreet or motor_vehicle cols
-osm_cycle_infra = osmextract::oe_get(sf::st_centroid(region_luton), query = q, extra_tags = et) # requires extra tags
+osm_cycle_infra = osmextract::oe_get("Bedfordshire", query = q, extra_tags = et) # requires extra tags
 # osm_cycle_infra = osmextract::oe_get("west yorkshire", query = q, extra_tags = et) # requires extra tags
 table(osm_cycle_infra$sidewalk_left_bicycle)
 table(osm_cycle_infra$cycleway)
@@ -87,7 +89,7 @@ qb = "select * from 'lines' where
 (cycleway_right='lane') or 
 (cycleway_both='lane') 
 "# works!
-osm_cycle_lanes = osmextract::oe_get(sf::st_centroid(region_luton), query = qb, extra_tags = et) # requires extra tags
+osm_cycle_lanes = osmextract::oe_get("Bedfordshire", query = qb, extra_tags = et) # requires extra tags
 
 
 mapview::mapview(osm_cycle_lanes)

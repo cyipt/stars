@@ -3,13 +3,14 @@ title: "STARS Phase 3 Report: Evidence to support long-term network plans"
 author: Joey Talbot & Robin Lovelace
 institute: "Institute for Transport Studies, University of Leeds"
 date: "December 2020"
+output: bookdown::html_document2
 # output: bookdown::pdf_document2
 # output: bookdown::github_document2
-output: bookdown::word_document2
-header-includes: 
-- \usepackage{float} 
-- \floatplacement{figure}{H}
-- \floatplacement{table}{H}
+# output: bookdown::word_document2
+# header-includes: 
+# - \usepackage{float} 
+# - \floatplacement{figure}{H}
+# - \floatplacement{table}{H}
 ---
 
 ```{r setup, include=FALSE}
@@ -19,15 +20,26 @@ knitr::opts_chunk$set(
   # eval = FALSE,
   collapse = TRUE,
   comment = "#>",
-  message = FALSE
+  message = FALSE,
+  warning = FALSE
   )
 ```
+
+```{r, echo=FALSE, eval=FALSE}
+# set-up
+browseURL("~/onedrive/projects-all/stars/report3-140121.docx")
+pagedown::chrome_print("report3.html")
+browseURL("report3.pdf")
+```
+
 
 <!-- # Introduction -->
 
 ```{r, eval=TRUE, include=FALSE}
 source("scripts/combined.R")
+# file.edit("scripts/combined.R")
 source("scripts/counter-data.R")
+# file.edit("scripts/counter-data.R")
 # source("scripts/gap-analysis.R") # don't run as slow and clunky
 ```
 
@@ -39,18 +51,32 @@ In this phase we have added two additional layers to this result:
 - Cycling potential for single stage travel to school journeys
 - Cycling potential to work for single stage commutes
 
-Summary statistics of the route network data, showing the relative importance of commute, school and travel to stations trips for potential (under the Go Dutch scenario) and current (for commute and school travel) is shown in Table \@ref(tab:sumtabthousands).
+Results from the longer-term 'Go Dutch' scenario from the Propensity to Cycle Tool, which represents a future in which people cycle as much as the Dutch to accounting for distance and hilliness [@lovelace_propensity_2017], are presented in this report, matching the long-term ambitions in Luton's Local Cycling and Walking Infrastructure Plan.
+Go Dutch was also deemed an appropriate scenario because, as described in the emerging Luton Transport Strategy, 50% of journeys to work are less than 5 kilometres but about 55% of these are by car.
+
+Summary statistics of the route network data, showing the relative importance of commute, school and travel to stations trips for potential, are shown in Table \@ref(tab:sumtabthousands).
+This headline result suggests that there is an opportunity to significantly increase the number of cycle trips, consistent with the 'Go Dutch' scenario.
+under the Go Dutch scenario) and current, for commute and school travel.
 
 ```{r sumtabthousands}
-knitr::kable(sumtab_thousands, caption = "Relative importance if different trip purposes for cycling potential in local authorities in Bedfordshire. Cycling potential and current (2011 data, a proxy for current cycling levels) cycling levels is measured in thousand km cycled on the network for a typical work/school day (one way).")
+knitr::kable(sumtab_thousands, caption = "Relative importance of different trip purposes for cycling potential in local authorities in Bedfordshire. Cycling potential and current (2011 data, a proxy for current cycling levels) cycling levels is measured in thousand km cycled on the network for a typical work/school day (one way).")
 ```
 
 The distinctive spatial distribution of each network in Luton is shown in Figure \@ref(fig:distribution).^[
-See [rpubs.com/RobinLovelace/695521](https://rpubs.com/RobinLovelace/695521) for interactive version.
+See
+<!-- [ -->
+rpubs.com/RobinLovelace/695521
+<!-- ](https://rpubs.com/RobinLovelace/695521) -->
+for interactive version.
 ]
+The focus of this report is on Luton because, whilst none of the three Councils have an adopted LCWIP, Luton has started the preparing one and formally consulted the Luton and Dunstable Cycle Forum and the Central Bedfordshire and Luton Joint  Local Access Forum on a draft of the Plan in Spring 2020.
+In addition, many of the cycle routes to Luton’s three rail stations proposed in the Stage 2 report of this commission have been included in their Tranche 2 Active Travel Plan funding submission to the DfTand will be delivered during 2021.
+
 
 ```{r distribution, fig.cap="Interactive facetted map of cycling potential for different trip purposes in Luton under the Go Dutch scenario."}
 tmap_mode("plot")
+luton_hr = sf::read_sf("luton-houghton-regis-region.geojson")
+bb = sf::st_bbox(luton_hr)
 tm_shape(rnet_all, bbox = bb) +
   tm_lines("dutch_slc", palette = "viridis", lwd = 2, breaks = brks, colorNA = NULL) +
   tm_facets(by = "layer") +
@@ -64,9 +90,10 @@ By combining and aggregating these three separate layers we could create, for th
 The combined layer under the Go Dutch scenario is shown in Figure \@ref(fig:combined) (see [rpubs.com/RobinLovelace/695513](https://rpubs.com/RobinLovelace/695513) for interactive version of map).
 
 ```{r combined, fig.cap="Cycling potential in Luton: combined commute, school and stations layers."}
-knitr::include_graphics("https://user-images.githubusercontent.com/1825120/100157908-40677100-2ea3-11eb-8de7-445adfc3ecef.png")
+# knitr::include_graphics("https://user-images.githubusercontent.com/1825120/100157908-40677100-2ea3-11eb-8de7-445adfc3ecef.png")
+tm_shape(rnet_combined, bbox = bb) +
+  tm_lines("dutch_slc", palette = "viridis", lwd = 2, breaks = brks, colorNA = NULL) 
 ```
-
 
 # Gap analysis
 
@@ -74,8 +101,8 @@ The cycle network is illustrated in Figure \@ref(fig:luton-cycleways-2020) (see 
 Visual analysis of this data can identify potential gaps in provision.
 Four areas/corridors can be identified:
 
-1. Hightown Road and the surround area
-2. Just South and Southwest of the city centre (New Town and Farley Hill)
+1. Hightown Road and the surrounding area
+2. Just South and Southwest of the town centre (New Town and Farley Hill)
 3. Between Luton and Leagrave North of the busway route
 4. The hospital and surrounding area
 
@@ -83,9 +110,9 @@ Improving provision in these areas, and other areas with limited cycling/walking
 Equally important is links *between* the zones, e.g. with the following links:
 
 - An arterial route up Hightown Road (in recent plans)
-- Improved to the hospital and East-West connections between Dunstable, Leagrave and surrounding areas
+- Improved route to the hospital and East-West connections between Dunstable, Leagrave and surrounding areas
 - Connections to the busway route: while the route is high quality, it may not be well signposted and lacking clear cycle route onto it from some areas, improving connectivity through signposting to existing connections (perhaps with filtered permeability interventions) and creating new connections could add value to this existing route
-- Connections between all residential areas and trip attractors including Luton city centre, the airport and schools
+- Connections between all residential areas and trip attractors including Luton town centre, the airport and schools
 - Crossings to at major barriers including the ring road
 
 ```{r}
@@ -99,12 +126,51 @@ all_cycleways = sf::read_sf("SHAPE_FILES_FOR_SUPPLY_TO_LUTON/UNDER_ROAD_off_Road
 #   tm_lines() +
 #   tm_shape(all_cycleways) +
 #   tm_lines("CyclNm", lwd = 5, palette = "Set1") +
+#   tm_shape(osm_cycle_luton) +
+#   tm_lines() +
 #   tm_scale_bar()
+# file.copy("~/Pictures/Selection_287.png", "figures/")
 ```
 
-```{r luton-cycleways-2020, fig.cap="The cycle network in Luton (data from 2019). Coloured lines are the routes on the official network. Thin black lines represent data on OpenStreetMap."}
-knitr::include_graphics("figures/Selection_237.png")
+```{r luton-cycleways-2020, fig.cap="The cycle network in Luton (data from 2019). Coloured lines are the routes on the official network. Thin black lines represent data on OpenStreetMap. See interactive version at https://rpubs.com/RobinLovelace/718384."}
+knitr::include_graphics("figures/Selection_287.png")
 ```
+
+# Comparison between potential and routes
+
+A quantitative comparison of the cycling potential levels shown in Section 1 and the cycleways shown in the previous section can help further identify missing links.
+
+
+```{r missing-map, fig.cap="Missing links, identified based on existing network and cycleways."}
+all_cycleways_30m_buffer = sf::st_buffer(sf::st_union(all_cycleways), dist = 30) 
+rnet_osgb = sf::st_transform(rnet_all[zones_luton, ], 27700)
+# plot(rnet_osgb$geometry)
+# plot(all_cycleways_30m_buffer, border = "red", add = TRUE)
+rnet_missing = sf::st_difference(rnet_osgb, all_cycleways_30m_buffer)
+rnet_missing_high = rnet_missing %>% filter(dutch_slc > 300)
+rnet_missing_high$group = stplanr::rnet_group(rnet_missing_high)
+rnet_missing_high$length = stplanr::geo_length(rnet_missing_high)
+rnet_missing_grouped = rnet_missing_high %>% 
+  group_by(group) %>% 
+  mutate(group_length = sum(length))
+rnet_missing_long = rnet_missing_grouped %>% 
+  filter(group_length > 500)
+rnet_missing_short = rnet_missing_grouped %>% 
+  filter(group_length < 500)
+rnet_missing_short_touching = rnet_missing_short[all_cycleways_30m_buffer, ]
+rnet_missing_gaps = rbind(rnet_missing_long, rnet_missing_short_touching)
+tmap_mode("plot")
+brks = c(0, 100, 500, 1000, 5000)
+tm_shape(rnet_missing) +
+  tm_lines(col = "dutch_slc", palette = "Blues", breaks = brks, lwd = 1) +
+  # tm_shape(rnet_missing %>% filter(dutch_slc > 300)) +
+  tm_shape(rnet_missing_gaps) +
+  tm_lines(col = "red", lwd = 2) +
+  tm_shape(all_cycleways_30m_buffer) +
+  tm_polygons() +
+  tm_scale_bar()
+```
+
 
 # Analysis of counter data
 
@@ -122,7 +188,7 @@ The percentage change in cycling calculated from this analysis are presented for
 The results show a mixed picture, reflecting the low signal-to-noise ratio of DfT's manual counts which can be affected by many factors including the weather on the days sampled each year (not adjusted).
 
 
-```{r counters-cycle, fig.cap="Percentage change in cycling between the periods 2010:2014 and 2015:2019 at counter locations for which at least two readings are available in each period (reds represent decreased cycling, blues represent increased cycling). Size of dot is proportional to the total number of cycles counted at each sampling location."}
+```{r counters-cycle, fig.cap="Percentage change in cycling between the periods 2010:2014 and 2015:2019 at counter locations for which at least two readings are available in each period (reds represent decreased cycling, blues represent increased cycling). Size of dot is proportional to the total number of cycles counted at each sampling location, with a maximum value of 788."}
 knitr::include_graphics("figures/counter-points-change-15.png")
 ```
 
@@ -165,7 +231,7 @@ d_las %>%
 Changes in motor traffic levels between 2011 and 2019 in the region are summarised in Table \@ref(tab:netlen). 
 
 ```{r netlen}
-knitr::kable(d_change, caption = "Network length and change in motor traffic between 2011 for Bedfordshire regions")
+knitr::kable(d_change, caption = "Network length and change in motor traffic between 2011 and 2019 for Bedfordshire regions")
 ```
 
 

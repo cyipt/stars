@@ -33,6 +33,9 @@ library(tmap)
 tmap_mode("view")
 
 bb = sf::st_bbox(zones_luton)
+luton_hr = sf::read_sf("luton-houghton-regis-region.geojson")
+bb = sf::st_bbox(luton_hr)
+
 region_luton = zones_luton %>%
   sf::st_union() %>% 
   sf::st_buffer(dist = 0.001)

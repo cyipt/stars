@@ -43,7 +43,8 @@ d_roads_luton = d_roads %>%
 
 d_roads_sf = d_roads %>%
   group_by(count_point_id) %>%
-  summarise(across(latitude:longitude, mean, na.rm = TRUE))
+  summarise(across(latitude:longitude, mean, na.rm = TRUE)) %>% 
+  filter(!is.na(longitude))
 
 d_roads_sf = sf::st_as_sf(d_roads_sf, coords = c("longitude", "latitude"), crs = 4326)
 d_roads_luton = d_roads_sf[region_luton, ]
@@ -117,6 +118,7 @@ qtm(d_roads_joined, dots.size = "n_counters")
 
 tm_shape(d_roads_joined %>% filter(nstart > 1, nend > 1)) +
   tm_dots(size = "total_cycling", col = "change_cycling", palette = "RdBu", midpoint = 0, breaks = c(-100, -50, 0, 50, 100))
+# max(d_roads_joined$total_cycling, na.rm = TRUE)
 
 d_roads_averaged = d_roads_luton_all %>% 
   group_by(road_name) %>% 
