@@ -1,6 +1,6 @@
 ---
 title: "STARS Phase 3 Report: Evidence to support long-term network plans"
-author: Joey Talbot & Robin Lovelace
+author: Robin Lovelace & Joey Talbot
 institute: "Institute for Transport Studies, University of Leeds"
 date: "December 2020"
 output: bookdown::html_document2
@@ -56,12 +56,15 @@ In this phase we have added two additional layers to this result:
 Results from the longer-term 'Go Dutch' scenario from the Propensity to Cycle Tool, which represents a future in which people cycle as much as the Dutch to accounting for distance and hilliness [@lovelace_propensity_2017], are presented in this report, matching the long-term ambitions in Luton's Local Cycling and Walking Infrastructure Plan.
 Go Dutch was also deemed an appropriate scenario because, as described in the emerging Luton Transport Strategy, 50% of journeys to work are less than 5 kilometres but about 55% of these are by car.
 
-Summary statistics of the route network data, showing the relative importance of commute, school and travel to stations trips for potential, are shown in Table \@ref(tab:sumtabthousands).
-This headline result suggests that there is an opportunity to significantly increase the number of cycle trips, consistent with the 'Go Dutch' scenario.
-under the Go Dutch scenario) and current, for commute and school travel.
+Summary statistics of the route network data, showing the relative importance and potential of commute, school and travel-to-rail trips, are shown in Table \@ref(tab:sumtabthousands).
+Note that the figures for cycling to rail stations only include commuter journeys to rail stations.
+Across the East of England, in 2018/2019 only 13% of trips were for the purpose of commuting according to the [National Travel Survey](https://www.gov.uk/government/statistical-data-sets/nts04-purpose-of-trips), thus total cycle-to-rail potential will be higher. 
+
+The headline comparison between the 'Go Dutch' cycling potentials for travel to work, school and rail stations, and the 2011 data on travel to work and school, suggests that there is an opportunity to significantly increase the number of cycle trips.
+The 'Go Dutch' cycling potentials in the three Local Authorities are an order of magnitude higher than the existing (2011) numbers of cycle journeys. 
 
 ```{r sumtabthousands}
-knitr::kable(sumtab_thousands, caption = "Relative importance of different trip purposes for cycling potential in local authorities in Bedfordshire. Cycling potential and current (2011 data, a proxy for current cycling levels) cycling levels is measured in thousand km cycled on the network for a typical work/school day (one way).")
+knitr::kable(sumtab_thousands, caption = "Relative importance of different trip purposes for cycling potential in local authorities in Bedfordshire. Cycling potential under a 'Go Dutch' scenario and current (2011 data, a proxy for current cycling levels) cycling levels are measured in thousand km cycled on the network for a typical work/school day (one way).")
 ```
 
 The distinctive spatial distribution of each network in Luton is shown in Figure \@ref(fig:distribution).^[
@@ -71,8 +74,9 @@ rpubs.com/RobinLovelace/695521
 <!-- ](https://rpubs.com/RobinLovelace/695521) -->
 for interactive version.
 ]
-The focus of this report is on Luton because, whilst none of the three Councils have an adopted LCWIP, Luton has started the preparing one and formally consulted the Luton and Dunstable Cycle Forum and the Central Bedfordshire and Luton Joint  Local Access Forum on a draft of the Plan in Spring 2020.
+The focus of this report is on the Luton/Dunstable Urban Area because, whilst none of the three Councils have an adopted LCWIP, Luton has started the preparing one and formally consulted the Luton and Dunstable Cycle Forum and the Central Bedfordshire and Luton Joint  Local Access Forum on a draft of the Plan in Spring 2020.
 In addition, many of the cycle routes to Luton’s three rail stations proposed in the Stage 2 report of this commission have been included in their Tranche 2 Active Travel Plan funding submission to the DfTand will be delivered during 2021.
+We can also see from the data in Table \@ref(tab:sumtabthousands) that the relative difference between 2011 cycling levels and 'Go Dutch' cycling potentials is greater in Luton than in Bedford or Central Bedfordshire, thus Luton has the greatest potential for future increases in cycling uptake.
 
 
 ```{r distribution, fig.cap="Facetted map of cycling potential for different trip purposes in Luton under the Go Dutch scenario."}
@@ -103,19 +107,20 @@ The cycle network is illustrated in Figure \@ref(fig:luton-cycleways-2020) (see 
 Visual analysis of this data can identify potential gaps in provision.
 Four areas/corridors can be identified:
 
-1. Hightown Road and the surrounding area
+1. High Town Road and the surrounding area
 2. Just South and Southwest of the town centre (New Town and Farley Hill)
-3. Between Luton and Leagrave North of the busway route
+3. Between Luton and Leagrave north of the busway route
 4. The hospital and surrounding area
 
 Improving provision in these areas, and other areas with limited cycling/walking access, may be necessary to increase active travel.
 Equally important is links *between* the zones, e.g. with the following links:
 
-- An arterial route up Hightown Road (in recent plans)
+- An arterial route up High Town Road (in recent plans)
 - Improved route to the hospital and East-West connections between Dunstable, Leagrave and surrounding areas
-- Connections to the busway route: while the route is high quality, it may not be well signposted and lacking clear cycle route onto it from some areas, improving connectivity through signposting to existing connections (perhaps with filtered permeability interventions) and creating new connections could add value to this existing route
+- Connections to the busway route: while the route is high quality, it may lack clear cycle links onto it from some areas. 
+Improving connectivity through signposting to existing connections (perhaps with filtered permeability interventions) and creating new connections could add value to this existing route
 - Connections between all residential areas and trip attractors including Luton town centre, the airport and schools
-- Crossings to at major barriers including the ring road
+- Crossings at major barriers including the ring road around Luton town centre (as mentioned in relation to walking in LCWIP report)
 
 ```{r}
 osm_cycle_infra = readRDS("osm_cycle_infra_bedfordshire.Rds")
@@ -140,12 +145,13 @@ knitr::include_graphics("figures/Selection_287.png")
 
 # Comparison between potential and routes
 
-A quantitative comparison of the cycling potential levels shown in Section 1 and the cycleways shown in the previous section can help further identify missing links.
-To do this, we built on methods developed for the Rapid Cycleway Prioritisation Tool [@lovelace_methods_2020], but using the combined network outlined above and adding additional analysis.
+A quantitative comparison of the cycling potential levels shown in Section 1 and the cycleways shown in the previous section can help further identify missing links. 
+Here we use the combined route network of travel to work, school and rail stations.
+Routes with > 300 cyclists on this combined route network and without existing cycle infrastructure are highlighted as 'missing links' in \@ref(fig:missing-map).
 
-```{r missing-map, fig.cap="Missing links, identified based on existing network and cycleways."}
+```{r missing-map, fig.cap="Missing links, identified based on existing network and cycleways. Existing cycle infrastructure is shown in grey and missing links are shown in red."}
 all_cycleways_30m_buffer = sf::st_buffer(sf::st_union(all_cycleways), dist = 30) 
-rnet_osgb = sf::st_transform(rnet_all[zones_luton, ], 27700)
+rnet_osgb = sf::st_transform(rnet_combined[zones_luton, ], 27700)
 # plot(rnet_osgb$geometry)
 # plot(all_cycleways_30m_buffer, border = "red", add = TRUE)
 rnet_missing = sf::st_difference(rnet_osgb, all_cycleways_30m_buffer)
@@ -236,6 +242,7 @@ Changes in motor traffic levels between 2011 and 2019 in the region are summaris
 ```{r netlen}
 knitr::kable(d_change, caption = "Network length and change in motor traffic between 2011 and 2019 for Bedfordshire regions")
 ```
+
 
 <!-- Idea: could be a methods paper -->
 
