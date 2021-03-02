@@ -4,6 +4,7 @@ author: Joey Talbot & Robin Lovelace
 institute: "Institute for Transport Studies, University of Leeds"
 date: "December 2020"
 output: bookdown::html_document2
+bibliography: refs3.bib
 # output: bookdown::pdf_document2
 # output: bookdown::github_document2
 # output: bookdown::word_document2
@@ -30,6 +31,7 @@ knitr::opts_chunk$set(
 browseURL("~/onedrive/projects-all/stars/report3-140121.docx")
 pagedown::chrome_print("report3.html")
 browseURL("report3.pdf")
+citr::tidy_bib_file(rmd_file = "report3.Rmd", messy_bibliography = "~/robinlovelace/static/bibs/allrefs.bib", file = "refs3.bib")
 ```
 
 
@@ -48,7 +50,7 @@ source("scripts/counter-data.R")
 In Phase 2 of the project we developed a method to estimate cycling potential to stations based on commuting data.
 In this phase we have added two additional layers to this result: 
 
-- Cycling potential for single stage travel to school journeys
+- Cycling potential for single stage travel to school journeys, documented in [@goodman_scenarios_2019]
 - Cycling potential to work for single stage commutes
 
 Results from the longer-term 'Go Dutch' scenario from the Propensity to Cycle Tool, which represents a future in which people cycle as much as the Dutch to accounting for distance and hilliness [@lovelace_propensity_2017], are presented in this report, matching the long-term ambitions in Luton's Local Cycling and Walking Infrastructure Plan.
@@ -73,7 +75,7 @@ The focus of this report is on Luton because, whilst none of the three Councils 
 In addition, many of the cycle routes to Luton’s three rail stations proposed in the Stage 2 report of this commission have been included in their Tranche 2 Active Travel Plan funding submission to the DfTand will be delivered during 2021.
 
 
-```{r distribution, fig.cap="Interactive facetted map of cycling potential for different trip purposes in Luton under the Go Dutch scenario."}
+```{r distribution, fig.cap="Facetted map of cycling potential for different trip purposes in Luton under the Go Dutch scenario."}
 tmap_mode("plot")
 luton_hr = sf::read_sf("luton-houghton-regis-region.geojson")
 bb = sf::st_bbox(luton_hr)
@@ -97,7 +99,7 @@ tm_shape(rnet_combined, bbox = bb) +
 
 # Gap analysis
 
-The cycle network is illustrated in Figure \@ref(fig:luton-cycleways-2020) (see [here](https://rpubs.com/RobinLovelace/701619) for interactive version).
+The cycle network is illustrated in Figure \@ref(fig:luton-cycleways-2020) (see rpubs.com/RobinLovelace/701619 for interactive version).
 Visual analysis of this data can identify potential gaps in provision.
 Four areas/corridors can be identified:
 
@@ -132,14 +134,14 @@ all_cycleways = sf::read_sf("SHAPE_FILES_FOR_SUPPLY_TO_LUTON/UNDER_ROAD_off_Road
 # file.copy("~/Pictures/Selection_287.png", "figures/")
 ```
 
-```{r luton-cycleways-2020, fig.cap="The cycle network in Luton (data from 2019). Coloured lines are the routes on the official network. Thin black lines represent data on OpenStreetMap. See interactive version at https://rpubs.com/RobinLovelace/718384."}
+```{r luton-cycleways-2020, fig.cap="The cycle network in Luton (data from 2019). Coloured lines are the routes on the official network. Thin black lines represent data on OpenStreetMap. See interactive version at rpubs.com/RobinLovelace/718384."}
 knitr::include_graphics("figures/Selection_287.png")
 ```
 
 # Comparison between potential and routes
 
 A quantitative comparison of the cycling potential levels shown in Section 1 and the cycleways shown in the previous section can help further identify missing links.
-
+To do this, we built on methods developed for the Rapid Cycleway Prioritisation Tool [@lovelace_methods_2020], but using the combined network outlined above and adding additional analysis.
 
 ```{r missing-map, fig.cap="Missing links, identified based on existing network and cycleways."}
 all_cycleways_30m_buffer = sf::st_buffer(sf::st_union(all_cycleways), dist = 30) 
@@ -176,7 +178,8 @@ tm_shape(rnet_missing) +
 
 We analysed DfT's manual traffic count data for the study region to trends in motor and cycling traffic.
 The locations of 118 DfT count points within Luton are shown in Figure \@ref(fig:counters-all).^[
-These count points can also be found at [roadtraffic.dft.gov.uk/](https://roadtraffic.dft.gov.uk/#15/51.8787/-0.4200/basemap-countpoints).
+These count points can also be found at roadtraffic.dft.gov.uk
+<!-- These count points can also be found at [roadtraffic.dft.gov.uk/](https://roadtraffic.dft.gov.uk/#15/51.8787/-0.4200/basemap-countpoints) -->
 ]
 
 ```{r counters-all, fig.cap="All count points in Luton, with size proportional to the number of counts recorded in the 10 years from 2010 to 2019 (with the largest dots representing 10 counts on every year)."}
@@ -184,7 +187,7 @@ knitr::include_graphics("figures/counters-all.png")
 ```
 
 Of those counters, only 32 had cycle counts within the years 2010:2014 and 2015:2019, allowing estimates of the trend in cycling in different parts of Luton to be calculated.
-The percentage change in cycling calculated from this analysis are presented for each count point for which there is data in Figure \@ref(fig:counters-cycle) (see [here](https://rpubs.com/RobinLovelace/701347) for interactive version).
+The percentage change in cycling calculated from this analysis are presented for each count point for which there is data in Figure \@ref(fig:counters-cycle) (see rpubs.com/RobinLovelace/701347 for interactive version).
 The results show a mixed picture, reflecting the low signal-to-noise ratio of DfT's manual counts which can be affected by many factors including the weather on the days sampled each year (not adjusted).
 
 
@@ -233,7 +236,6 @@ Changes in motor traffic levels between 2011 and 2019 in the region are summaris
 ```{r netlen}
 knitr::kable(d_change, caption = "Network length and change in motor traffic between 2011 and 2019 for Bedfordshire regions")
 ```
-
 
 <!-- Idea: could be a methods paper -->
 
