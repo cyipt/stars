@@ -1,6 +1,6 @@
 ---
 title: "STARS Phase 3 Report: Evidence to support long-term network plans"
-author: Joey Talbot & Robin Lovelace
+author: Robin Lovelace & Joey Talbot
 institute: "Institute for Transport Studies, University of Leeds"
 date: "December 2020"
 output: bookdown::html_document2
@@ -143,12 +143,13 @@ knitr::include_graphics("figures/Selection_287.png")
 
 # Comparison between potential and routes
 
-A quantitative comparison of the cycling potential levels shown in Section 1 and the cycleways shown in the previous section can help further identify missing links.
-
+A quantitative comparison of the cycling potential levels shown in Section 1 and the cycleways shown in the previous section can help further identify missing links. 
+Here we use the combined route network of travel to work, school and rail stations.
+Routes with > 300 cyclists on this combined route network and without existing cycle infrastructure are highlighted as 'missing links' in \@ref(fig:missing-map).
 
 ```{r missing-map, fig.cap="Missing links, identified based on existing network and cycleways. Existing cycle infrastructure is shown in grey and missing links are shown in red."}
 all_cycleways_30m_buffer = sf::st_buffer(sf::st_union(all_cycleways), dist = 30) 
-rnet_osgb = sf::st_transform(rnet_all[zones_luton, ], 27700)
+rnet_osgb = sf::st_transform(rnet_combined[zones_luton, ], 27700)
 # plot(rnet_osgb$geometry)
 # plot(all_cycleways_30m_buffer, border = "red", add = TRUE)
 rnet_missing = sf::st_difference(rnet_osgb, all_cycleways_30m_buffer)
