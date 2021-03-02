@@ -124,7 +124,7 @@ d_roads_averaged = d_roads_luton_all %>%
   group_by(road_name) %>% 
   mutate(
     total_cycling = sum(pedal_cycles),
-    across(pedal_cycles:all_motor_vehicles, .fns = function(x) x / mean(x))
+    # across(pedal_cycles:cars_and_taxis, .fns = function(x) x / mean(x))
     ) %>% 
   group_by(road_name, year) %>% 
   summarise(pedal_cycles = weighted.mean(pedal_cycles, total_cycling), total_cycling = mean(total_cycling)) %>% 

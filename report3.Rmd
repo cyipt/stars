@@ -3,10 +3,10 @@ title: "STARS Phase 3 Report: Evidence to support long-term network plans"
 author: Robin Lovelace & Joey Talbot
 institute: "Institute for Transport Studies, University of Leeds"
 date: "December 2020"
-output: bookdown::html_document2
+# output: bookdown::html_document2
 bibliography: refs3.bib
 # output: bookdown::pdf_document2
-# output: bookdown::github_document2
+output: bookdown::github_document2
 # output: bookdown::word_document2
 # header-includes: 
 # - \usepackage{float} 
@@ -37,13 +37,19 @@ citr::tidy_bib_file(rmd_file = "report3.Rmd", messy_bibliography = "~/robinlovel
 
 <!-- # Introduction -->
 
-```{r, eval=TRUE, include=FALSE}
+```{r, eval=FALSE, include=FALSE}
 source("scripts/combined.R")
 # file.edit("scripts/combined.R")
 source("scripts/counter-data.R")
 # file.edit("scripts/counter-data.R")
 # source("scripts/gap-analysis.R") # don't run as slow and clunky
+save.image()
 ```
+
+```{r}
+load(".RData")
+```
+
 
 # Combined network data
 
@@ -169,6 +175,12 @@ rnet_missing_short_touching = rnet_missing_short[all_cycleways_30m_buffer, ]
 rnet_missing_gaps = rbind(rnet_missing_long, rnet_missing_short_touching)
 tmap_mode("plot")
 brks = c(0, 100, 500, 1000, 5000)
+
+rnet_missing_gaps = sf::st_sf(
+  as.data.frame(rnet_missing_gaps %>% sf::st_drop_geometry()),
+  rnet_missing_gaps$geometry
+)
+
 tm_shape(rnet_missing) +
   tm_lines(col = "dutch_slc", palette = "Blues", breaks = brks, lwd = 1) +
   # tm_shape(rnet_missing %>% filter(dutch_slc > 300)) +
